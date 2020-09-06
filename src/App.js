@@ -5,6 +5,7 @@ import {
   CSSReset,
 } from "@chakra-ui/core";
 import Navbar from './components/Navbar';
+import Todo from './components/Todo';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <CSSReset />
         <Navbar />
         Hello world
+        <Todo />
       </ColorModeProvider>
     </ThemeProvider>
   );
