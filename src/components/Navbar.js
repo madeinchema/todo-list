@@ -1,8 +1,8 @@
 import React from "react";
 import { FaClipboardCheck } from 'react-icons/fa';
-import { MdWbSunny, MdBrightness2 } from 'react-icons/md';
 import {
   Text,
+  Icon,
   Link,
   Flex,
   useColorMode,
@@ -33,20 +33,24 @@ function Navbar() {
         </Text>
 
         {/* Menu */}
-        <Flex>
+        <Flex align='center'>
           <Link>
             <Text
               textAlign='center'
               fontWeight='500'
               mr='24px'
+              mb='1px'
             >Settings</Text>
           </Link>
 
-          <Link onClick={() => toggleColorMode()}>
-            {colorMode === 'light'
-              ? <MdBrightness2 size={'24px'} />
-              : <MdWbSunny size={'24px'} />}
+          <Link d='flex'>
+          {
+            colorMode === 'light'
+            ? <Icon onClick={() => toggleColorMode()} name="moon" size="20px"/>
+            : <Icon onClick={() => toggleColorMode()} name="sun" size="20px"/>
+          }
           </Link>
+
         </Flex>
 
       </Flex>
