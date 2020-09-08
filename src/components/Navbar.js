@@ -1,5 +1,6 @@
 import React from "react";
 import { FaClipboardCheck } from 'react-icons/fa';
+import { MdWbSunny, MdBrightness2 } from 'react-icons/md';
 import {
   Text,
   Link,
@@ -38,20 +39,20 @@ function Navbar() {
               textAlign='center'
               fontWeight='500'
               mr='24px'
-              onClick={() => toggleColorMode()}
-            >
-              Switch theme
-            </Text>
+            >Settings</Text>
           </Link>
-          <Link>
-            <Text textAlign='center' fontWeight='500'>Settings</Text>
+
+          <Link onClick={() => toggleColorMode()}>
+            {colorMode === 'light'
+              ? <MdBrightness2 size={'24px'} />
+              : <MdWbSunny size={'24px'} />}
           </Link>
         </Flex>
 
       </Flex>
     </React.Fragment>
   );
-};
+}
 
 export default Navbar;
 
