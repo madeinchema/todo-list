@@ -1,56 +1,85 @@
-import React from "react";
+import React from 'react';
 import { FaClipboardCheck } from 'react-icons/fa';
+import { GoMarkGithub } from 'react-icons/go';
 import {
-  Text,
-  Icon,
+  IconButton,
   Link,
   Flex,
+  Heading,
   useColorMode,
 } from '@chakra-ui/core';
 
+const MenuIcons = ({ children }) => (
+  <Flex ml={2}>
+    {children}
+  </Flex>
+);
+
 function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const bgColor = { light: "gray.100", dark: "gray.900" }
-  const color = { light: "gray.900", dark: "gray.100" }
+  const bgColor = { light: 'gray.100', dark: 'gray.900' }
+  const color = { light: 'gray.900', dark: 'gray.100' }
+  const iconSize = '1.25rem';
 
-  return (
+    return (
     <React.Fragment>
       <Flex
+        as='nav'
+        align='center'
+        justify='space-between'
+        wrap="wrap"
+        p='1rem 1.5rem'
         bg={bgColor[colorMode]}
         color={color[colorMode]}
-        w='100%'
-        h='68px'
-        justify='space-between'
-        align='center'
-        px='24px'
       >
 
         {/* Logo */}
-        <Text fontSize='2xl' fontWeight='700' >
-          <Link href='#' display='flex' alignItems='center'>
-            <FaClipboardCheck style={{marginRight: '4px'}}/>Todolist
-          </Link>
-        </Text>
+        <Flex align="center" mr={5}>
+          <Heading as='h1' size='lg' fontWeight='700'>
+            <Link href='#' display='flex' alignItems='center'>
+              <FaClipboardCheck mr={'12px'}/>Todolist
+            </Link>
+          </Heading>
+        </Flex>
 
-        {/* Menu */}
-        <Flex align='center'>
-          <Link>
-            <Text
-              textAlign='center'
-              fontWeight='500'
-              mr='24px'
-              mb='1px'
-            >Settings</Text>
-          </Link>
+        {/* Icons */}
+        <Flex align='center' justify='center'>
+          <MenuIcons>
+            <Link
+              href='https://github.com/madeinchema/todo-list'
+              borderRadius={4}
+              p={2}
+              isExternal
+            >
+              <GoMarkGithub size={iconSize}/>
+            </Link>
+          </MenuIcons>
 
-          <Link d='flex'>
-          {
-            colorMode === 'light'
-            ? <Icon onClick={() => toggleColorMode()} name="moon" size="20px"/>
-            : <Icon onClick={() => toggleColorMode()} name="sun" size="20px"/>
-          }
-          </Link>
+          <MenuIcons>
+            {
+              colorMode === 'light'
+                ? <IconButton
+                  onClick={() => toggleColorMode()}
+                  icon="moon"
+                  fontSize={iconSize}
+                  aria-label='Switch to dark mode'
+                />
+                : <IconButton
+                  onClick={() => toggleColorMode()}
+                  icon="sun"
+                  fontSize={iconSize}
+                  aria-label='Switch to light mode'
+                />
+            }
+          </MenuIcons>
 
+          <MenuIcons>
+            <IconButton
+              icon="settings"
+              fontSize={iconSize}
+              aria-label='Switch to light mode'
+            />
+          </MenuIcons>
         </Flex>
 
       </Flex>
