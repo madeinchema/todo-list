@@ -1,14 +1,24 @@
 import React from "react";
 import {
-  Button
+  Box,
+  Flex,
+  Button,
 } from "@chakra-ui/core";
+import NewTask from './NewTask';
 
-const Todo = (props) => {
+const Todo = () => {
   return (
-    <header>
-      <Button>Todo</Button>
-    </header>
+    <Flex flexDir='column'>
+      <Box minH='100px' p='24px'>
+        <Flex justifyContent='center'>
+          <NewTask/>
+        </Flex>
+      </Box>
 
+      <Box >
+        <Button>Todo</Button>
+      </Box>
+    </Flex>
   )
 }
 

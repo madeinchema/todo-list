@@ -13,7 +13,6 @@ function App() {
       <ColorModeProvider>
         <CSSReset />
         <Navbar />
-        Hello world
         <Todo />
       </ColorModeProvider>
     </ThemeProvider>

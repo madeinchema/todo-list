@@ -78,6 +78,7 @@ function Navbar() {
               icon="settings"
               fontSize={iconSize}
               aria-label='Switch to light mode'
+              isDisabled={true}
             />
           </MenuIcons>
         </Flex>
@@ -88,4 +89,3 @@ function Navbar() {
 }
 
 export default Navbar;
-
