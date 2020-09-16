@@ -7,42 +7,41 @@ import {
   InputGroup,
 } from '@chakra-ui/core';
 
-const generateId = () => {
-  // todo pseudocode: while (newId in todoList) {generator}
-  return Math.floor(Math.random() * 10000);
-}
-
-function Todo(title) {
-  return {
-    id: generateId(),
-    title: title,
-    checked: false,
-    indent: 1,
-    priority: 4,
-  }
-}
 
 export default class TodoInput extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      title: '',
-    }
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = { title: '' }
   }
 
-  handleChange(event) {
-    this.setState({
-      title: event.target.value,
-    })
+  // To-do title controlled component
+  handleChange = (event) => {
+    this.setState({ title: event.target.value })
   }
 
-  handleSubmit(event) {
+  // Adds the new to-do to the TodoList's state
+  handleSubmit = (event) => {
     event.preventDefault();
-    this.props.addTodo(Todo(this.state.title));
+    this.props.addTodo(this.todo(this.state.title));
+    this.setState({ title: '' });
+  }
+
+  // Generates random IDs for the to-dos
+  newId = () => {
+    // todo pseudocode: while (newId in todoList) {generator}
+    return Math.floor(Math.random() * 10000);
+  }
+
+  // To-do object template
+  todo = (title) => {
+    return ({
+      id: this.newId(),
+      title: title,
+      checked: false,
+      indent: 1,
+      priority: 4,
+    })
   }
 
   render() {
