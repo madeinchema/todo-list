@@ -1,9 +1,6 @@
 import React from 'react';
 import { Checkbox, Text } from '@chakra-ui/core';
 
-/**
- * To-do component template
- */
 export default function Todo({ todo, handleChange }) {
   return (
     <li key={todo.id}>
