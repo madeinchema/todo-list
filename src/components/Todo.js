@@ -3,7 +3,7 @@ import { Checkbox, Text } from '@chakra-ui/core';
 
 export default function Todo({ todo, handleChange }) {
   return (
-    <li key={todo.id}>
+    <li>
       <Checkbox
         isChecked={todo.checked}
         onChange={() => handleChange(todo.id)}

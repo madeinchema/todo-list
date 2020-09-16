@@ -11,7 +11,7 @@ export default function TodoList({ todos, handleChange }) {
 
           <ul>
             {todos.map(todo => (
-              <Todo todo={todo} handleChange={handleChange} />
+              <Todo key={todo.id} todo={todo} handleChange={handleChange} />
             ))}
           </ul>
 
