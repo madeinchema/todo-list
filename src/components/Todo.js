@@ -1,25 +1,17 @@
-import React from "react";
-import {
-  Box,
-  Flex,
-  Button,
-} from "@chakra-ui/core";
-import NewTask from './NewTask';
+import React from 'react';
+import { Checkbox, Text } from '@chakra-ui/core';
 
-const Todo = () => {
+export default function Todo({ todo, handleChange }) {
   return (
-    <Flex flexDir='column'>
-      <Box minH='100px' p='24px'>
-        <Flex justifyContent='center'>
-          <NewTask/>
-        </Flex>
-      </Box>
-
-      <Box >
-        <Button>Todo</Button>
-      </Box>
-    </Flex>
-  )
+    <li key={todo.id}>
+      <Checkbox
+        isChecked={todo.checked}
+        onChange={() => handleChange(todo.id)}
+      >
+        <Text>
+          {todo.title}
+        </Text>
+      </Checkbox>
+    </li>
+  );
 }
-
-export default Todo;
