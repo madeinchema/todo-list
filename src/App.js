@@ -14,23 +14,22 @@ class App extends React.Component {
 
     this.state = {
       inputTitle: '',
-      todos: [
-        {
-          id: 229,
-          title: 'Practice React without hooks',
-          checked: false,
-          indent: 1,
-          priority: 4,
-        },
-        {
-          id: 1239,
-          title: 'Knowledge',
-          checked: true,
-          indent: 1,
-          priority: 4,
-        },
-      ],
+      todos: [],
     }
+  }
+
+  componentDidMount() {
+    if (JSON.parse(localStorage.getItem('todos')) !== null) {
+      this.setState({ todos: JSON.parse(localStorage.getItem('todos')) });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    this.setLocal('todos', this.state.todos);
+  }
+
+  setLocal = (key, value) => {
+    localStorage.setItem(key, JSON.stringify(value));
   }
 
   handleTitle = (event) => {
