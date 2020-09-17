@@ -18,20 +18,24 @@ class App extends React.Component {
     }
   }
 
+  // Set todos state if there are todos saved in localStorage
   componentDidMount() {
     if (JSON.parse(localStorage.getItem('todos')) !== null) {
       this.setState({ todos: JSON.parse(localStorage.getItem('todos')) });
     }
   }
 
+  // Update localStorage todos to match the current state
   componentDidUpdate(prevProps, prevState, snapshot) {
     this.setLocal('todos', this.state.todos);
   }
 
+  // Sets the value for the localStorage key passed
   setLocal = (key, value) => {
     localStorage.setItem(key, JSON.stringify(value));
   }
 
+  // Task title input value handler for controlled component
   handleTitle = (event) => {
     this.setState({ inputTitle: event.target.value })
   }
