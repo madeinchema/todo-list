@@ -11,7 +11,12 @@ export default function TodoInput({ title, addTodo, handleTitle }) {
   // Adds the new to-do to the TodoList's state
   const handleSubmit = (event) => {
     event.preventDefault();
-    addTodo(todo(title));
+    let inputTitle = title;
+
+    // Remove whitespace from both ends and make sure it's a string
+    inputTitle = inputTitle.trim().toString();
+
+    addTodo(todo(inputTitle));
   }
 
   // Generates random IDs for the to-dos
@@ -60,6 +65,7 @@ export default function TodoInput({ title, addTodo, handleTitle }) {
                   w="100%"
                   type='submit'
                   onClick={handleSubmit}
+                  isDisabled={!title}
                 >
                   Add Task
                 </Button>
