@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Flex, List, useColorMode } from '@chakra-ui/core';
 import Todo from './Todo';
-import PropTypes, { array } from 'prop-types';
+import PropTypes from 'prop-types';
 
 export default function TodoList({ todos, handleChange }) {
   // const bgColor = { light: 'gray.100', dark: 'gray.800' }
@@ -26,8 +26,8 @@ export default function TodoList({ todos, handleChange }) {
         // shadow='md'
         overflow='auto'
         borderRadius='5px'
-        borderWidth='1px'
-        borderColor={borderColor[colorMode]}
+        // borderWidth='1px'
+        // borderColor={borderColor[colorMode]}
       >
         <Flex
           id='todoList'
