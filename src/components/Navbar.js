@@ -15,9 +15,9 @@ const MenuIcons = ({ children }) => (
   </Flex>
 );
 
-function Navbar() {
+export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const bgColor = { light: 'gray.100', dark: 'gray.900' }
+  const bgColor = { light: 'white', dark: 'gray.800' }
   const color = { light: 'gray.900', dark: 'gray.100' }
   const iconSize = '1.25rem';
 
@@ -31,6 +31,7 @@ function Navbar() {
         p='1rem 1.5rem'
         bg={bgColor[colorMode]}
         color={color[colorMode]}
+        shadow='md'
       >
 
         {/* Logo */}
@@ -87,5 +88,3 @@ function Navbar() {
     </React.Fragment>
   );
 }
-
-export default Navbar;

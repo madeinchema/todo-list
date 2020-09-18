@@ -1,22 +1,48 @@
 import React from 'react';
-import { Box, Flex } from '@chakra-ui/core';
+import { Box, Flex, List } from '@chakra-ui/core';
 import Todo from './Todo';
+import PropTypes from 'prop-types';
 
 export default function TodoList({ todos, handleChange }) {
   return (
-    <Flex align="center" justify="center" h="calc(100vh - 168px)" direction="column">
-      <Box className='custom-scroll' h='100%' w='100%' maxW='680px' px='32px' py='24px' bg='rgba(0,0,0,.1)'
-           overflow='auto'>
-        <Flex id='todoList' flexDir='column'>
-
-          <ul>
+    <Flex
+      direction="column"
+      align="center"
+      justify="center"
+      h="calc(100vh - 172px)"
+      p='0 1.5rem 1.5rem 1.5rem'
+    >
+      <Box
+        className='custom-scroll'
+        h='100%'
+        w='100%'
+        maxW='680px'
+        overflow='auto'
+        borderRadius='5px'
+        p='.5rem'
+      >
+        <Flex
+          id='todoList'
+          flexDir='column'
+        >
+          <List mb='2rem'>
             {todos.map(todo => (
-              <Todo key={todo.id} todo={todo} handleChange={handleChange} />
+              <Todo  key={todo.id} todo={todo} handleChange={handleChange} />
             ))}
-          </ul>
-
+          </List>
         </Flex>
       </Box>
     </Flex>
   );
 };
+
+TodoList.propTypes = {
+  todos: PropTypes.arrayOf(PropTypes.exact({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    checked: PropTypes.bool.isRequired,
+    indent: PropTypes.number.isRequired,
+    priority: PropTypes.number.isRequired,
+  })),
+  handleChange: PropTypes.func.isRequired,
+}

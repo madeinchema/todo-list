@@ -4,14 +4,21 @@ import {
   Button,
   Input,
   InputRightElement,
-  InputGroup, Flex,
+  InputGroup,
+  Flex,
 } from '@chakra-ui/core';
+import PropTypes from 'prop-types';
 
 export default function TodoInput({ title, addTodo, handleTitle }) {
   // Adds the new to-do to the TodoList's state
   const handleSubmit = (event) => {
     event.preventDefault();
-    addTodo(todo(title));
+    let inputTitle = title;
+
+    // Remove whitespace from both ends and make sure it's a string
+    inputTitle = inputTitle.trim().toString();
+
+    addTodo(todo(inputTitle));
   }
 
   // Generates random IDs for the to-dos
@@ -32,7 +39,6 @@ export default function TodoInput({ title, addTodo, handleTitle }) {
   }
 
   return (
-
     <Flex flexDir='column'>
       <Box minH='100px' p='24px'>
         <Flex justifyContent='center'>
@@ -42,11 +48,16 @@ export default function TodoInput({ title, addTodo, handleTitle }) {
             maxW='680px'
             as='form'
           >
-            <InputGroup size="md" shadow='lg'>
+            <InputGroup
+              size="md"
+              shadow='md'
+              borderRadius='5px'
+            >
 
               <Input
                 h='3rem'
                 pr="7.5rem"
+                fontSize='1.2em'
                 fontWeight='500'
                 type="text"
                 placeholder="Task title"
@@ -60,6 +71,7 @@ export default function TodoInput({ title, addTodo, handleTitle }) {
                   w="100%"
                   type='submit'
                   onClick={handleSubmit}
+                  isDisabled={!title}
                 >
                   Add Task
                 </Button>
@@ -73,3 +85,9 @@ export default function TodoInput({ title, addTodo, handleTitle }) {
     </Flex>
   );
 };
+
+TodoInput.propTypes = {
+  title: PropTypes.string.isRequired,
+  addTodo: PropTypes.func.isRequired,
+  handleTitle: PropTypes.func.isRequired,
+}
