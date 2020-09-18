@@ -58,8 +58,6 @@ export default class App extends React.Component {
   }
 
   render() {
-
-
     return (
       <ThemeProvider>
         <ColorModeProvider>
@@ -82,7 +80,7 @@ export default class App extends React.Component {
   }
 }
 
-
+// ColorMode for the App's background
 function TurnOnColorMode({ children }) {
   const bgColor = { light: 'gray.200', dark: 'gray.900' }
   const { colorMode, toggleColorMode } = useColorMode();

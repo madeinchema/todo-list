@@ -39,7 +39,6 @@ export default function TodoInput({ title, addTodo, handleTitle }) {
   }
 
   return (
-
     <Flex flexDir='column'>
       <Box minH='100px' p='24px'>
         <Flex justifyContent='center'>
