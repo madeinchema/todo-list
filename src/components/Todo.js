@@ -1,5 +1,6 @@
 import React from 'react';
-import { Checkbox, Text, Flex, Box, useColorMode } from '@chakra-ui/core';
+import { Checkbox, Text, Flex, useColorMode } from '@chakra-ui/core';
+import PropTypes from 'prop-types';
 
 export default function Todo({ todo, handleChange }) {
   const bgColor = { light: 'gray.50', dark: 'gray.700' }
@@ -39,4 +40,15 @@ export default function Todo({ todo, handleChange }) {
       </Flex>
     </li>
   );
+}
+
+Todo.propTypes = {
+  todo: PropTypes.exact({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    checked: PropTypes.bool.isRequired,
+    indent: PropTypes.number.isRequired,
+    priority: PropTypes.number.isRequired,
+  }),
+  handleChange: PropTypes.func.isRequired,
 }

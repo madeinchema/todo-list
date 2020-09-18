@@ -1,9 +1,10 @@
 import React from 'react';
 import { Box, Flex, List, useColorMode } from '@chakra-ui/core';
 import Todo from './Todo';
+import PropTypes, { array } from 'prop-types';
 
 export default function TodoList({ todos, handleChange }) {
-  const bgColor = { light: 'gray.100', dark: 'gray.800' }
+  // const bgColor = { light: 'gray.100', dark: 'gray.800' }
   const borderColor = { light: 'gray.200', dark: 'gray.700' }
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -44,3 +45,14 @@ export default function TodoList({ todos, handleChange }) {
     </Flex>
   );
 };
+
+TodoList.propTypes = {
+  todos: PropTypes.arrayOf(PropTypes.exact({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    checked: PropTypes.bool.isRequired,
+    indent: PropTypes.number.isRequired,
+    priority: PropTypes.number.isRequired,
+  })),
+  handleChange: PropTypes.func.isRequired,
+}

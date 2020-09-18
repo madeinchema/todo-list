@@ -3,12 +3,14 @@ import {
   ThemeProvider,
   ColorModeProvider,
   CSSReset,
+  useColorMode,
+  Box
 } from '@chakra-ui/core';
 import Navbar from './components/Navbar';
 import TodoList from './components/TodoList';
 import TodoInput from './components/TodoInput';
 
-class App extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -56,24 +58,38 @@ class App extends React.Component {
   }
 
   render() {
+
+
     return (
       <ThemeProvider>
         <ColorModeProvider>
-          <CSSReset />
-          <Navbar />
-          <TodoInput
-            title={this.state.inputTitle}
-            addTodo={this.addTodo}
-            handleTitle={this.handleTitle}
-          />
-          <TodoList
-            todos={this.state.todos}
-            handleChange={this.handleChange}
-          />
+          <TurnOnColorMode>
+            <CSSReset />
+            <Navbar />
+            <TodoInput
+              title={this.state.inputTitle}
+              addTodo={this.addTodo}
+              handleTitle={this.handleTitle}
+            />
+            <TodoList
+              todos={this.state.todos}
+              handleChange={this.handleChange}
+            />
+          </TurnOnColorMode>
         </ColorModeProvider>
       </ThemeProvider>
     );
   }
 }
 
-export default App;
+
+function TurnOnColorMode({ children }) {
+  const bgColor = { light: 'gray.200', dark: 'gray.900' }
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  return (
+    <Box bg={bgColor[colorMode]}>
+      {children}
+    </Box>
+  );
+}
