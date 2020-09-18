@@ -15,7 +15,7 @@ export default function Todo({ todo, handleChange }) {
         align='flex-start'
         mb='.25rem'
         bg={bgColor[colorMode]}
-        shadow='sm'
+        shadow='md'
         borderRadius='3px'
       >
         <Checkbox

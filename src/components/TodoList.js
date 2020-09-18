@@ -26,17 +26,19 @@ export default function TodoList({ todos, handleChange }) {
         // shadow='md'
         overflow='auto'
         borderRadius='5px'
+        p='.5rem'
         // borderWidth='1px'
         // borderColor={borderColor[colorMode]}
       >
         <Flex
           id='todoList'
           flexDir='column'
+
         >
 
-          <List>
+          <List mb='2rem'         >
             {todos.map(todo => (
-              <Todo key={todo.id} todo={todo} handleChange={handleChange} />
+              <Todo  key={todo.id} todo={todo} handleChange={handleChange} />
             ))}
           </List>
 
