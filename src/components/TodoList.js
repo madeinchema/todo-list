@@ -1,19 +1,43 @@
 import React from 'react';
-import { Box, Flex } from '@chakra-ui/core';
+import { Box, Flex, List, useColorMode } from '@chakra-ui/core';
 import Todo from './Todo';
 
 export default function TodoList({ todos, handleChange }) {
-  return (
-    <Flex align="center" justify="center" h="calc(100vh - 168px)" direction="column">
-      <Box className='custom-scroll' h='100%' w='100%' maxW='680px' px='32px' py='24px' bg='rgba(0,0,0,.1)'
-           overflow='auto'>
-        <Flex id='todoList' flexDir='column'>
+  const bgColor = { light: 'gray.100', dark: 'gray.800' }
+  const borderColor = { light: 'gray.200', dark: 'gray.700' }
+  const { colorMode, toggleColorMode } = useColorMode();
 
-          <ul>
+  return (
+    <Flex
+      direction="column"
+      align="center"
+      justify="center"
+      h="calc(100vh - 172px)"
+      p='0 1.5rem 1.5rem 1.5rem'
+    >
+      <Box
+        className='custom-scroll'
+        h='100%'
+        w='100%'
+        maxW='680px'
+        // p='24px'
+        // bg={bgColor[colorMode]}
+        // shadow='md'
+        overflow='auto'
+        borderRadius='5px'
+        borderWidth='1px'
+        borderColor={borderColor[colorMode]}
+      >
+        <Flex
+          id='todoList'
+          flexDir='column'
+        >
+
+          <List>
             {todos.map(todo => (
               <Todo key={todo.id} todo={todo} handleChange={handleChange} />
             ))}
-          </ul>
+          </List>
 
         </Flex>
       </Box>
