@@ -48,6 +48,13 @@ export default class App extends React.Component {
     this.setState({ inputTitle: '' });
   }
 
+  removeTodo = (id) => {
+    this.setState(prevState => {
+      const todos = prevState.todos.filter(todo => todo.id !== id);
+      return { todos }
+    })
+  }
+
   // Updates the state of a to-do's checkbox
   handleChange = (id) => {
     this.setState(prevState => ({
@@ -72,6 +79,7 @@ export default class App extends React.Component {
             <TodoList
               todos={this.state.todos}
               handleChange={this.handleChange}
+              removeTodo={this.removeTodo}
             />
           </TurnOnColorMode>
         </ColorModeProvider>
