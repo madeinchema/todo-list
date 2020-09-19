@@ -17,12 +17,12 @@ Scroll bar
 /* Handle */
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background: rgba(#718096, .5);
+  background: rgba(#4A5568, .5);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(#718096, .75);
+  background: rgba(#4A5568, .75);
 }
 
 .removeBtnHidden {

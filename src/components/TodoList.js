@@ -9,8 +9,8 @@ export default function TodoList({ todos, handleChange }) {
       direction="column"
       align="center"
       justify="center"
-      h="calc(100vh - 172px)"
-      p='0 1.5rem 1.5rem 1.5rem'
+      h="calc(100vh - 178px)"
+      p='0 .5rem .5rem'
     >
       <Box
         className='custom-scroll'
