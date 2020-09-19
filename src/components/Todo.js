@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Hover from './Hover';
 import TodoActions from './TodoActions';
 
-export default function Todo({ todo, handleChange }) {
+export default function Todo({ todo, handleChange, removeTodo }) {
   const bgColor = { light: 'gray.50', dark: 'gray.800' }
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -41,7 +41,7 @@ export default function Todo({ todo, handleChange }) {
                 {todo.title}
               </Text>
               <Box ml='auto' my='auto'>
-                {hovering && <TodoActions />}
+                {hovering && <TodoActions removeTodo={removeTodo} />}
               </Box>
             </Flex>
           </li>
@@ -59,4 +59,5 @@ Todo.propTypes = {
     priority: PropTypes.number.isRequired,
   }),
   handleChange: PropTypes.func.isRequired,
+  removeTodo: PropTypes.func.isRequired,
 }
