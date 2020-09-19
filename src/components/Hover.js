@@ -5,7 +5,7 @@ export default class Hover extends React.Component {
     super(props);
 
     this.state = {
-      hovering: true,
+      hovering: false,
     }
 
     this.mouseEnter = this.mouseEnter.bind(this);
@@ -15,7 +15,7 @@ export default class Hover extends React.Component {
     this.setState({ hovering: true })
   }
   mouseLeave() {
-    this.setState({ hovering: true })
+    this.setState({ hovering: false })
   }
   render() {
     return (
