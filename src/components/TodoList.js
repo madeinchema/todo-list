@@ -3,7 +3,7 @@ import { Box, Flex, List } from '@chakra-ui/core';
 import Todo from './Todo';
 import PropTypes from 'prop-types';
 
-export default function TodoList({ todos, handleChange, removeTodo }) {
+export default function TodoList({ todos, handleChange, editTodo, removeTodo, }) {
   return (
     <Flex
       direction="column"
@@ -30,6 +30,7 @@ export default function TodoList({ todos, handleChange, removeTodo }) {
               <Todo
                 key={todo.id}
                 todo={todo}
+                editTodo={editTodo}
                 handleChange={handleChange}
                 removeTodo={() => removeTodo(todo.id)}
               />
@@ -49,6 +50,7 @@ TodoList.propTypes = {
     indent: PropTypes.number.isRequired,
     priority: PropTypes.number.isRequired,
   })),
+  editTodo: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   removeTodo: PropTypes.func.isRequired,
 }

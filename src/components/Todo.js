@@ -1,10 +1,18 @@
 import React from 'react';
-import { Checkbox, Text, Flex, useColorMode, Box } from '@chakra-ui/core';
+import {
+  useColorMode,
+  Flex,
+  Box,
+  Checkbox,
+  Editable,
+  EditableInput,
+  EditablePreview,
+} from '@chakra-ui/core';
 import PropTypes from 'prop-types';
 import Hover from './Hover';
 import TodoActions from './TodoActions';
 
-export default function Todo({ todo, handleChange, removeTodo }) {
+export default function Todo({ todo, handleChange, editTodo, removeTodo }) {
   const bgColor = { light: 'gray.50', dark: 'gray.800' }
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -22,6 +30,7 @@ export default function Todo({ todo, handleChange, removeTodo }) {
               shadow='md'
               borderRadius='3px'
             >
+
               <Checkbox
                 my='.25rem'
                 size='lg'
@@ -30,16 +39,22 @@ export default function Todo({ todo, handleChange, removeTodo }) {
                 d='flex'
               >
               </Checkbox>
-              <Text
+
+              <Editable
                 mt='.05rem'
                 pl='.75rem'
                 fontSize='1.2em'
                 fontWeight='600'
                 lineHeight='1.5rem'
                 opacity={todo.checked ? '0.5' : '1'}
+                value={todo.title}
               >
-                {todo.title}
-              </Text>
+                <EditablePreview />
+                <EditableInput
+                  onChange={(event) => editTodo(event, todo.id)}
+                />
+              </Editable>
+
               <Box ml='auto' my='auto'>
                 {hovering && <TodoActions removeTodo={removeTodo} />}
               </Box>
@@ -58,6 +73,7 @@ Todo.propTypes = {
     indent: PropTypes.number.isRequired,
     priority: PropTypes.number.isRequired,
   }),
+  editTodo: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   removeTodo: PropTypes.func.isRequired,
 }
