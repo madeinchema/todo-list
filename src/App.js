@@ -48,6 +48,17 @@ export default class App extends React.Component {
     this.setState({ inputTitle: '' });
   }
 
+  editTodo = (event, id) => {
+    const currentChange = event.target.value;
+    this.setState(prevState => ({
+      todos: prevState.todos.map(
+        todo => todo.id === id
+          ? { ...todo, title: currentChange }
+          : todo
+      )
+    }));
+  }
+
   removeTodo = (id) => {
     this.setState(prevState => {
       const todos = prevState.todos.filter(todo => todo.id !== id);
@@ -79,6 +90,7 @@ export default class App extends React.Component {
             <TodoList
               todos={this.state.todos}
               handleChange={this.handleChange}
+              editTodo={this.editTodo}
               removeTodo={this.removeTodo}
             />
           </TurnOnColorMode>
