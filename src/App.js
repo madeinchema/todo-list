@@ -16,6 +16,7 @@ export default class App extends React.Component {
 
     this.state = {
       inputTitle: '',
+      lastTitle: '',
       todos: [],
     }
   }
@@ -48,8 +49,8 @@ export default class App extends React.Component {
     this.setState({ inputTitle: '' });
   }
 
-  editTodo = (event, id) => {
-    const currentChange = event.target.value;
+  editTodo = (event, id, lastTitle) => {
+    const currentChange = lastTitle ? lastTitle : event.target.value;
     this.setState(prevState => ({
       todos: prevState.todos.map(
         todo => todo.id === id
