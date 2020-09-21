@@ -3,7 +3,12 @@ import { Box, Flex, List } from '@chakra-ui/core';
 import Todo from './Todo';
 import PropTypes from 'prop-types';
 
-export default function TodoList({ todos, handleChange, editTodo, removeTodo, }) {
+export default function TodoList({
+    todos,
+    handleChange,
+    editTodo,
+    removeTodo,
+  }) {
   return (
     <Flex
       direction="column"
