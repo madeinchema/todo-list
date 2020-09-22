@@ -4,10 +4,8 @@ import Todo from './Todo';
 import PropTypes from 'prop-types';
 
 export default function TodoList({
-    todos,
-    handleChange,
-    editTodo,
-    removeTodo,
+  todos,
+  setTodos,
   }) {
   return (
     <Flex
@@ -35,9 +33,7 @@ export default function TodoList({
               <Todo
                 key={todo.id}
                 todo={todo}
-                editTodo={editTodo}
-                handleChange={handleChange}
-                removeTodo={() => removeTodo(todo.id)}
+                setTodos={setTodos}
               />
             ))}
           </List>
@@ -55,7 +51,4 @@ TodoList.propTypes = {
     indent: PropTypes.number.isRequired,
     priority: PropTypes.number.isRequired,
   })),
-  editTodo: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  removeTodo: PropTypes.func.isRequired,
 }
