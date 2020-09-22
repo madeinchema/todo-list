@@ -24,13 +24,8 @@ export default function App() {
 
   // Update localStorage todos to match the current state
   useEffect(() => {
-    setLocal('todos', todos);
+    localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos])
-
-  // Sets the value for the localStorage key passed
-  const setLocal = (key, value) => {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
 
   // Task title input value handler for controlled component
   const handleTitle = (event) => {
@@ -41,31 +36,6 @@ export default function App() {
   const addTodo = (todo) => {
     setTodos((prevState) => [...prevState, todo]);
     setInputTitle('')
-  }
-
-  const editTodo = (event, id, lastTitle) => {
-    const currentChange = lastTitle ? lastTitle : event.target.value;
-
-    setTodos(prevState => {
-      return prevState.map(
-        todo => todo.id === id
-          ? { ...todo, title: currentChange }
-          : todo
-      )
-    })
-  }
-
-  const removeTodo = (id) => {
-    setTodos(prevState => prevState.filter(todo => todo.id !== id));
-  }
-
-  // Updates the state of a to-do's checkbox
-  const handleChange = (id) => {
-    setTodos(prevState => (
-      prevState.map(todo => todo.id === id
-        ? { ...todo, checked: !todo.checked }
-        : todo
-    )))
   }
 
   return (
@@ -81,9 +51,7 @@ export default function App() {
           />
           <TodoList
             todos={todos}
-            handleChange={handleChange}
-            editTodo={editTodo}
-            removeTodo={removeTodo}
+            setTodos={setTodos}
           />
         </TurnOnColorMode>
       </ColorModeProvider>

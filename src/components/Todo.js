@@ -15,13 +15,33 @@ import TodoActions from './TodoActions';
 
 export default function Todo({
   todo,
-  editTodo,
-  removeTodo,
-  handleChange,
+  setTodos,
 }) {
   const [lastTitle, setLastTitle] = useState('');
   const bgColor = { light: 'gray.50', dark: 'gray.800' };
   const { colorMode, toggleColorMode } = useColorMode();
+
+  // Handles to-dos editing and onCancel
+  const editTodo = (event, id, lastTitle) => {
+    const currentChange = lastTitle ? lastTitle : event.target.value;
+
+    setTodos(prevState => {
+      return prevState.map(
+        todo => todo.id === id
+          ? { ...todo, title: currentChange }
+          : todo
+      )
+    })
+  }
+
+  // Updates the state of a to-do's checkbox
+  const handleChange = (id) => {
+    setTodos(prevState => (
+      prevState.map(todo => todo.id === id
+        ? { ...todo, checked: !todo.checked }
+        : todo
+      )))
+  }
 
   return (
     <Hover>
@@ -66,7 +86,7 @@ export default function Todo({
               </Editable>
 
               <Box ml='auto' my='auto' maxW='3rem'>
-                {hovering && <TodoActions removeTodo={removeTodo} />}
+                {hovering && <TodoActions todo={todo} setTodos={setTodos}/>}
               </Box>
             </Flex>
           </li>
@@ -83,7 +103,4 @@ Todo.propTypes = {
     indent: PropTypes.number.isRequired,
     priority: PropTypes.number.isRequired,
   }),
-  editTodo: PropTypes.func.isRequired,
-  removeTodo: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired,
 }

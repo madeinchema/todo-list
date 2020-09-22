@@ -2,10 +2,15 @@ import React from 'react';
 import { Link, PseudoBox, Icon } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
 
-export default function TodoActions({ removeTodo }) {
+export default function TodoActions({ todo, setTodos }) {
+  // Removes the clicked to-do
+  const removeTodo = (id) => {
+    setTodos(prevState => prevState.filter(todo => todo.id !== id));
+  }
+
   return (
     <Link
-      onClick={removeTodo}
+      onClick={() => removeTodo(todo.id)}
     >
       <PseudoBox
         style={{ transition: 'all .1s ease-out' }}
@@ -25,5 +30,4 @@ export default function TodoActions({ removeTodo }) {
 }
 
 TodoActions.propTypes = {
-  removeTodo: PropTypes.func.isRequired,
 }
