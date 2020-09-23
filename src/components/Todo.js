@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   useColorMode,
   Flex,
@@ -11,12 +11,10 @@ import {
 import PropTypes from 'prop-types';
 import Hover from './Hover';
 import TodoActions from './TodoActions';
+import { TodoContext } from '../context/TodoContext';
 
-
-export default function Todo({
-  todo,
-  setTodos,
-}) {
+export default function Todo({ todo }) {
+  const { setTodos } = useContext(TodoContext);
   const [lastTitle, setLastTitle] = useState('');
   const bgColor = { light: 'gray.50', dark: 'gray.800' };
   const { colorMode } = useColorMode();

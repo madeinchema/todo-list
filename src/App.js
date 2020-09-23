@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ThemeProvider,
   ColorModeProvider,
@@ -9,36 +9,19 @@ import {
 import Navbar from './components/Navbar';
 import TodoList from './components/TodoList';
 import TodoInput from './components/TodoInput';
+import TodoContextProvider from './context/TodoContext';
 
 export default function App() {
-  const [todos, setTodos] = useState([]);
-
-  // Set todos state if there are todos saved in localStorage
-  useEffect(() => {
-    if (JSON.parse(localStorage.getItem('todos')) !== null) {
-      setTodos(JSON.parse(localStorage.getItem('todos')));
-    }
-  }, [])
-
-  // Update localStorage todos to match the current state
-  useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(todos));
-  }, [todos])
-
   return (
     <ThemeProvider>
       <ColorModeProvider>
         <TurnOnColorMode>
           <CSSReset />
-          <Navbar />
-          <TodoInput
-            todos={todos}
-            setTodos={setTodos}
-          />
-          <TodoList
-            todos={todos}
-            setTodos={setTodos}
-          />
+          <TodoContextProvider>
+            <Navbar />
+            <TodoInput />
+            <TodoList />
+          </TodoContextProvider>
         </TurnOnColorMode>
       </ColorModeProvider>
     </ThemeProvider>
