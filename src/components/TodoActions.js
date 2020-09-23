@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, PseudoBox, Icon } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
+import { TodoContext } from '../context/TodoContext';
 
-export default function TodoActions({ todo, setTodos }) {
+export default function TodoActions({ todo }) {
+  const { setTodos } = useContext(TodoContext);
+
   // Removes the clicked to-do
   const removeTodo = (id) => {
     setTodos(prevState => prevState.filter(todo => todo.id !== id));

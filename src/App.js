@@ -12,7 +12,6 @@ import TodoInput from './components/TodoInput';
 import TodoContextProvider from './context/TodoContext';
 
 export default function App() {
-
   return (
     <ThemeProvider>
       <ColorModeProvider>

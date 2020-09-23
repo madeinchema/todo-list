@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Box,
   Button,
@@ -8,8 +8,10 @@ import {
   Flex,
 } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
+import { TodoContext } from '../context/TodoContext';
 
-export default function TodoInput({ todos, setTodos }) {
+export default function TodoInput() {
+  const { setTodos } = useContext(TodoContext);
   const [inputTitle, setInputTitle] = useState('');
 
   // Task title input value handler for controlled component
@@ -100,12 +102,5 @@ export default function TodoInput({ todos, setTodos }) {
 };
 
 TodoInput.propTypes = {
-  todos: PropTypes.arrayOf(PropTypes.exact({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    checked: PropTypes.bool.isRequired,
-    indent: PropTypes.number.isRequired,
-    priority: PropTypes.number.isRequired,
-  })),
   setTodos: PropTypes.func.isRequired,
 }

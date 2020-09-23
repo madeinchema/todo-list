@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from 'react';
 
-const TodoContext = createContext();
+export const TodoContext = createContext();
 
 const TodoContextProvider = (props) => {
   const [todos, setTodos] = useState([]);
