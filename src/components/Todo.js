@@ -19,7 +19,7 @@ export default function Todo({
 }) {
   const [lastTitle, setLastTitle] = useState('');
   const bgColor = { light: 'gray.50', dark: 'gray.800' };
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode } = useColorMode();
 
   // Handles to-dos editing and onCancel
   const editTodo = (event, id, lastTitle) => {
@@ -103,4 +103,5 @@ Todo.propTypes = {
     indent: PropTypes.number.isRequired,
     priority: PropTypes.number.isRequired,
   }),
+  setTodos: PropTypes.func.isRequired,
 }
