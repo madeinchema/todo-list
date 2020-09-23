@@ -30,4 +30,12 @@ export default function TodoActions({ todo, setTodos }) {
 }
 
 TodoActions.propTypes = {
+  todo: PropTypes.exact({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    checked: PropTypes.bool.isRequired,
+    indent: PropTypes.number.isRequired,
+    priority: PropTypes.number.isRequired,
+  }),
+  setTodos: PropTypes.func.isRequired,
 }

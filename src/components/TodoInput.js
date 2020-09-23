@@ -31,7 +31,7 @@ export default function TodoInput({ todos, setTodos }) {
     // Remove whitespace from both ends and make sure it's a string
     title = title.trim().toString();
 
-    addTodo(todo(title));
+    addTodo(newTodo(title));
   }
 
   // Generates random IDs for the to-dos
@@ -41,7 +41,7 @@ export default function TodoInput({ todos, setTodos }) {
   }
 
   // To-do object template
-  const todo = (title) => {
+  const newTodo = (title) => {
     return ({
       id: newId(),
       title: title,
@@ -100,4 +100,12 @@ export default function TodoInput({ todos, setTodos }) {
 };
 
 TodoInput.propTypes = {
+  todos: PropTypes.arrayOf(PropTypes.exact({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    checked: PropTypes.bool.isRequired,
+    indent: PropTypes.number.isRequired,
+    priority: PropTypes.number.isRequired,
+  })),
+  setTodos: PropTypes.func.isRequired,
 }

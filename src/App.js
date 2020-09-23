@@ -48,7 +48,7 @@ export default function App() {
 // ColorMode for the App's background
 function TurnOnColorMode({ children }) {
   const bgColor = { light: 'gray.200', dark: 'gray.900' }
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode } = useColorMode();
 
   return (
     <Box bg={bgColor[colorMode]}>
