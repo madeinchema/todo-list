@@ -12,8 +12,6 @@ import TodoInput from './components/TodoInput';
 
 export default function App() {
   const [todos, setTodos] = useState([]);
-  const [inputTitle, setInputTitle] = useState('');
-  const [lastTitle, setLastTitle] = useState('');
 
   // Set todos state if there are todos saved in localStorage
   useEffect(() => {
@@ -27,17 +25,6 @@ export default function App() {
     localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos])
 
-  // Task title input value handler for controlled component
-  const handleTitle = (event) => {
-    setInputTitle(event.target.value);
-  }
-
-  // Adds a new to-do object to the "todos" state
-  const addTodo = (todo) => {
-    setTodos((prevState) => [...prevState, todo]);
-    setInputTitle('')
-  }
-
   return (
     <ThemeProvider>
       <ColorModeProvider>
@@ -45,9 +32,8 @@ export default function App() {
           <CSSReset />
           <Navbar />
           <TodoInput
-            title={inputTitle}
-            addTodo={addTodo}
-            handleTitle={handleTitle}
+            todos={todos}
+            setTodos={setTodos}
           />
           <TodoList
             todos={todos}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -9,16 +9,29 @@ import {
 } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
 
-export default function TodoInput({ title, addTodo, handleTitle }) {
+export default function TodoInput({ todos, setTodos }) {
+  const [inputTitle, setInputTitle] = useState('');
+
+  // Task title input value handler for controlled component
+  const handleTitle = (event) => {
+    setInputTitle(event.target.value);
+  }
+
+  // Adds a new to-do object to the "todos" state
+  const addTodo = (todo) => {
+    setTodos((prevState) => [...prevState, todo]);
+    setInputTitle('')
+  }
+
   // Adds the new to-do to the TodoList's state
   const handleSubmit = (event) => {
     event.preventDefault();
-    let inputTitle = title;
+    let title = inputTitle;
 
     // Remove whitespace from both ends and make sure it's a string
-    inputTitle = inputTitle.trim().toString();
+    title = title.trim().toString();
 
-    addTodo(todo(inputTitle));
+    addTodo(todo(title));
   }
 
   // Generates random IDs for the to-dos
@@ -61,7 +74,7 @@ export default function TodoInput({ title, addTodo, handleTitle }) {
                 fontWeight='500'
                 type="text"
                 placeholder="Task title"
-                value={title}
+                value={inputTitle}
                 onChange={handleTitle}
               />
 
@@ -71,7 +84,7 @@ export default function TodoInput({ title, addTodo, handleTitle }) {
                   w="100%"
                   type='submit'
                   onClick={handleSubmit}
-                  isDisabled={!title}
+                  isDisabled={!inputTitle}
                 >
                   Add Task
                 </Button>
@@ -87,7 +100,4 @@ export default function TodoInput({ title, addTodo, handleTitle }) {
 };
 
 TodoInput.propTypes = {
-  title: PropTypes.string.isRequired,
-  addTodo: PropTypes.func.isRequired,
-  handleTitle: PropTypes.func.isRequired,
 }
