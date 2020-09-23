@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Flex, List } from '@chakra-ui/core';
 import Todo from './Todo';
 import PropTypes from 'prop-types';
+import { TodoContext } from '../context/TodoContext';
 
-export default function TodoList({
-  todos,
-  setTodos,
-  }) {
+export default function TodoList() {
+  const { todos, setTodos } = useContext(TodoContext);
+
   return (
     <Flex
       direction="column"
@@ -51,4 +51,5 @@ TodoList.propTypes = {
     indent: PropTypes.number.isRequired,
     priority: PropTypes.number.isRequired,
   })),
+  setTodos: PropTypes.func.isRequired,
 }
