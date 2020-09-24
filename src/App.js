@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   ThemeProvider,
   ColorModeProvider,
@@ -9,7 +9,7 @@ import {
 import Navbar from './components/Navbar';
 import TodoList from './components/TodoList';
 import TodoInput from './components/TodoInput';
-import TodoContextProvider from './context/TodoContext';
+import TodoContextProvider from './contexts/TodoContext';
 
 export default function App() {
   return (

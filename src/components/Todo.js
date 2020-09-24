@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   useColorMode,
   Flex,
@@ -8,13 +9,12 @@ import {
   EditableInput,
   EditablePreview,
 } from '@chakra-ui/core';
-import PropTypes from 'prop-types';
 import Hover from './Hover';
 import TodoActions from './TodoActions';
-import { TodoContext } from '../context/TodoContext';
+import { TodoContext } from '../contexts/TodoContext';
 
 export default function Todo({ todo }) {
-  const { setTodos } = useContext(TodoContext);
+  const { dispatch } = useContext(TodoContext);
   const [lastTitle, setLastTitle] = useState('');
   const bgColor = { light: 'gray.50', dark: 'gray.800' };
   const { colorMode } = useColorMode();
@@ -22,23 +22,24 @@ export default function Todo({ todo }) {
   // Handles to-dos editing and onCancel
   const editTodo = (event, id, lastTitle) => {
     const currentChange = lastTitle ? lastTitle : event.target.value;
-
-    setTodos(prevState => {
-      return prevState.map(
-        todo => todo.id === id
-          ? { ...todo, title: currentChange }
-          : todo
-      )
-    })
+    dispatch({ // todos reducer
+      type: 'EDIT_TODO',
+      todo: {
+        id: id,
+        title: currentChange,
+      },
+    });
   }
 
   // Updates the state of a to-do's checkbox
   const handleChange = (id) => {
-    setTodos(prevState => (
-      prevState.map(todo => todo.id === id
-        ? { ...todo, checked: !todo.checked }
-        : todo
-      )))
+    dispatch({
+      type: 'HANDLE_CHECKBOX',
+      todo: {
+        todo,
+        id,
+      },
+    })
   }
 
   return (
@@ -84,7 +85,7 @@ export default function Todo({ todo }) {
               </Editable>
 
               <Box ml='auto' my='auto' maxW='3rem'>
-                {hovering && <TodoActions todo={todo} setTodos={setTodos}/>}
+                {hovering && <TodoActions todo={todo}/>}
               </Box>
             </Flex>
           </li>
@@ -95,11 +96,10 @@ export default function Todo({ todo }) {
 
 Todo.propTypes = {
   todo: PropTypes.exact({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
     indent: PropTypes.number.isRequired,
     priority: PropTypes.number.isRequired,
   }),
-  setTodos: PropTypes.func.isRequired,
 }

@@ -7,11 +7,10 @@ import {
   InputGroup,
   Flex,
 } from '@chakra-ui/core';
-import PropTypes from 'prop-types';
-import { TodoContext } from '../context/TodoContext';
+import { TodoContext } from '../contexts/TodoContext';
 
 export default function TodoInput() {
-  const { setTodos } = useContext(TodoContext);
+  const { dispatch } = useContext(TodoContext);
   const [inputTitle, setInputTitle] = useState('');
 
   // Task title input value handler for controlled component
@@ -19,38 +18,15 @@ export default function TodoInput() {
     setInputTitle(event.target.value);
   }
 
-  // Adds a new to-do object to the "todos" state
-  const addTodo = (todo) => {
-    setTodos((prevState) => [...prevState, todo]);
-    setInputTitle('')
-  }
-
   // Adds the new to-do to the TodoList's state
   const handleSubmit = (event) => {
     event.preventDefault();
-    let title = inputTitle;
-
-    // Remove whitespace from both ends and make sure it's a string
-    title = title.trim().toString();
-
-    addTodo(newTodo(title));
-  }
-
-  // Generates random IDs for the to-dos
-  const newId = () => {
-    // todo pseudocode: while (newId is already in todoList) { keep generating }
-    return Math.floor(Math.random() * 10000);
-  }
-
-  // To-do object template
-  const newTodo = (title) => {
-    return ({
-      id: newId(),
-      title: title,
-      checked: false,
-      indent: 1,
-      priority: 4,
-    })
+    dispatch({ // todos reducer
+      type: 'ADD_TODO',
+      // Remove whitespace from both ends and make sure it's a string
+      title: inputTitle.trim().toString(),
+    });
+    setInputTitle('') // Empty input field value
   }
 
   return (
@@ -100,7 +76,3 @@ export default function TodoInput() {
     </Flex>
   );
 };
-
-TodoInput.propTypes = {
-  setTodos: PropTypes.func.isRequired,
-}

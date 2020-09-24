@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { Box, Flex, List } from '@chakra-ui/core';
 import Todo from './Todo';
-import PropTypes from 'prop-types';
-import { TodoContext } from '../context/TodoContext';
+import { TodoContext } from '../contexts/TodoContext';
 
 export default function TodoList() {
-  const { todos, setTodos } = useContext(TodoContext);
+  const { todos } = useContext(TodoContext);
 
   return (
     <Flex
@@ -33,7 +33,6 @@ export default function TodoList() {
               <Todo
                 key={todo.id}
                 todo={todo}
-                setTodos={setTodos}
               />
             ))}
           </List>
@@ -45,11 +44,10 @@ export default function TodoList() {
 
 TodoList.propTypes = {
   todos: PropTypes.arrayOf(PropTypes.exact({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
     indent: PropTypes.number.isRequired,
     priority: PropTypes.number.isRequired,
   })),
-  setTodos: PropTypes.func.isRequired,
 }

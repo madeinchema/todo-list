@@ -1,14 +1,20 @@
 import React, { useContext } from 'react';
 import { Link, PseudoBox, Icon } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
-import { TodoContext } from '../context/TodoContext';
+import { TodoContext } from '../contexts/TodoContext';
 
 export default function TodoActions({ todo }) {
-  const { setTodos } = useContext(TodoContext);
+  const { dispatch } = useContext(TodoContext);
+
 
   // Removes the clicked to-do
   const removeTodo = (id) => {
-    setTodos(prevState => prevState.filter(todo => todo.id !== id));
+    dispatch({
+      type: 'REMOVE_TODO',
+      todo: {
+        id,
+      }
+    })
   }
 
   return (
@@ -34,11 +40,10 @@ export default function TodoActions({ todo }) {
 
 TodoActions.propTypes = {
   todo: PropTypes.exact({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
     indent: PropTypes.number.isRequired,
     priority: PropTypes.number.isRequired,
   }),
-  setTodos: PropTypes.func.isRequired,
 }
