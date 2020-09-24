@@ -96,7 +96,7 @@ export default function Todo({ todo }) {
 
 Todo.propTypes = {
   todo: PropTypes.exact({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
     indent: PropTypes.number.isRequired,
