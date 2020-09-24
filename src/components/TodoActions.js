@@ -46,5 +46,4 @@ TodoActions.propTypes = {
     indent: PropTypes.number.isRequired,
     priority: PropTypes.number.isRequired,
   }),
-  setTodos: PropTypes.func.isRequired,
 }

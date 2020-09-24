@@ -7,7 +7,7 @@ const TodoContextProvider = (props) => {
   const [todos, dispatch] = useReducer(TodoReducer, [], () => {
     // Set todos state if there are todos saved in localStorage
     const localData = localStorage.getItem('todos');
-    return localData && JSON.parse(localData);
+    return localData ? JSON.parse(localData) : [];
   });
 
   // Update localStorage todos to match the current state
