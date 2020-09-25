@@ -3,7 +3,7 @@
 <h3 align="center">  
   <a href="https://todo-list.madeinchema.vercel.app/">  
     <img  
-      src="https://i.imgur.com/liUzKuz.png"  
+      src="https://i.imgur.com/oaYVN7O.png"  
       alt="Todolist App Logo" width="250px" />  
   </a>  
 </h3>  
