@@ -10,6 +10,44 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 export default function TodoList() {
   const { todosData, dispatch } = useContext(TodoContext);
 
+  const onDragEnd = result => {
+    const { destination, source, draggableId } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    const column = todosData.columns[source.droppableId];
+    const newTaskIds = Array.from(column.taskIds);
+    newTaskIds.splice(source.index, 1);
+    newTaskIds.splice(destination.index, 0, draggableId);
+
+    const newColumn = {
+      ...column,
+      taskIds: newTaskIds,
+    }
+
+    const newState = {
+      ...todosData,
+      columns: {
+        ...todosData.columns,
+        [newColumn.id]: newColumn,
+      }
+    }
+
+    dispatch({
+      type: 'HANDLE_DRAG',
+      newState,
+    })
+  }
+
   return (
     <Flex
       direction="column"
@@ -40,7 +78,7 @@ export default function TodoList() {
               return (
                 <DragDropContext
                   key={column.id}
-                  onDragEnd={() => console.log('drag end')}
+                  onDragEnd={onDragEnd}
                 >
                   <Droppable droppableId={column.id}>
                     {(provided) => (
