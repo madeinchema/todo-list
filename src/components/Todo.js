@@ -12,8 +12,10 @@ import {
 import Hover from './Hover';
 import TodoActions from './TodoActions';
 import { TodoContext } from '../contexts/TodoContext';
+import { Draggable } from 'react-beautiful-dnd';
 
-export default function Todo({ todo }) {
+
+export default function Todo({ todo, index }) {
   const { dispatch } = useContext(TodoContext);
   const [lastTitle, setLastTitle] = useState('');
   const bgColor = { light: 'gray.50', dark: 'gray.800' };
@@ -46,48 +48,63 @@ export default function Todo({ todo }) {
     <Hover>
       {(hovering) => (
           <li>
-            <Flex
-              h='auto'
-              py='.5rem'
-              px='.75rem'
-              align='flex-start'
-              mb='.25rem'
-              bg={bgColor[colorMode]}
-              shadow='md'
-              borderRadius='3px'
+            <Draggable
+              draggableId={todo.id}
+              index={index}
             >
+              {(provided) => (
+                <Box
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                  ref={provided.innerRef}
+                >
 
-              <Checkbox
-                my='.25rem'
-                size='lg'
-                isChecked={todo.checked}
-                onChange={() => handleChange(todo.id)}
-                d='flex'
-              >
-              </Checkbox>
+                  <Flex
+                    h='auto'
+                    py='.5rem'
+                    px='.75rem'
+                    align='flex-start'
+                    mb='.25rem'
+                    bg={bgColor[colorMode]}
+                    shadow='md'
+                    borderRadius='3px'
+                  >
 
-              <Editable
-                mt='.05rem'
-                pl='.75rem'
-                fontSize='1.2em'
-                fontWeight='600'
-                lineHeight='1.5rem'
-                opacity={todo.checked ? '0.5' : '1'}
-                value={todo.title}
-                onFocus={() => setLastTitle(todo.title)}
-                onCancel={(event) => editTodo(event, todo.id, lastTitle)}
-                w='calc(100% - 3rem)'
-              >
-                <EditablePreview />
-                <EditableInput
-                  onChange={(event) => editTodo(event, todo.id)}
-                />
-              </Editable>
+                    <Checkbox
+                      my='.25rem'
+                      size='lg'
+                      isChecked={todo.checked}
+                      onChange={() => handleChange(todo.id)}
+                      d='flex'
+                    >
+                    </Checkbox>
 
-              <Box ml='auto' my='auto' maxW='3rem'>
-                {hovering && <TodoActions todo={todo}/>}
-              </Box>
-            </Flex>
+                    <Editable
+                      mt='.05rem'
+                      pl='.75rem'
+                      fontSize='1.2em'
+                      fontWeight='600'
+                      lineHeight='1.5rem'
+                      opacity={todo.checked ? '0.5' : '1'}
+                      value={todo.title}
+                      onFocus={() => setLastTitle(todo.title)}
+                      onCancel={(event) => editTodo(event, todo.id, lastTitle)}
+                      w='calc(100% - 3rem)'
+                    >
+                      <EditablePreview />
+                      <EditableInput
+                        onChange={(event) => editTodo(event, todo.id)}
+                      />
+                    </Editable>
+
+                    <Box ml='auto' my='auto' maxW='3rem'>
+                      {hovering && <TodoActions todo={todo} index={index}/>}
+                    </Box>
+                  </Flex>
+
+                </Box>
+              )}
+            </Draggable>
           </li>
       )}
     </Hover>
@@ -99,7 +116,7 @@ Todo.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
-    indent: PropTypes.number.isRequired,
-    priority: PropTypes.number.isRequired,
+    indent: PropTypes.number,
+    priority: PropTypes.number,
   }),
 }
