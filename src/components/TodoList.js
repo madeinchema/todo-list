@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import { Box, Flex, List } from '@chakra-ui/core';
 import Todo from './Todo';
 import { TodoContext } from '../contexts/TodoContext';
+// import Column from './Column';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+
 
 export default function TodoList() {
-  const { todos } = useContext(TodoContext);
+  const { todosData, dispatch } = useContext(TodoContext);
 
   return (
     <Flex
@@ -29,12 +32,33 @@ export default function TodoList() {
           flexDir='column'
         >
           <List mb='2rem'>
-            {todos.map(todo => (
-              <Todo
-                key={todo.id}
-                todo={todo}
-              />
-            ))}
+            {todosData.columnOrder.map((columnId) => {
+              const column = todosData.columns[columnId];
+              const tasks = column.taskIds.map(taskId => todosData.tasks[taskId]);
+
+              // return <Column key={column.id} column={column} tasks={tasks} />
+              return (
+                <DragDropContext
+                  key={column.id}
+                  onDragEnd={() => console.log('drag end')}
+                >
+                  <Droppable droppableId={column.id}>
+                    {(provided) => (
+                      <Box
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                      >
+                        {tasks.map((task, index) => (
+                          <Todo key={task.id} todo={task} index={index} />
+                        ))}
+                        {provided.placeholder}
+                      </Box>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              );
+            })}
+
           </List>
         </Flex>
       </Box>
@@ -47,7 +71,7 @@ TodoList.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
-    indent: PropTypes.number.isRequired,
-    priority: PropTypes.number.isRequired,
+    indent: PropTypes.number,
+    priority: PropTypes.number,
   })),
 }
