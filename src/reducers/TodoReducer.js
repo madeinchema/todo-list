@@ -14,7 +14,30 @@ export const TodoReducer = (state, action) => {
         priority: 4,
       }];
     case 'REMOVE_TODO':
-      return state.filter(todo => todo.id !== action.todo.id);
+      // Todo: Don't hardcode 'column-1'
+      const column = state.columns['column-1'];
+      // Remove selected task from the taskIds
+      const newTaskIds = Array.from(column.taskIds);
+      newTaskIds.splice(action.todo.index, 1);
+      // Create object where the selected task is removed
+      let obj = {};
+      Object.entries(state.tasks).forEach(entry => {
+        const [key, value] = entry;
+        if (key !== action.todo.id) {
+          obj = { ...obj, [key]:value }
+        }
+      })
+      // Update state without the selected taskId and task.
+      return {
+        ...state,
+        columns: {
+          'column-1': {
+            ...state.columns['column-1'],
+            taskIds: newTaskIds,
+          }
+        },
+        tasks: obj,
+      }
     case 'EDIT_TODO':
       return state.map(
         todo => todo.id === action.todo.id
