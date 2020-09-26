@@ -1,7 +1,10 @@
 import { nanoid } from 'nanoid'
 
 export const TodoReducer = (state, action) => {
+  console.log(action.todo.id);
   switch (action.type) {
+    case 'HANDLE_DRAG':
+      return action.newState;
     case 'ADD_TODO':
       return [...state, {
         id: nanoid(8),
@@ -19,10 +22,16 @@ export const TodoReducer = (state, action) => {
           : todo,
       );
     case 'HANDLE_CHECKBOX':
-      return state.map(todo => todo.id === action.todo.id
-        ? { ...todo, checked: !todo.checked }
-        : todo,
-      );
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          [action.todo.id]: {
+            ...action.todo.todo,
+            checked: !state.tasks[action.todo.id].checked
+          },
+        }
+      }
     default:
       return state;
   }
