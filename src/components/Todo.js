@@ -4,6 +4,7 @@ import {
   useColorMode,
   Flex,
   Box,
+  Icon,
   Checkbox,
   Editable,
   EditableInput,
@@ -55,7 +56,7 @@ export default function Todo({ todo, index }) {
               {(provided) => (
                 <Box
                   {...provided.draggableProps}
-                  {...provided.dragHandleProps}
+
                   ref={provided.innerRef}
                 >
 
@@ -69,6 +70,11 @@ export default function Todo({ todo, index }) {
                     shadow='md'
                     borderRadius='3px'
                   >
+
+                    <Box {...provided.dragHandleProps}>
+
+                      <Icon name='drag-handle' mr={'.75rem'} opacity={.5}/>
+                    </Box>
 
                     <Checkbox
                       my='.25rem'
