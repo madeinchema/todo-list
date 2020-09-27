@@ -3,7 +3,7 @@ import { Link, PseudoBox, Icon } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
 import { TodoContext } from '../contexts/TodoContext';
 
-export default function TodoActions({ todo }) {
+export default function TodoActions({ todo, index }) {
   const { dispatch } = useContext(TodoContext);
 
 
@@ -12,7 +12,9 @@ export default function TodoActions({ todo }) {
     dispatch({
       type: 'REMOVE_TODO',
       todo: {
+        todo,
         id,
+        index
       }
     })
   }
@@ -43,7 +45,7 @@ TodoActions.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
-    indent: PropTypes.number.isRequired,
-    priority: PropTypes.number.isRequired,
+    indent: PropTypes.number,
+    priority: PropTypes.number,
   }),
 }
