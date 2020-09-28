@@ -13,10 +13,12 @@ export default function TodoList() {
   const onDragEnd = result => {
     const { destination, source, draggableId } = result;
 
+    // No destination
     if (!destination) {
       return;
     }
 
+    // Check to see if the location of the draggable changed
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
@@ -24,16 +26,22 @@ export default function TodoList() {
       return;
     }
 
-    const column = todosData.columns[source.droppableId];
-    const newTaskIds = Array.from(column.taskIds);
-    newTaskIds.splice(source.index, 1);
-    newTaskIds.splice(destination.index, 0, draggableId);
+    // Reorder the taskIds array for the column
+    const column = todosData.columns['column-1']; // simpler for now
+    // const column = todosData.columns[source.droppableId];
+    const newTaskIds = Array.from(column.taskIds); // Get taskIds without mutating them
+    // Move taskId from its old index, to its new index in the array
+    newTaskIds.splice(source.index, 1); // Remove the item from the array
+    newTaskIds.splice(destination.index, 0, draggableId); // Insert it in the destination
 
+    // Create our new, updated column
     const newColumn = {
       ...column,
       taskIds: newTaskIds,
     }
 
+    // Update the state with the next updated column
+    console.log('todosData', todosData)
     const newState = {
       ...todosData,
       columns: {
