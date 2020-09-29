@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { nanoid } from 'nanoid'
 import {
   Box,
   Button,
@@ -10,7 +11,7 @@ import {
 import { TodoContext } from '../contexts/TodoContext';
 
 export default function TodoInput() {
-  const { dispatch } = useContext(TodoContext);
+  const { setTodosData } = useContext(TodoContext);
   const [inputTitle, setInputTitle] = useState('');
 
   // Task title input value handler for controlled component
@@ -21,12 +22,47 @@ export default function TodoInput() {
   // Adds the new to-do to the TodoList's state
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch({ // todos reducer
-      type: 'ADD_TODO',
-      // Remove whitespace from both ends and make sure it's a string
-      title: inputTitle.trim().toString(),
+    let title = inputTitle;
+
+    // Remove whitespace from both ends and make sure it's a string
+    title = title.trim().toString();
+
+    addTodo(newTodo(title));
+  }
+
+  // TODO Adds a new to-do object to the "todos" state
+  const addTodo = (todo) => {
+    const column = 'column-1';
+
+
+    setTodosData((prevState) => {
+      return {
+        ...prevState,
+        tasks: {
+          ...prevState.tasks,
+          [todo.id]: todo,
+        },
+        columns: {
+          [column]: {
+            ...prevState.columns[column],
+            taskIds: [
+              ...prevState.columns[column].taskIds, todo.id,
+            ]
+          }
+        }
+      }
     });
-    setInputTitle('') // Empty input field value
+    setInputTitle('')
+  }
+
+  // To-do object template
+  const newTodo = (title) => {
+    const id = nanoid(5)
+    return ({
+      id,
+      title: title,
+      checked: false,
+    })
   }
 
   return (
