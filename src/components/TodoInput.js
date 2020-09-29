@@ -30,10 +30,9 @@ export default function TodoInput() {
     addTodo(newTodo(title));
   }
 
-  // TODO Adds a new to-do object to the "todos" state
+  // Adds a new to-do object to the "todos" state
   const addTodo = (todo) => {
-    const column = 'column-1';
-
+    const column = 'column-1'; // Todo: do this dynamically
 
     setTodosData((prevState) => {
       return {
