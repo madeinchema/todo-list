@@ -4,19 +4,37 @@ import PropTypes from 'prop-types';
 import { TodoContext } from '../contexts/TodoContext';
 
 export default function TodoActions({ todo, index }) {
-  const { dispatch } = useContext(TodoContext);
+  const { todosData, setTodosData } = useContext(TodoContext);
 
 
   // Removes the clicked to-do
   const removeTodo = (id) => {
-    dispatch({
-      type: 'REMOVE_TODO',
-      todo: {
-        todo,
-        id,
-        index
+    let taskIdToRemove = '';
+    const newTaskIds = todosData.columns['column-1'].taskIds.filter(taskId => {
+      if (taskId === id) {
+        taskIdToRemove = taskId;
+        return false;
       }
-    })
+      return true;
+    });
+
+    let newTasksObj = {
+      ...todosData.tasks,
+    }
+    delete newTasksObj[taskIdToRemove];
+
+    const newState = {
+      ...todosData,
+      columns: {
+        'column-1': {
+          ...todosData.columns['column-1'],
+          taskIds: newTaskIds,
+        }
+      },
+      tasks: newTasksObj,
+    }
+
+    setTodosData(newState);
   }
 
   return (
