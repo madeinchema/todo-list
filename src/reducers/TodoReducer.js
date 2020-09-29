@@ -1,9 +1,13 @@
 import { nanoid } from 'nanoid'
 
 export const TodoReducer = (state, action) => {
-  console.log(action.todo.id);
+  // Todo: Don't hardcode 'column-1'
+  const column = state.columns['column-1'];
+  const newTaskIds = Array.from(column.taskIds);
+
   switch (action.type) {
     case 'HANDLE_DRAG':
+      console.log('action newState', action.newState)
       return action.newState;
     case 'ADD_TODO':
       return [...state, {
@@ -14,10 +18,7 @@ export const TodoReducer = (state, action) => {
         priority: 4,
       }];
     case 'REMOVE_TODO':
-      // Todo: Don't hardcode 'column-1'
-      const column = state.columns['column-1'];
       // Remove selected task from the taskIds
-      const newTaskIds = Array.from(column.taskIds);
       newTaskIds.splice(action.todo.index, 1);
       // Create object where the selected task is removed
       let obj = {};
@@ -39,11 +40,25 @@ export const TodoReducer = (state, action) => {
         tasks: obj,
       }
     case 'EDIT_TODO':
-      return state.map(
-        todo => todo.id === action.todo.id
-          ? { ...todo, title: action.todo.title }
-          : todo,
-      );
+      let targetTaskId;
+
+      return state.columns['column-1'].taskIds.forEach(taskId => {
+        if (taskId === action.todo.id) {
+          targetTaskId = taskId;
+
+          return {
+            ...state,
+            tasks: {
+              ...state.tasks,
+              [targetTaskId]: {
+                ...[targetTaskId],
+                title: action.todo.title
+              }
+            }
+          }
+
+        }
+      })
     case 'HANDLE_CHECKBOX':
       return {
         ...state,
