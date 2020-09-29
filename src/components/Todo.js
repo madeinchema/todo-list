@@ -24,7 +24,18 @@ export default function Todo({ todo, index }) {
 
   // Handles to-dos editing and onCancel
   const editTodo = (event, id, lastTitle) => {
-
+    const currentChange = lastTitle ? lastTitle : event.target.value;
+    const newState = {
+      ...todosData,
+      tasks: {
+        ...todosData.tasks,
+        [id]: {
+          ...todosData.tasks[id],
+          title: currentChange,
+        },
+      },
+    };
+    setTodosData(newState);
   }
 
   // Updates the state of a to-do's checkbox
@@ -35,11 +46,10 @@ export default function Todo({ todo, index }) {
         ...todosData.tasks,
         [id]: {
           ...todosData.tasks[id],
-          checked: !todosData.tasks[id].checked
-        }
-      }
-    }
-
+          checked: !todosData.tasks[id].checked,
+        },
+      },
+    };
     setTodosData(newState);
   }
 
