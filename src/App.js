@@ -9,7 +9,7 @@ import {
 import Navbar from './components/Navbar';
 import TodoList from './components/TodoList';
 import TodoInput from './components/TodoInput';
-import TodoContextProvider from './contexts/TodoContext';
+import { TodoContextProvider } from './contexts/TodoContext';
 
 export default function App() {
   return (
