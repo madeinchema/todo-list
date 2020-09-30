@@ -11,7 +11,7 @@ import {
 import { TodoContext } from '../contexts/TodoContext';
 
 export default function TodoInput() {
-  const { setTodosData } = useContext(TodoContext);
+  const { dispatch } = useContext(TodoContext);
   const [inputTitle, setInputTitle] = useState('');
 
   // Task title input value handler for controlled component
@@ -22,46 +22,9 @@ export default function TodoInput() {
   // Adds the new to-do to the TodoList's state
   const handleSubmit = (event) => {
     event.preventDefault();
-    let title = inputTitle;
-
-    // Remove whitespace from both ends and make sure it's a string
-    title = title.trim().toString();
-
-    addTodo(newTodo(title));
-  }
-
-  // Adds a new to-do object to the "todos" state
-  const addTodo = (todo) => {
-    const column = 'column-1'; // Todo: do this dynamically
-
-    setTodosData((prevState) => {
-      return {
-        ...prevState,
-        tasks: {
-          ...prevState.tasks,
-          [todo.id]: todo,
-        },
-        columns: {
-          [column]: {
-            ...prevState.columns[column],
-            taskIds: [
-              ...prevState.columns[column].taskIds, todo.id,
-            ]
-          }
-        }
-      }
-    });
-    setInputTitle('')
-  }
-
-  // To-do object template
-  const newTodo = (title) => {
-    const id = nanoid(5)
-    return ({
-      id,
-      title: title,
-      checked: false,
-    })
+    let title = inputTitle.trim().toString(); // Remove whitespace from both ends & make sure it's a string
+    dispatch({ type: 'ADD_TODO', title });
+    setInputTitle('');
   }
 
   return (
