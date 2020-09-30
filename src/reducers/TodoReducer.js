@@ -6,17 +6,31 @@ export const TodoReducer = (state, action) => {
   const newTaskIds = Array.from(column.taskIds);
 
   switch (action.type) {
+
     case 'HANDLE_DRAG':
-      console.log('action newState', action.newState)
-      return action.newState;
+      // console.log('action newState', action.newState)
+      // return action.newState;
+      return;
+
     case 'ADD_TODO':
-      return [...state, {
-        id: nanoid(8),
+      const newTodo = {
+        id: nanoid(5),
         title: action.title,
         checked: false,
-        indent: 1,
-        priority: 4,
-      }];
+      };
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          [newTodo.id]: newTodo,
+        },
+        columns: {
+          'column-1': {
+            ...state.columns['column-1'],
+            taskIds: [...state.columns['column-1'].taskIds, newTodo.id],
+          },
+        },
+      };
     case 'REMOVE_TODO':
       // Remove selected task from the taskIds
       newTaskIds.splice(action.todo.index, 1);
@@ -39,6 +53,7 @@ export const TodoReducer = (state, action) => {
         },
         tasks: obj,
       }
+
     case 'EDIT_TODO':
       let targetTaskId;
 
@@ -59,6 +74,7 @@ export const TodoReducer = (state, action) => {
 
         }
       })
+
     case 'HANDLE_CHECKBOX':
       return {
         ...state,
@@ -70,6 +86,7 @@ export const TodoReducer = (state, action) => {
           },
         }
       }
+
     default:
       return state;
   }
