@@ -17,40 +17,33 @@ import { Draggable } from 'react-beautiful-dnd';
 
 
 export default function Todo({ todo, index }) {
-  const { todosData, setTodosData } = useContext(TodoContext);
+  const { dispatch } = useContext(TodoContext);
   const [lastTitle, setLastTitle] = useState('');
   const bgColor = { light: 'gray.50', dark: 'gray.800' };
   const { colorMode } = useColorMode();
 
   // Handles to-dos editing and onCancel
   const editTodo = (event, id, lastTitle) => {
-    const currentChange = lastTitle ? lastTitle : event.target.value;
-    const newState = {
-      ...todosData,
-      tasks: {
-        ...todosData.tasks,
-        [id]: {
-          ...todosData.tasks[id],
-          title: currentChange,
-        },
-      },
-    };
-    setTodosData(newState);
+    // const currentChange = lastTitle ? lastTitle : event.target.value;
+    // const newState = {
+    //   ...todosData,
+    //   tasks: {
+    //     ...todosData.tasks,
+    //     [id]: {
+    //       ...todosData.tasks[id],
+    //       title: currentChange,
+    //     },
+    //   },
+    // };
+    // setTodosData(newState);
   }
 
   // Updates the state of a to-do's checkbox
-  const handleChange = (id) => {
-    const newState = {
-      ...todosData,
-      tasks: {
-        ...todosData.tasks,
-        [id]: {
-          ...todosData.tasks[id],
-          checked: !todosData.tasks[id].checked,
-        },
-      },
-    };
-    setTodosData(newState);
+  const handleChange = () => {
+    dispatch({
+      type: 'HANDLE_CHECK',
+      todo,
+    })
   }
 
   return (
@@ -86,7 +79,7 @@ export default function Todo({ todo, index }) {
                     my='.25rem'
                     size='lg'
                     isChecked={todo.checked}
-                    onChange={() => handleChange(todo.id)}
+                    onChange={handleChange}
                     d='flex'
                   >
                   </Checkbox>
