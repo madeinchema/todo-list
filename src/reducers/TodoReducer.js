@@ -8,11 +8,37 @@ export const TodoReducer = (state, action) => {
 
   switch (action.type) {
 
+    // Handle the drag and drop of to-do's
+    case 'HANDLE_DRAG':
+      const { destination, source, draggableId } = action.result;
 
-    case 'HANDLE_DRAG': // TODO
-      // console.log('action newState', action.newState)
-      // return action.newState;
-      return;
+      // Check if there is no destination
+      if (!destination) return;
+
+      // Check to see if the location of the draggable changed
+      if (
+        destination.droppableId === source.droppableId &&
+        destination.index === source.index
+      ) return;
+
+      /**
+       * Reorder the taskIds, moving the target from old to new index in the array.
+       */
+      const column = state.columns[source.droppableId]; // Get the column source
+      newTaskIds.splice(source.index, 1); // Remove the item from the array
+      newTaskIds.splice(destination.index, 0, draggableId); // Insert it in the destination
+
+      // Create our new, updated column
+      const newColumn = { ...column, taskIds: newTaskIds }
+
+      // Update the state with the next updated column
+      return {
+        ...state,
+        columns: {
+          ...state.columns,
+          [newColumn.id]: newColumn,
+        }
+      }
 
     // Adds the new to-do to the TodoList's state
     case 'ADD_TODO':
