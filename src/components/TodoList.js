@@ -80,28 +80,23 @@ export default function TodoList() {
               {todosData && todosData.columnOrder.map((columnId) => {
                 const column = todosData.columns[columnId];
                 const tasks = column.taskIds.map(taskId => todosData.tasks[taskId]);
-                console.log('tasks todolist', tasks)
-
                 return (
-
-                    <Droppable droppableId={column.id} key={column.id} tasks={tasks}>
-                      {(provided, snapshot) => (
-                        <Box
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                          isDraggingOver={snapshot.isDraggingOver}
-                        >
-                          {tasks.map((task, index) => (
-                            <Todo key={task.id} todo={task} index={index} />
-                          ))}
-                          {provided.placeholder}
-                        </Box>
-                      )}
-                    </Droppable>
-
+                  <Droppable droppableId={column.id} key={column.id} tasks={tasks}>
+                    {(provided, snapshot) => (
+                      <Box
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        isDraggingOver={snapshot.isDraggingOver}
+                      >
+                        {tasks.map((task, index) => (
+                          <Todo key={task.id} todo={task} index={index} />
+                        ))}
+                        {provided.placeholder}
+                      </Box>
+                    )}
+                  </Droppable>
                 );
               })}
-
             </List>
           </Flex>
         </Box>
