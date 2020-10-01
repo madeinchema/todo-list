@@ -17,7 +17,7 @@ import { Draggable } from 'react-beautiful-dnd';
 
 
 export default function Todo({ todo, index }) {
-  const { todosData, dispatch } = useContext(TodoContext);
+  const { dispatch } = useContext(TodoContext);
   const [prevTitle, setPrevTitle] = useState('');
   const bgColor = { light: 'gray.50', dark: 'gray.800' };
   const { colorMode } = useColorMode();
