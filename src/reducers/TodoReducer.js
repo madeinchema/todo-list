@@ -75,18 +75,18 @@ export const TodoReducer = (state, action) => {
         }
       })
 
-    case 'HANDLE_CHECKBOX':
+    case 'HANDLE_CHECK':
+      // Return newState where current to-do's "checked" property is toggled
       return {
         ...state,
         tasks: {
           ...state.tasks,
           [action.todo.id]: {
-            ...action.todo.todo,
-            checked: !state.tasks[action.todo.id].checked
+            ...state.tasks[action.todo.id],
+            checked: !state.tasks[action.todo.id].checked,
           },
-        }
-      }
-
+        },
+      };
     default:
       return state;
   }
