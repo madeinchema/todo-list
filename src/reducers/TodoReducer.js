@@ -1,15 +1,14 @@
 import { nanoid } from 'nanoid'
 
 export const TodoReducer = (state, action) => {
-  // Todo: Don't hardcode 'column-1'
-  const currentColumn = 'column-1';
+  const currentColumn = 'column-1';  // Todo: Don't hardcode 'column-1'
   const column = state.columns[currentColumn];
   const newTaskIds = Array.from(column.taskIds);
 
   switch (action.type) {
 
     // Handle the drag and drop of to-do's
-    case 'HANDLE_DRAG':
+    case 'HANDLE_DRAG_END':
       const { destination, source, draggableId } = action.result;
 
       // Check if there is no destination
