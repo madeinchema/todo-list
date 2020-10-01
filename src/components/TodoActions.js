@@ -4,42 +4,20 @@ import PropTypes from 'prop-types';
 import { TodoContext } from '../contexts/TodoContext';
 
 export default function TodoActions({ todo, index }) {
-  const { todosData, setTodosData } = useContext(TodoContext);
-
+  const { dispatch } = useContext(TodoContext);
 
   // Removes the clicked to-do
-  const removeTodo = (id) => {
-    let taskIdToRemove = '';
-    const newTaskIds = todosData.columns['column-1'].taskIds.filter(taskId => {
-      if (taskId === id) {
-        taskIdToRemove = taskId;
-        return false;
-      }
-      return true;
-    });
-
-    let newTasksObj = {
-      ...todosData.tasks,
-    }
-    delete newTasksObj[taskIdToRemove];
-
-    const newState = {
-      ...todosData,
-      columns: {
-        'column-1': {
-          ...todosData.columns['column-1'],
-          taskIds: newTaskIds,
-        }
-      },
-      tasks: newTasksObj,
-    }
-
-    setTodosData(newState);
+  const removeTodo = () => {
+    dispatch({
+      type: 'REMOVE_TODO',
+      todo,
+      index,
+    })
   }
 
   return (
     <Link
-      onClick={() => removeTodo(todo.id)}
+      onClick={removeTodo}
     >
       <PseudoBox
         style={{ transition: 'all .1s ease-out' }}

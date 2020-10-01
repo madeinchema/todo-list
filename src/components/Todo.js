@@ -17,41 +17,37 @@ import { Draggable } from 'react-beautiful-dnd';
 
 
 export default function Todo({ todo, index }) {
-  const { todosData, setTodosData } = useContext(TodoContext);
-  const [lastTitle, setLastTitle] = useState('');
+  const { dispatch } = useContext(TodoContext);
+  const [prevTitle, setPrevTitle] = useState('');
   const bgColor = { light: 'gray.50', dark: 'gray.800' };
   const { colorMode } = useColorMode();
 
   // Handles to-dos editing and onCancel
-  const editTodo = (event, id, lastTitle) => {
-    const currentChange = lastTitle ? lastTitle : event.target.value;
-    const newState = {
-      ...todosData,
-      tasks: {
-        ...todosData.tasks,
-        [id]: {
-          ...todosData.tasks[id],
-          title: currentChange,
-        },
-      },
-    };
-    setTodosData(newState);
-  }
+  const editTodo = (event) => {
+    const { value } = event.target;
+    dispatch({
+      type: 'EDIT_TODO',
+      todo,
+      value,
+    })
+  };
+
+  // Retrieves the initial title and sets it back
+  const cancelTodo = () => {
+    dispatch({
+      type: 'CANCEL_TODO',
+      todo,
+      prevTitle,
+    })
+  };
 
   // Updates the state of a to-do's checkbox
-  const handleChange = (id) => {
-    const newState = {
-      ...todosData,
-      tasks: {
-        ...todosData.tasks,
-        [id]: {
-          ...todosData.tasks[id],
-          checked: !todosData.tasks[id].checked,
-        },
-      },
-    };
-    setTodosData(newState);
-  }
+  const handleCheck = () => {
+    dispatch({
+      type: 'HANDLE_CHECK',
+      todo,
+    })
+  };
 
   return (
     <Hover>
@@ -86,7 +82,7 @@ export default function Todo({ todo, index }) {
                     my='.25rem'
                     size='lg'
                     isChecked={todo.checked}
-                    onChange={() => handleChange(todo.id)}
+                    onChange={handleCheck}
                     d='flex'
                   >
                   </Checkbox>
@@ -99,13 +95,13 @@ export default function Todo({ todo, index }) {
                     lineHeight='1.5rem'
                     opacity={todo.checked ? '0.5' : '1'}
                     value={todo.title}
-                    onFocus={() => setLastTitle(todo.title)}
-                    onCancel={(event) => editTodo(event, todo.id, lastTitle)}
+                    onFocus={() => setPrevTitle(todo.title)}
+                    onCancel={cancelTodo}
                     w='calc(100% - 3rem)'
                   >
                     <EditablePreview />
                     <EditableInput
-                      onChange={(event) => editTodo(event, todo.id)}
+                      onChange={editTodo}
                     />
                   </Editable>
 

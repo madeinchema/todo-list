@@ -1,16 +1,20 @@
 import React, { useReducer, useState, createContext, useEffect } from 'react';
-// import { TodoReducer } from '../reducers/TodoReducer';
-// import initialData from '../initial-data';
+import { TodoReducer } from '../reducers/TodoReducer';
 
 const TodoContext = createContext();
 
 const initialData = {
-  tasks: {},
+  tasks: {
+    'task-1': { id: 'task-1', title: 'Take out the garbage', checked: true },
+    'task-2': { id: 'task-2', title: 'Watch my favorite show', checked: false },
+    'task-3': { id: 'task-3', title: 'Charge my phone', checked: false },
+    'task-4': { id: 'task-4', title: 'Cook dinner', checked: false },
+  },
   columns: {
     'column-1': {
       id: 'column-1',
       title: 'To do',
-      taskIds: [],
+      taskIds: ['task-1', 'task-2', 'task-3', 'task-4'],
     }
   },
   // Facilitate reordering of the columns
@@ -18,14 +22,13 @@ const initialData = {
 };
 
 const TodoContextProvider = (props) => {
-  const [todosData, setTodosData] = useState(initialData);
-
-  // Initialize app checking and update todosData if it's set in localStorage
-  useEffect(() => {
+  // Initialize state, check localStorage or use dummy data
+  const [todosData, dispatch] = useReducer(TodoReducer, initialData, () => {
     if (localStorage.getItem('todos-v1') !== null) {
-      setTodosData(JSON.parse(localStorage.getItem('todos-v1')));
+      return JSON.parse(localStorage.getItem('todos-v1'));
     }
-  }, [])
+    return initialData
+  });
 
   // Update localStorage todos to match the current state
   useEffect(() => {
@@ -33,7 +36,7 @@ const TodoContextProvider = (props) => {
   }, [todosData])
 
   return (
-    <TodoContext.Provider value={{ todosData, setTodosData }}>
+    <TodoContext.Provider value={{ todosData, dispatch }}>
       { props.children }
     </TodoContext.Provider>
   );
