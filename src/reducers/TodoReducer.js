@@ -32,14 +32,14 @@ export const TodoReducer = (state, action) => {
         },
       };
     case 'REMOVE_TODO':
-      // Remove selected task from the taskIds
-      newTaskIds.splice(action.todo.index, 1);
+      // Remove current to-do from the taskIds
+      newTaskIds.splice(action.index, 1);
       // Create object where the selected task is removed
-      let obj = {};
+      let newTasks = {};
       Object.entries(state.tasks).forEach(entry => {
         const [key, value] = entry;
         if (key !== action.todo.id) {
-          obj = { ...obj, [key]:value }
+          newTasks = { ...newTasks, [key]:value }
         }
       })
       // Update state without the selected taskId and task.
@@ -51,7 +51,7 @@ export const TodoReducer = (state, action) => {
             taskIds: newTaskIds,
           }
         },
-        tasks: obj,
+        tasks: newTasks,
       }
 
     case 'EDIT_TODO':
