@@ -12,7 +12,7 @@ export const TodoReducer = (state, action) => {
       const { destination, source, draggableId } = action.result;
 
       // Check if there is no destination
-      if (!destination) return;
+      if (!destination) return state;
 
       // Check to see if the location of the draggable changed
       if (
