@@ -25,7 +25,8 @@ const TodoContextProvider = (props) => {
   // Initialize state, check localStorage or use dummy data
   const [todosData, dispatch] = useReducer(TodoReducer, initialData, () => {
     if (
-      !!localStorage.getItem('todos-v1') === false
+      JSON.parse(localStorage.getItem('todos-v1')) !== 'null' &&
+      JSON.parse(localStorage.getItem('todos-v1')) !== 'undefined'
     ) {
       return JSON.parse(localStorage.getItem('todos-v1'));
     }
