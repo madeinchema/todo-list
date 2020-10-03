@@ -1,4 +1,4 @@
-import React, { useReducer, useState, createContext, useEffect } from 'react';
+import React, { useReducer, createContext, useEffect } from 'react';
 import { TodoReducer } from '../reducers/TodoReducer';
 
 const TodoContext = createContext();
@@ -24,7 +24,9 @@ const initialData = {
 const TodoContextProvider = (props) => {
   // Initialize state, check localStorage or use dummy data
   const [todosData, dispatch] = useReducer(TodoReducer, initialData, () => {
-    if (localStorage.getItem('todos-v1') !== null) {
+    if (
+      !!localStorage.getItem('todos-v1') === false
+    ) {
       return JSON.parse(localStorage.getItem('todos-v1'));
     }
     return initialData
