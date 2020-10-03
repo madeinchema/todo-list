@@ -10,7 +10,7 @@ import {
   EditableInput,
   EditablePreview,
 } from '@chakra-ui/core';
-import Hover from './Hover';
+import useHover from './useHover';
 import TodoActions from './TodoActions';
 import { TodoContext } from '../contexts/TodoContext';
 import { Draggable } from 'react-beautiful-dnd';
@@ -19,6 +19,7 @@ import { Draggable } from 'react-beautiful-dnd';
 export default function Todo({ todo, index }) {
   const { dispatch } = useContext(TodoContext);
   const [prevTitle, setPrevTitle] = useState('');
+  const [hovering, attrs] = useHover();
   const bgColor = { light: 'gray.50', dark: 'gray.800' };
   const { colorMode } = useColorMode();
 
@@ -50,72 +51,68 @@ export default function Todo({ todo, index }) {
   };
 
   return (
-    <Hover>
-      {(hovering) => (
-        <li>
-          <Draggable
-            draggableId={todo.id}
-            index={index}
+    <li {...attrs}>
+      <Draggable
+        draggableId={todo.id}
+        index={index}
+      >
+        {(provided) => (
+          <Box
+            {...provided.draggableProps}
+            ref={provided.innerRef}
           >
-            {(provided) => (
-              <Box
-                {...provided.draggableProps}
-                ref={provided.innerRef}
-              >
 
-                <Flex
-                  h='auto'
-                  py='.5rem'
-                  px='.75rem'
-                  align='flex-start'
-                  mb='.25rem'
-                  bg={bgColor[colorMode]}
-                  shadow='md'
-                  borderRadius='3px'
-                >
+            <Flex
+              h='auto'
+              py='.5rem'
+              px='.75rem'
+              align='flex-start'
+              mb='.25rem'
+              bg={bgColor[colorMode]}
+              shadow='md'
+              borderRadius='3px'
+            >
 
-                  <Box {...provided.dragHandleProps}>
-                    <Icon name='drag-handle' mr={'.75rem'} opacity={.5}/>
-                  </Box>
-
-                  <Checkbox
-                    my='.25rem'
-                    size='lg'
-                    isChecked={todo.checked}
-                    onChange={handleCheck}
-                    d='flex'
-                  >
-                  </Checkbox>
-
-                  <Editable
-                    mt='.05rem'
-                    pl='.75rem'
-                    fontSize='1.2em'
-                    fontWeight='600'
-                    lineHeight='1.5rem'
-                    opacity={todo.checked ? '0.5' : '1'}
-                    value={todo.title}
-                    onFocus={() => setPrevTitle(todo.title)}
-                    onCancel={cancelTodo}
-                    w='calc(100% - 3rem)'
-                  >
-                    <EditablePreview />
-                    <EditableInput
-                      onChange={editTodo}
-                    />
-                  </Editable>
-
-                  <Box ml='auto' my='auto' maxW='3rem'>
-                    {hovering && <TodoActions todo={todo} index={index}/>}
-                  </Box>
-                </Flex>
-
+              <Box {...provided.dragHandleProps}>
+                <Icon name='drag-handle' mr={'.75rem'} opacity={.5}/>
               </Box>
-            )}
-          </Draggable>
-        </li>
-      )}
-    </Hover>
+
+              <Checkbox
+                my='.25rem'
+                size='lg'
+                isChecked={todo.checked}
+                onChange={handleCheck}
+                d='flex'
+              >
+              </Checkbox>
+
+              <Editable
+                mt='.05rem'
+                pl='.75rem'
+                fontSize='1.2em'
+                fontWeight='600'
+                lineHeight='1.5rem'
+                opacity={todo.checked ? '0.5' : '1'}
+                value={todo.title}
+                onFocus={() => setPrevTitle(todo.title)}
+                onCancel={cancelTodo}
+                w='calc(100% - 3rem)'
+              >
+                <EditablePreview />
+                <EditableInput
+                  onChange={editTodo}
+                />
+              </Editable>
+
+              <Box ml='auto' my='auto' maxW='3rem'>
+                {hovering && <TodoActions todo={todo} index={index}/>}
+              </Box>
+            </Flex>
+
+          </Box>
+        )}
+      </Draggable>
+    </li>
   );
 }
 
