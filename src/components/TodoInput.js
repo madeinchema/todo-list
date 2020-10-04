@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react';
-import { nanoid } from 'nanoid'
+import React, { useState, useContext, useRef } from 'react';
 import {
   Box,
   Button,
@@ -13,6 +12,7 @@ import { TodoContext } from '../contexts/TodoContext';
 export default function TodoInput() {
   const { dispatch } = useContext(TodoContext);
   const [inputTitle, setInputTitle] = useState('');
+  const inputTitleRef = useRef();
 
   // Task title input value handler for controlled component
   const handleTitle = (event) => {
@@ -25,6 +25,7 @@ export default function TodoInput() {
     let title = inputTitle.trim().toString(); // Remove whitespace from both ends & make sure it's a string
     dispatch({ type: 'ADD_TODO', title });
     setInputTitle('');
+    inputTitleRef.current.focus();
   }
 
   return (
@@ -52,6 +53,7 @@ export default function TodoInput() {
                 placeholder="Task title"
                 value={inputTitle}
                 onChange={handleTitle}
+                ref={inputTitleRef}
               />
 
               <InputRightElement w="7.5rem" h='100%' p='0.25rem'>

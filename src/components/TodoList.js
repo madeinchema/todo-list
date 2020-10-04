@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Box, Flex, List } from '@chakra-ui/core';
 import Todo from './Todo';
 import { TodoContext } from '../contexts/TodoContext';
-// import Column from './Column';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 
