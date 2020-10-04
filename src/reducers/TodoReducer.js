@@ -9,6 +9,7 @@ export const TodoReducer = (state, action) => {
 
     // Handle the drag and drop of to-do's
     case 'HANDLE_DRAG_END':
+      console.log(action.result)
       const { destination, source, draggableId } = action.result;
 
       // Check if there is no destination
@@ -18,7 +19,7 @@ export const TodoReducer = (state, action) => {
       if (
         destination.droppableId === source.droppableId &&
         destination.index === source.index
-      ) return;
+      ) return state;
 
       /**
        * Reorder the taskIds, moving the target from old to new index in the array.
