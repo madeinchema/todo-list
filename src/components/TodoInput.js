@@ -1,5 +1,4 @@
 import React, { useState, useContext, useRef } from 'react';
-import { nanoid } from 'nanoid'
 import {
   Box,
   Button,
