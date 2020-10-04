@@ -30,7 +30,7 @@ const TodoContextProvider = (props) => {
     ) {
       return initialData
     } else if (localStorage.getItem('todos-v1') !== null) {
-      return localStorage.getItem('todos-v1');
+      return JSON.parse(localStorage.getItem('todos-v1'));
     }
     return initialData
   });
