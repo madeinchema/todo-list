@@ -60,6 +60,7 @@ export default function Todo({ todo, index }) {
           <Box
             {...provided.draggableProps}
             ref={provided.innerRef}
+            my='.15rem'
           >
 
             <Flex
