@@ -47,16 +47,16 @@ export default function TodoActions({ todo, index }) {
 
             <MenuGroup title="Priority">
               <MenuItem>
-                <Icon aria-label="Search database" as={MdFlag} color='red.500' size='1.5rem' mr='.5rem'/>Priority 1
+                <Icon aria-label="Search database" as={MdFlag} color='red.600' size='1.5rem' mr='.5rem'/>Priority 1
               </MenuItem>
               <MenuItem>
-                <Icon aria-label="Search database" as={MdFlag} color='yellow.400' size='1.5rem' mr='.5rem'/>Priority 2
+                <Icon aria-label="Search database" as={MdFlag} color='yellow.500' size='1.5rem' mr='.5rem'/>Priority 2
               </MenuItem>
               <MenuItem>
-                <Icon aria-label="Search database" as={MdFlag} color='blue.400' size='1.5rem' mr='.5rem'/>Priority 3
+                <Icon aria-label="Search database" as={MdFlag} color='#5A67D8' size='1.5rem' mr='.5rem'/>Priority 3
               </MenuItem>
               <MenuItem>
-                <Icon aria-label="Search database" as={MdFlag} color='gray.400' size='1.5rem' mr='.5rem'/>Priority 4
+                <Icon aria-label="Search database" as={MdFlag} color='gray.500' size='1.5rem' mr='.5rem'/>Priority 4
               </MenuItem>
             </MenuGroup>
           </MenuList>
