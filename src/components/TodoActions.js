@@ -7,10 +7,11 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  MenuGroup,
 } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
 import { TodoContext } from '../contexts/TodoContext';
-import {MdMoreVert} from 'react-icons/all';
+import {MdMoreVert, MdFlag} from 'react-icons/all';
 
 export default function TodoActions({ todo, index }) {
   const { dispatch } = useContext(TodoContext);
@@ -26,8 +27,8 @@ export default function TodoActions({ todo, index }) {
 
   return (
     <Flex>
-
         <Menu>
+
           <PseudoBox
             style={{ transition: 'all .1s ease-out' }}
             d='flex'
@@ -44,9 +45,23 @@ export default function TodoActions({ todo, index }) {
               <Icon aria-label="Search database" name='delete' size='1rem' mr='.5rem' opacity='.75'/>Delete
             </MenuItem>
 
+            <MenuGroup title="Priority">
+              <MenuItem>
+                <Icon aria-label="Search database" as={MdFlag} color='red.500' size='1.5rem' mr='.5rem'/>Priority 1
+              </MenuItem>
+              <MenuItem>
+                <Icon aria-label="Search database" as={MdFlag} color='yellow.400' size='1.5rem' mr='.5rem'/>Priority 2
+              </MenuItem>
+              <MenuItem>
+                <Icon aria-label="Search database" as={MdFlag} color='blue.400' size='1.5rem' mr='.5rem'/>Priority 3
+              </MenuItem>
+              <MenuItem>
+                <Icon aria-label="Search database" as={MdFlag} color='gray.400' size='1.5rem' mr='.5rem'/>Priority 4
+              </MenuItem>
+            </MenuGroup>
           </MenuList>
-        </Menu>
 
+        </Menu>
     </Flex>
   );
 }
