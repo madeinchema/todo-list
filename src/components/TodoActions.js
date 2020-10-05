@@ -25,6 +25,15 @@ export default function TodoActions({ todo, index }) {
     })
   }
 
+  const changePriority = (priority) => {
+    dispatch({
+      type: 'CHANGE_PRIORITY',
+      todo,
+      index,
+      priority,
+    })
+  }
+
   return (
     <Flex>
         <Menu>
@@ -46,17 +55,17 @@ export default function TodoActions({ todo, index }) {
             </MenuItem>
 
             <MenuGroup title="Priority">
-              <MenuItem>
-                <Icon aria-label="Search database" as={MdFlag} color='red.600' size='1.5rem' mr='.5rem'/>Priority 1
+              <MenuItem onClick={() => changePriority(1)}>
+                <Icon aria-label="Priority 1" as={MdFlag} color='red.600' size='1.5rem' mr='.5rem'/>Priority 1
               </MenuItem>
-              <MenuItem>
-                <Icon aria-label="Search database" as={MdFlag} color='yellow.500' size='1.5rem' mr='.5rem'/>Priority 2
+              <MenuItem onClick={() => changePriority(2)}>
+                <Icon aria-label="Priority 2" as={MdFlag} color='yellow.500' size='1.5rem' mr='.5rem'/>Priority 2
               </MenuItem>
-              <MenuItem>
-                <Icon aria-label="Search database" as={MdFlag} color='#5A67D8' size='1.5rem' mr='.5rem'/>Priority 3
+              <MenuItem onClick={() => changePriority(3)}>
+                <Icon aria-label="Priority 3" as={MdFlag} color='#5A67D8' size='1.5rem' mr='.5rem'/>Priority 3
               </MenuItem>
-              <MenuItem>
-                <Icon aria-label="Search database" as={MdFlag} color='gray.500' size='1.5rem' mr='.5rem'/>Priority 4
+              <MenuItem onClick={() => changePriority(4)}>
+                <Icon aria-label="Priority 4" as={MdFlag} color='gray.500' size='1.5rem' mr='.5rem'/>Priority 4
               </MenuItem>
             </MenuGroup>
           </MenuList>
