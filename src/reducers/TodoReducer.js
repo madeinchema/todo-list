@@ -101,6 +101,19 @@ export const TodoReducer = (state, action) => {
         },
       };
 
+    // Handles to-dos editing and onCancel
+    case 'CHANGE_PRIORITY':
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          [action.todo.id]: {
+            ...state.tasks[action.todo.id],
+            priority: action.priority,
+          },
+        },
+      };
+
     // Retrieves the initial title and sets it back
     case 'CANCEL_TODO':
       return {
