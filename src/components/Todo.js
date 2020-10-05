@@ -57,6 +57,8 @@ export default function Todo({ todo, index }) {
           : todo.priority === 4 && '#718096' }`,
   }
 
+  const touch = 'ontouchstart' in document.documentElement;
+
   return (
     <li {...attrs}>
       <Draggable
@@ -113,7 +115,7 @@ export default function Todo({ todo, index }) {
               </Editable>
 
               <Box ml='auto' my='auto' maxW='3rem'>
-                {hovering && <TodoActions todo={todo} index={index}/>}
+                {(hovering || touch) && <TodoActions todo={todo} index={index}/>}
               </Box>
             </Flex>
 
