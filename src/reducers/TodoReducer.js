@@ -46,6 +46,7 @@ export const TodoReducer = (state, action) => {
         id: nanoid(5),
         title: action.title,
         checked: false,
+        priority: 4,
       };
       return {
         ...state,
