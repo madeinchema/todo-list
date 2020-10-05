@@ -60,7 +60,7 @@ export default function Todo({ todo, index }) {
           <Box
             {...provided.draggableProps}
             ref={provided.innerRef}
-            my='.15rem'
+            mb='.5rem'
           >
 
             <Flex
@@ -68,7 +68,6 @@ export default function Todo({ todo, index }) {
               py='.5rem'
               px='.75rem'
               align='flex-start'
-              mb='.25rem'
               bg={bgColor[colorMode]}
               shadow='md'
               borderRadius='3px'
