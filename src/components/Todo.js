@@ -10,7 +10,7 @@ import {
   EditableInput,
   EditablePreview,
 } from '@chakra-ui/core';
-import useHover from './useHover';
+import useHover from '../hooks/useHover';
 import TodoActions from './TodoActions';
 import { TodoContext } from '../contexts/TodoContext';
 import { Draggable } from 'react-beautiful-dnd';
@@ -50,6 +50,13 @@ export default function Todo({ todo, index }) {
     })
   };
 
+  const styles = {
+    color: `${todo.priority === 1 ? '#C53030'
+      : todo.priority === 2 ? '#D69E2E'
+        : todo.priority === 3 ? '#5A67D8'
+          : todo.priority === 4 && '#718096' }`,
+  }
+
   return (
     <li {...attrs}>
       <Draggable
@@ -71,6 +78,7 @@ export default function Todo({ todo, index }) {
               bg={bgColor[colorMode]}
               shadow='md'
               borderRadius='3px'
+              borderLeft={`3px solid ${styles.color}`}
             >
 
               <Box {...provided.dragHandleProps}>
