@@ -20,6 +20,7 @@ import Link from '@chakra-ui/core/dist/Link';
 export default function TodoInput() {
   const { dispatch } = useContext(TodoContext);
   const [inputTitle, setInputTitle] = useState('');
+  const [inputPriority, setInputPriority] = useState(4);
   const inputTitleRef = useRef();
 
   // Task title input value handler for controlled component
@@ -31,7 +32,7 @@ export default function TodoInput() {
   const handleSubmit = (event) => {
     event.preventDefault();
     let title = inputTitle.trim().toString(); // Remove whitespace from both ends & make sure it's a string
-    dispatch({ type: 'ADD_TODO', title });
+    dispatch({ type: 'ADD_TODO', title, priority: inputPriority });
     setInputTitle('');
     inputTitleRef.current.focus();
   }
@@ -93,16 +94,16 @@ export default function TodoInput() {
                   </PseudoBox>
 
                   <MenuList>
-                      <MenuItem>
+                      <MenuItem onClick={() => setInputPriority(1)}>
                         <Icon aria-label="Priority 1" as={MdFlag} color='red.600' size='1.5rem' mr='.5rem'/>Priority 1
                       </MenuItem>
-                      <MenuItem>
+                      <MenuItem onClick={() => setInputPriority(2)}>
                         <Icon aria-label="Priority 2" as={MdFlag} color='yellow.500' size='1.5rem' mr='.5rem'/>Priority 2
                       </MenuItem>
-                      <MenuItem>
+                      <MenuItem onClick={() => setInputPriority(3)}>
                         <Icon aria-label="Priority 3" as={MdFlag} color='blue.400' size='1.5rem' mr='.5rem'/>Priority 3
                       </MenuItem>
-                      <MenuItem>
+                      <MenuItem onClick={() => setInputPriority(4)}>
                         <Icon aria-label="Priority 4" as={MdFlag} color='gray.500' size='1.5rem' mr='.5rem'/>Priority 4
                       </MenuItem>
                   </MenuList>
