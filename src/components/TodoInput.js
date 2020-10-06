@@ -37,6 +37,13 @@ export default function TodoInput() {
     inputTitleRef.current.focus();
   }
 
+  const styles = {
+    color: `${inputPriority === 1 ? 'red.600'
+      : inputPriority === 2 ? 'yellow.500'
+        : inputPriority === 3 ? 'blue.400'
+          : inputPriority === 4 && 'gray.500' }`,
+  }
+
   return (
     <Flex flexDir='column'>
       <Box minH='100px' p='1.75rem 1.5rem'>
@@ -86,7 +93,7 @@ export default function TodoInput() {
                       <Icon
                         alignSelf='center'
                         as={MdFlag}
-                        color='gray.500'
+                        color={styles.color}
                         size='1.5rem'
                         h='100%'
                       />
