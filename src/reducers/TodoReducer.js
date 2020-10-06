@@ -46,6 +46,7 @@ export const TodoReducer = (state, action) => {
         id: nanoid(5),
         title: action.title,
         checked: false,
+        priority: action.priority,
       };
       return {
         ...state,
@@ -96,6 +97,19 @@ export const TodoReducer = (state, action) => {
           [action.todo.id]: {
             ...state.tasks[action.todo.id],
             title: action.value,
+          },
+        },
+      };
+
+    // Handles to-dos editing and onCancel
+    case 'CHANGE_PRIORITY':
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          [action.todo.id]: {
+            ...state.tasks[action.todo.id],
+            priority: action.priority,
           },
         },
       };
