@@ -51,10 +51,10 @@ export default function Todo({ todo, index }) {
   };
 
   const styles = {
-    color: `${todo.priority === 1 ? '#C53030'
-      : todo.priority === 2 ? '#D69E2E'
-        : todo.priority === 3 ? '#5A67D8'
-          : todo.priority === 4 && '#718096' }`,
+    color: `${todo.priority === 1 ? 'red.600'
+      : todo.priority === 2 ? 'yellow.500'
+        : todo.priority === 3 ? 'blue.400'
+          : todo.priority === 4 && 'gray.500' }`,
   }
 
   const touch = 'ontouchstart' in document.documentElement;
@@ -80,7 +80,8 @@ export default function Todo({ todo, index }) {
               bg={bgColor[colorMode]}
               shadow='md'
               borderRadius='3px'
-              borderLeft={`3px solid ${styles.color}`}
+              borderLeft='3px solid'
+              borderColor={styles.color}
             >
 
               <Box {...provided.dragHandleProps}>
