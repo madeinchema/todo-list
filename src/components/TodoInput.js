@@ -73,9 +73,7 @@ export default function TodoInput() {
               />
 
               <InputRightElement w="8rem" h='100%' p='0.25rem'>
-
                 <Menu>
-
                   <PseudoBox
                     style={{ transition: 'all .1s ease-out' }}
                     d='flex'
@@ -114,9 +112,7 @@ export default function TodoInput() {
                         <Icon aria-label="Priority 4" as={MdFlag} color='gray.500' size='1.5rem' mr='.5rem'/>Priority 4
                       </MenuItem>
                   </MenuList>
-
                 </Menu>
-
 
                 <Button
                   h='100%'

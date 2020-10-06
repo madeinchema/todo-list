@@ -62,7 +62,7 @@ export default function TodoActions({ todo, index }) {
                 <Icon aria-label="Priority 2" as={MdFlag} color='yellow.500' size='1.5rem' mr='.5rem'/>Priority 2
               </MenuItem>
               <MenuItem onClick={() => changePriority(3)}>
-                <Icon aria-label="Priority 3" as={MdFlag} color='#5A67D8' size='1.5rem' mr='.5rem'/>Priority 3
+                <Icon aria-label="Priority 3" as={MdFlag} color='blue.400' size='1.5rem' mr='.5rem'/>Priority 3
               </MenuItem>
               <MenuItem onClick={() => changePriority(4)}>
                 <Icon aria-label="Priority 4" as={MdFlag} color='gray.500' size='1.5rem' mr='.5rem'/>Priority 4
