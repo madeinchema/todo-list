@@ -10,7 +10,7 @@ import {
   EditableInput,
   EditablePreview,
 } from '@chakra-ui/core';
-import useHover from './useHover';
+import useHover from '../hooks/useHover';
 import TodoActions from './TodoActions';
 import { TodoContext } from '../contexts/TodoContext';
 import { Draggable } from 'react-beautiful-dnd';
@@ -50,6 +50,15 @@ export default function Todo({ todo, index }) {
     })
   };
 
+  const styles = {
+    color: `${todo.priority === 1 ? 'red.600'
+      : todo.priority === 2 ? 'yellow.500'
+        : todo.priority === 3 ? 'blue.400'
+          : todo.priority === 4 && 'gray.500' }`,
+  }
+
+  const touch = 'ontouchstart' in document.documentElement;
+
   return (
     <li {...attrs}>
       <Draggable
@@ -60,7 +69,7 @@ export default function Todo({ todo, index }) {
           <Box
             {...provided.draggableProps}
             ref={provided.innerRef}
-            my='.15rem'
+            mb='.5rem'
           >
 
             <Flex
@@ -68,10 +77,11 @@ export default function Todo({ todo, index }) {
               py='.5rem'
               px='.75rem'
               align='flex-start'
-              mb='.25rem'
               bg={bgColor[colorMode]}
               shadow='md'
               borderRadius='3px'
+              borderLeft='3px solid'
+              borderColor={styles.color}
             >
 
               <Box {...provided.dragHandleProps}>
@@ -106,7 +116,7 @@ export default function Todo({ todo, index }) {
               </Editable>
 
               <Box ml='auto' my='auto' maxW='3rem'>
-                {hovering && <TodoActions todo={todo} index={index}/>}
+                {(hovering || touch) && <TodoActions todo={todo} index={index}/>}
               </Box>
             </Flex>
 
