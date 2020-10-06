@@ -6,8 +6,16 @@ import {
   InputRightElement,
   InputGroup,
   Flex,
+  Icon,
+  MenuItem,
+  PseudoBox,
+  MenuButton,
+  Menu,
+  MenuList,
 } from '@chakra-ui/core';
 import { TodoContext } from '../contexts/TodoContext';
+import { MdFlag } from 'react-icons/all';
+import Link from '@chakra-ui/core/dist/Link';
 
 export default function TodoInput() {
   const { dispatch } = useContext(TodoContext);
@@ -46,7 +54,7 @@ export default function TodoInput() {
 
               <Input
                 h='3rem'
-                pr="7.5rem"
+                pr="8rem"
                 fontSize='1.2em'
                 fontWeight='500'
                 type="text"
@@ -56,17 +64,61 @@ export default function TodoInput() {
                 ref={inputTitleRef}
               />
 
-              <InputRightElement w="7.5rem" h='100%' p='0.25rem'>
+              <InputRightElement w="8rem" h='100%' p='0.25rem'>
+
+                <Menu>
+
+                  <PseudoBox
+                    style={{ transition: 'all .1s ease-out' }}
+                    d='flex'
+                    opacity='0.75'
+                    _hover={{ opacity: "1" }}
+                    w='25%'
+                    h='100%'
+                  >
+                    <MenuButton
+                      as={Link}
+                      aria-label="Search database"
+                      d='flex'
+                      w='25%'
+                    >
+                      <Icon
+                        alignSelf='center'
+                        as={MdFlag}
+                        color='gray.500'
+                        size='1.5rem'
+                        h='100%'
+                      />
+                    </MenuButton>
+                  </PseudoBox>
+
+                  <MenuList>
+                      <MenuItem>
+                        <Icon aria-label="Priority 1" as={MdFlag} color='red.600' size='1.5rem' mr='.5rem'/>Priority 1
+                      </MenuItem>
+                      <MenuItem>
+                        <Icon aria-label="Priority 2" as={MdFlag} color='yellow.500' size='1.5rem' mr='.5rem'/>Priority 2
+                      </MenuItem>
+                      <MenuItem>
+                        <Icon aria-label="Priority 3" as={MdFlag} color='blue.400' size='1.5rem' mr='.5rem'/>Priority 3
+                      </MenuItem>
+                      <MenuItem>
+                        <Icon aria-label="Priority 4" as={MdFlag} color='gray.500' size='1.5rem' mr='.5rem'/>Priority 4
+                      </MenuItem>
+                  </MenuList>
+
+                </Menu>
+
+
                 <Button
                   h='100%'
-                  w="100%"
+                  w="75%"
                   type='submit'
                   onClick={handleSubmit}
                   isDisabled={!inputTitle}
                 >
                   Add Task
                 </Button>
-
               </InputRightElement>
 
             </InputGroup>
