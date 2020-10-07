@@ -37,6 +37,11 @@ export default function TodoInput() {
     inputTitleRef.current.focus();
   }
 
+  const handleInputPriority = (priority) => {
+    setInputPriority(priority);
+    inputTitleRef.current.focus();
+  }
+
   const styles = {
     color: `${inputPriority === 1 ? 'red.600'
       : inputPriority === 2 ? 'yellow.500'
@@ -99,16 +104,16 @@ export default function TodoInput() {
                   </PseudoBox>
 
                   <MenuList>
-                      <MenuItem onClick={() => setInputPriority(1)}>
+                      <MenuItem onClick={() => handleInputPriority(1)}>
                         <Icon aria-label="Priority 1" as={MdFlag} color='red.600' size='1.5rem' mr='.5rem'/>Priority 1
                       </MenuItem>
-                      <MenuItem onClick={() => setInputPriority(2)}>
+                      <MenuItem onClick={() => handleInputPriority(2)}>
                         <Icon aria-label="Priority 2" as={MdFlag} color='yellow.500' size='1.5rem' mr='.5rem'/>Priority 2
                       </MenuItem>
-                      <MenuItem onClick={() => setInputPriority(3)}>
+                      <MenuItem onClick={() => handleInputPriority(3)}>
                         <Icon aria-label="Priority 3" as={MdFlag} color='blue.400' size='1.5rem' mr='.5rem'/>Priority 3
                       </MenuItem>
-                      <MenuItem onClick={() => setInputPriority(4)}>
+                      <MenuItem onClick={() => handleInputPriority(4)}>
                         <Icon aria-label="Priority 4" as={MdFlag} color='gray.500' size='1.5rem' mr='.5rem'/>Priority 4
                       </MenuItem>
                   </MenuList>
