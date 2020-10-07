@@ -88,6 +88,28 @@ export const TodoReducer = (state, action) => {
         tasks: newTasks,
       };
 
+    // Adds the new to-do to the TodoList's state
+    case 'DUPLICATE_TODO':
+      const duplicatedTodo = { ...action.todo };
+      duplicatedTodo.id = nanoid(5);
+
+      const updatedTaskIds = [...state.columns[currentColumn].taskIds]
+      updatedTaskIds.splice(action.index, 0, duplicatedTodo.id)
+
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          [duplicatedTodo.id]: duplicatedTodo,
+        },
+        columns: {
+          [currentColumn]: {
+            ...state.columns[currentColumn],
+            taskIds: updatedTaskIds,
+          },
+        },
+      };
+
     // Handles to-dos editing and onCancel
     case 'EDIT_TODO':
       return {
