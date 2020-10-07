@@ -11,15 +11,24 @@ import {
 } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
 import { TodoContext } from '../contexts/TodoContext';
-import {MdMoreVert, MdFlag} from 'react-icons/all';
+import {MdMoreVert, MdFlag, BiDuplicate} from 'react-icons/all';
 
 export default function TodoActions({ todo, index }) {
   const { dispatch } = useContext(TodoContext);
 
-  // Removes the clicked to-do
+  // Removes the to-do
   const removeTodo = () => {
     dispatch({
       type: 'REMOVE_TODO',
+      todo,
+      index,
+    })
+  }
+
+  // Duplicates the to-do
+  const duplicateTodo = () => {
+    dispatch({
+      type: 'DUPLICATE_TODO',
       todo,
       index,
     })
@@ -49,23 +58,40 @@ export default function TodoActions({ todo, index }) {
             </MenuButton>
           </PseudoBox>
 
-          <MenuList>
+          <MenuList placement='auto'>
             <MenuItem onClick={removeTodo}>
-              <Icon aria-label="Search database" name='delete' size='1rem' mr='.5rem' opacity='.75'/>Delete
+              <Icon
+                aria-label="Remove Todo"
+                name='delete'
+                size='1rem'
+                mr='.6rem'
+                opacity='.75'
+                ml='.25rem'
+              />Delete
+            </MenuItem>
+            <MenuItem onClick={duplicateTodo}>
+              <Icon
+                aria-label="Duplicate Todo"
+                as={BiDuplicate}
+                size='1.25rem'
+                mr='.5rem'
+                ml='.1rem'
+                opacity='.75'
+              />Duplicate
             </MenuItem>
 
             <MenuGroup title="Priority">
               <MenuItem onClick={() => changePriority(1)}>
-                <Icon aria-label="Priority 1" as={MdFlag} color='red.600' size='1.5rem' mr='.5rem'/>Priority 1
+                <Icon aria-label="Priority 1" as={MdFlag} color='red.600' size='1.4rem' mr='.5rem'/>Priority 1
               </MenuItem>
               <MenuItem onClick={() => changePriority(2)}>
-                <Icon aria-label="Priority 2" as={MdFlag} color='yellow.500' size='1.5rem' mr='.5rem'/>Priority 2
+                <Icon aria-label="Priority 2" as={MdFlag} color='yellow.500' size='1.4rem' mr='.5rem'/>Priority 2
               </MenuItem>
               <MenuItem onClick={() => changePriority(3)}>
-                <Icon aria-label="Priority 3" as={MdFlag} color='blue.400' size='1.5rem' mr='.5rem'/>Priority 3
+                <Icon aria-label="Priority 3" as={MdFlag} color='blue.400' size='1.4rem' mr='.5rem'/>Priority 3
               </MenuItem>
               <MenuItem onClick={() => changePriority(4)}>
-                <Icon aria-label="Priority 4" as={MdFlag} color='gray.500' size='1.5rem' mr='.5rem'/>Priority 4
+                <Icon aria-label="Priority 4" as={MdFlag} color='gray.500' size='1.4rem' mr='.5rem'/>Priority 4
               </MenuItem>
             </MenuGroup>
           </MenuList>
