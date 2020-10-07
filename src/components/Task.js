@@ -11,50 +11,50 @@ import {
   EditablePreview,
 } from '@chakra-ui/core';
 import useHover from '../hooks/useHover';
-import TodoActions from './TodoActions';
-import { TodoContext } from '../contexts/TodoContext';
+import TaskActionsList from './TaskActionsList';
+import { TasksContext } from '../contexts/TasksContext';
 import { Draggable } from 'react-beautiful-dnd';
 
 
-export default function Todo({ todo, index }) {
-  const { dispatch } = useContext(TodoContext);
+export default function Task({ task, index }) {
+  const { dispatch } = useContext(TasksContext);
   const [prevTitle, setPrevTitle] = useState('');
   const [hovering, attrs] = useHover();
   const bgColor = { light: 'gray.50', dark: 'gray.800' };
   const { colorMode } = useColorMode();
 
-  // Handles to-dos editing and onCancel
-  const editTodo = (event) => {
+  // Handles tasks' editing and onCancel
+  const editTask = (event) => {
     const { value } = event.target;
     dispatch({
-      type: 'EDIT_TODO',
-      todo,
+      type: 'EDIT_TASK',
+      task,
       value,
     })
   };
 
   // Retrieves the initial title and sets it back
-  const cancelTodo = () => {
+  const cancelTask = () => {
     dispatch({
-      type: 'CANCEL_TODO',
-      todo,
+      type: 'CANCEL_TASK',
+      task,
       prevTitle,
     })
   };
 
-  // Updates the state of a to-do's checkbox
+  // Updates the state of a task's checkbox
   const handleCheck = () => {
     dispatch({
       type: 'HANDLE_CHECK',
-      todo,
+      task,
     })
   };
 
   const styles = {
-    color: `${todo.priority === 1 ? 'red.600'
-      : todo.priority === 2 ? 'yellow.500'
-        : todo.priority === 3 ? 'blue.400'
-          : todo.priority === 4 && 'gray.500' }`,
+    color: `${task.priority === 1 ? 'red.600'
+      : task.priority === 2 ? 'yellow.500'
+        : task.priority === 3 ? 'blue.400'
+          : task.priority === 4 && 'gray.500' }`,
   }
 
   const touch = 'ontouchstart' in document.documentElement;
@@ -62,7 +62,7 @@ export default function Todo({ todo, index }) {
   return (
     <li {...attrs}>
       <Draggable
-        draggableId={todo.id}
+        draggableId={task.id}
         index={index}
       >
         {(provided) => (
@@ -91,7 +91,7 @@ export default function Todo({ todo, index }) {
               <Checkbox
                 my='.25rem'
                 size='lg'
-                isChecked={todo.checked}
+                isChecked={task.checked}
                 onChange={handleCheck}
                 d='flex'
               >
@@ -103,20 +103,20 @@ export default function Todo({ todo, index }) {
                 fontSize='1.2em'
                 fontWeight='600'
                 lineHeight='1.5rem'
-                opacity={todo.checked ? '0.5' : '1'}
-                value={todo.title}
-                onFocus={() => setPrevTitle(todo.title)}
-                onCancel={cancelTodo}
+                opacity={task.checked ? '0.5' : '1'}
+                value={task.title}
+                onFocus={() => setPrevTitle(task.title)}
+                onCancel={cancelTask}
                 w='calc(100% - 3rem)'
               >
                 <EditablePreview />
                 <EditableInput
-                  onChange={editTodo}
+                  onChange={editTask}
                 />
               </Editable>
 
               <Box ml='auto' my='auto' maxW='3rem'>
-                {(hovering || touch) && <TodoActions todo={todo} index={index}/>}
+                {(hovering || touch) && <TaskActionsList task={task} index={index}/>}
               </Box>
             </Flex>
 
@@ -127,8 +127,8 @@ export default function Todo({ todo, index }) {
   );
 }
 
-Todo.propTypes = {
-  todo: PropTypes.exact({
+Task.propTypes = {
+  task: PropTypes.exact({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,

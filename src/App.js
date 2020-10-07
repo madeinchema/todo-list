@@ -7,9 +7,9 @@ import {
   Box
 } from '@chakra-ui/core';
 import Navbar from './components/Navbar';
-import TodoList from './components/TodoList';
-import TodoInput from './components/TodoInput';
-import { TodoContextProvider } from './contexts/TodoContext';
+import TaskList from './components/TaskList';
+import NewTask from './components/NewTask';
+import { TasksContextProvider } from './contexts/TasksContext';
 
 export default function App() {
   return (
@@ -17,11 +17,11 @@ export default function App() {
       <ColorModeProvider>
         <TurnOnColorMode>
           <CSSReset />
-          <TodoContextProvider>
+          <TasksContextProvider>
             <Navbar />
-            <TodoInput />
-            <TodoList />
-          </TodoContextProvider>
+            <NewTask />
+            <TaskList />
+          </TasksContextProvider>
         </TurnOnColorMode>
       </ColorModeProvider>
     </ThemeProvider>

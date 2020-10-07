@@ -1,15 +1,14 @@
 import { nanoid } from 'nanoid'
 
-export const TodoReducer = (state, action) => {
-  const currentColumn = 'column-1';  // Todo: Don't hardcode 'column-1'
+export const TaskReducer = (state, action) => {
+  const currentColumn = 'column-1';  // Task: Don't hardcode 'column-1'
   const column = state.columns[currentColumn];
   const newTaskIds = Array.from(column.taskIds);
 
   switch (action.type) {
 
-    // Handle the drag and drop of to-do's
+    // Handle the drag and drop of tasks
     case 'HANDLE_DRAG_END':
-      console.log(action.result)
       const { destination, source, draggableId } = action.result;
 
       // Check if there is no destination
@@ -40,9 +39,9 @@ export const TodoReducer = (state, action) => {
         }
       }
 
-    // Adds the new to-do to the TodoList's state
-    case 'ADD_TODO':
-      const newTodo = {
+    // Adds the new task to the TaskList's state
+    case 'ADD_TASK':
+      const newTask = {
         id: nanoid(5),
         title: action.title,
         checked: false,
@@ -52,26 +51,26 @@ export const TodoReducer = (state, action) => {
         ...state,
         tasks: {
           ...state.tasks,
-          [newTodo.id]: newTodo,
+          [newTask.id]: newTask,
         },
         columns: {
           [currentColumn]: {
             ...state.columns[currentColumn],
-            taskIds: [...state.columns[currentColumn].taskIds, newTodo.id],
+            taskIds: [...state.columns[currentColumn].taskIds, newTask.id],
           },
         },
       };
 
-    // Removes the clicked to-do
-    case 'REMOVE_TODO':
-      // Remove current to-do from the taskIds
+    // Removes the clicked task
+    case 'REMOVE_TASK':
+      // Remove current task from the taskIds
       newTaskIds.splice(action.index, 1);
 
       // Create object where the selected task is removed
       let newTasks = {};
       Object.entries(state.tasks).forEach(entry => {
         const [key, value] = entry;
-        if (key !== action.todo.id) {
+        if (key !== action.task.id) {
           newTasks = { ...newTasks, [key]: value }
         }
       });
@@ -88,19 +87,19 @@ export const TodoReducer = (state, action) => {
         tasks: newTasks,
       };
 
-    // Adds the new to-do to the TodoList's state
-    case 'DUPLICATE_TODO':
-      const duplicatedTodo = { ...action.todo };
-      duplicatedTodo.id = nanoid(5);
+    // Adds the new task to the TaskList's state
+    case 'DUPLICATE_TASK':
+      const duplicatedTask = { ...action.task };
+      duplicatedTask.id = nanoid(5);
 
       const updatedTaskIds = [...state.columns[currentColumn].taskIds]
-      updatedTaskIds.splice(action.index, 0, duplicatedTodo.id)
+      updatedTaskIds.splice(action.index, 0, duplicatedTask.id)
 
       return {
         ...state,
         tasks: {
           ...state.tasks,
-          [duplicatedTodo.id]: duplicatedTodo,
+          [duplicatedTask.id]: duplicatedTask,
         },
         columns: {
           [currentColumn]: {
@@ -110,55 +109,55 @@ export const TodoReducer = (state, action) => {
         },
       };
 
-    // Handles to-dos editing and onCancel
-    case 'EDIT_TODO':
+    // Handles task editing and onCancel
+    case 'EDIT_TASK':
       return {
         ...state,
         tasks: {
           ...state.tasks,
-          [action.todo.id]: {
-            ...state.tasks[action.todo.id],
+          [action.task.id]: {
+            ...state.tasks[action.task.id],
             title: action.value,
           },
         },
       };
 
-    // Handles to-dos editing and onCancel
+    // Handles task editing and onCancel
     case 'CHANGE_PRIORITY':
       return {
         ...state,
         tasks: {
           ...state.tasks,
-          [action.todo.id]: {
-            ...state.tasks[action.todo.id],
+          [action.task.id]: {
+            ...state.tasks[action.task.id],
             priority: action.priority,
           },
         },
       };
 
     // Retrieves the initial title and sets it back
-    case 'CANCEL_TODO':
+    case 'CANCEL_TASK':
       return {
         ...state,
         tasks: {
           ...state.tasks,
-          [action.todo.id]: {
-            ...state.tasks[action.todo.id],
+          [action.task.id]: {
+            ...state.tasks[action.task.id],
             title: action.prevTitle,
           },
         },
       };
 
-    // Updates the state of a to-do's checkbox
+    // Updates the state of a task's checkbox
     case 'HANDLE_CHECK':
-      // Return newState where current to-do's "checked" property is toggled
+      // Return newState where current task's "checked" property is toggled
       return {
         ...state,
         tasks: {
           ...state.tasks,
-          [action.todo.id]: {
-            ...state.tasks[action.todo.id],
-            checked: !state.tasks[action.todo.id].checked,
+          [action.task.id]: {
+            ...state.tasks[action.task.id],
+            checked: !state.tasks[action.task.id].checked,
           },
         },
       };

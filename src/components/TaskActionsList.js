@@ -10,26 +10,26 @@ import {
   MenuGroup,
 } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
-import { TodoContext } from '../contexts/TodoContext';
+import { TasksContext } from '../contexts/TasksContext';
 import {MdMoreVert, MdFlag, BiDuplicate} from 'react-icons/all';
 
-export default function TodoActions({ todo, index }) {
-  const { dispatch } = useContext(TodoContext);
+export default function TaskActionsList({ task, index }) {
+  const { dispatch } = useContext(TasksContext);
 
-  // Removes the to-do
-  const removeTodo = () => {
+  // Removes the task
+  const removeTask = () => {
     dispatch({
-      type: 'REMOVE_TODO',
-      todo,
+      type: 'REMOVE_TASK',
+      task: task,
       index,
     })
   }
 
-  // Duplicates the to-do
-  const duplicateTodo = () => {
+  // Duplicates the task
+  const duplicateTask = () => {
     dispatch({
-      type: 'DUPLICATE_TODO',
-      todo,
+      type: 'DUPLICATE_TASK',
+      task: task,
       index,
     })
   }
@@ -37,7 +37,7 @@ export default function TodoActions({ todo, index }) {
   const changePriority = (priority) => {
     dispatch({
       type: 'CHANGE_PRIORITY',
-      todo,
+      task: task,
       index,
       priority,
     })
@@ -53,15 +53,15 @@ export default function TodoActions({ todo, index }) {
             opacity='0.5'
             _hover={{ opacity: "1" }}
           >
-            <MenuButton aria-label={'Open todo menu'}>
+            <MenuButton aria-label={'Open task menu'}>
               <Icon aria-label="Search database" as={MdMoreVert} size='1.5rem' />
             </MenuButton>
           </PseudoBox>
 
           <MenuList placement='auto'>
-            <MenuItem onClick={removeTodo}>
+            <MenuItem onClick={removeTask}>
               <Icon
-                aria-label="Remove Todo"
+                aria-label="Remove Task"
                 name='delete'
                 size='1rem'
                 mr='.6rem'
@@ -69,9 +69,9 @@ export default function TodoActions({ todo, index }) {
                 ml='.25rem'
               />Delete
             </MenuItem>
-            <MenuItem onClick={duplicateTodo}>
+            <MenuItem onClick={duplicateTask}>
               <Icon
-                aria-label="Duplicate Todo"
+                aria-label="Duplicate Task"
                 as={BiDuplicate}
                 size='1.25rem'
                 mr='.5rem'
@@ -101,8 +101,8 @@ export default function TodoActions({ todo, index }) {
   );
 }
 
-TodoActions.propTypes = {
-  todo: PropTypes.exact({
+TaskActionsList.propTypes = {
+  task: PropTypes.exact({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
