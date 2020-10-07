@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Flex, List } from '@chakra-ui/core';
-import Todo from './Todo';
-import { TodoContext } from '../contexts/TodoContext';
+import Task from './Task';
+import { TasksContext } from '../contexts/TasksContext';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 
-export default function TodoList() {
-  const { todosData, dispatch } = useContext(TodoContext);
+export default function TaskList() {
+  const { tasksData, dispatch } = useContext(TasksContext);
 
-  // Handle the (drag and) drop of to-do's
+  // Handle the dropping of tasks
   const onDragEnd = result => {
     dispatch({
       type: 'HANDLE_DRAG_END',
@@ -35,14 +35,11 @@ export default function TodoList() {
           borderRadius='5px'
           p='.5rem'
         >
-          <Flex
-            id='todoList'
-            flexDir='column'
-          >
+          <Flex flexDir='column'>
             <List mb='2rem'>
-              {todosData && todosData.columnOrder.map((columnId) => {
-                const column = todosData.columns[columnId];
-                const tasks = column.taskIds.map(taskId => todosData.tasks[taskId]);
+              {tasksData && tasksData.columnOrder.map((columnId) => {
+                const column = tasksData.columns[columnId];
+                const tasks = column.taskIds.map(taskId => tasksData.tasks[taskId]);
                 return (
                   <Droppable droppableId={column.id} key={column.id} tasks={tasks}>
                     {(provided, snapshot) => (
@@ -52,7 +49,7 @@ export default function TodoList() {
                         isDraggingOver={snapshot.isDraggingOver}
                       >
                         {tasks.map((task, index) => (
-                          <Todo key={task.id} todo={task} index={index} />
+                          <Task key={task.id} task={task} index={index} />
                         ))}
                         {provided.placeholder}
                       </Box>
@@ -68,8 +65,8 @@ export default function TodoList() {
   );
 };
 
-TodoList.propTypes = {
-  todos: PropTypes.arrayOf(PropTypes.exact({
+TaskList.propTypes = {
+  tasks: PropTypes.arrayOf(PropTypes.exact({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,

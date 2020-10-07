@@ -13,12 +13,13 @@ import {
   Menu,
   MenuList,
 } from '@chakra-ui/core';
-import { TodoContext } from '../contexts/TodoContext';
+import { TasksContext } from '../contexts/TasksContext';
 import { MdFlag } from 'react-icons/all';
 import Link from '@chakra-ui/core/dist/Link';
 
-export default function TodoInput() {
-  const { dispatch } = useContext(TodoContext);
+
+export default function NewTask() {
+  const { dispatch } = useContext(TasksContext);
   const [inputTitle, setInputTitle] = useState('');
   const [inputPriority, setInputPriority] = useState(4);
   const inputTitleRef = useRef();
@@ -28,12 +29,17 @@ export default function TodoInput() {
     setInputTitle(event.target.value);
   }
 
-  // Adds the new to-do to the TodoList's state
+  // Adds the new task to the TaskList's state
   const handleSubmit = (event) => {
     event.preventDefault();
     let title = inputTitle.trim().toString(); // Remove whitespace from both ends & make sure it's a string
-    dispatch({ type: 'ADD_TODO', title, priority: inputPriority });
+    dispatch({ type: 'ADD_TASK', title, priority: inputPriority });
     setInputTitle('');
+    inputTitleRef.current.focus();
+  }
+
+  const handleInputPriority = (priority) => {
+    setInputPriority(priority);
     inputTitleRef.current.focus();
   }
 
@@ -99,16 +105,16 @@ export default function TodoInput() {
                   </PseudoBox>
 
                   <MenuList>
-                      <MenuItem onClick={() => setInputPriority(1)}>
+                      <MenuItem onClick={() => handleInputPriority(1)}>
                         <Icon aria-label="Priority 1" as={MdFlag} color='red.600' size='1.5rem' mr='.5rem'/>Priority 1
                       </MenuItem>
-                      <MenuItem onClick={() => setInputPriority(2)}>
+                      <MenuItem onClick={() => handleInputPriority(2)}>
                         <Icon aria-label="Priority 2" as={MdFlag} color='yellow.500' size='1.5rem' mr='.5rem'/>Priority 2
                       </MenuItem>
-                      <MenuItem onClick={() => setInputPriority(3)}>
+                      <MenuItem onClick={() => handleInputPriority(3)}>
                         <Icon aria-label="Priority 3" as={MdFlag} color='blue.400' size='1.5rem' mr='.5rem'/>Priority 3
                       </MenuItem>
-                      <MenuItem onClick={() => setInputPriority(4)}>
+                      <MenuItem onClick={() => handleInputPriority(4)}>
                         <Icon aria-label="Priority 4" as={MdFlag} color='gray.500' size='1.5rem' mr='.5rem'/>Priority 4
                       </MenuItem>
                   </MenuList>
