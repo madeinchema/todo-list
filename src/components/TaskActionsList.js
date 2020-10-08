@@ -1,28 +1,70 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import {
   Flex,
+  Text,
+  Button,
   PseudoBox,
   Icon,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  MenuGroup,
+  MenuGroup, useToast,
 } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
 import { TasksContext } from '../contexts/TasksContext';
 import {MdMoreVert, MdFlag, BiDuplicate} from 'react-icons/all';
 
+
 export default function TaskActionsList({ task, index }) {
   const { dispatch } = useContext(TasksContext);
+  const toast = useToast();
+  const toastRef = useRef();
 
   // Removes the task
-  const removeTask = () => {
+  const deleteTask = () => {
     dispatch({
       type: 'REMOVE_TASK',
-      task: task,
+      task,
       index,
-    })
+    });
+    toast({
+      position: 'bottom-left',
+      title: 'Task deleted',
+      duration: 5000,
+      isClosable: true,
+      render: ({ onClose }) => (
+        <Flex
+          ref={toastRef}
+          backgroundColor='red.600'
+          m={3}
+          py={3}
+          px={5}
+          justifyContent='space-between'
+          alignContent='center'
+        >
+          <Text mr='1em' pt='.2rem'>Task removed</Text>
+          <Button
+            onClick={() => undoDeleteTask(onClose)}
+            backgroundColor={'rgba(255, 255, 255, .15)'}
+            variant="ghost"
+            size='sm'
+            _hover={{ bg: 'rgba(255, 255, 255, .25)'}}
+            _active={{ bg: 'rgba(255, 255, 255, .5)'}}
+          >Undo</Button>
+        </Flex>
+      )
+    });
+  }
+
+  // Adds back the deleted task
+  const undoDeleteTask = (callback) => {
+    dispatch({
+      type: 'UNDO_DELETE_TASK',
+      task,
+      index,
+    });
+    callback()
   }
 
   // Duplicates the task
@@ -59,7 +101,7 @@ export default function TaskActionsList({ task, index }) {
           </PseudoBox>
 
           <MenuList placement='auto'>
-            <MenuItem onClick={removeTask}>
+            <MenuItem onClick={deleteTask}>
               <Icon
                 aria-label="Remove Task"
                 name='delete'

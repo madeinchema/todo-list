@@ -4,6 +4,8 @@ export const TaskReducer = (state, action) => {
   const currentColumn = 'column-1';  // Task: Don't hardcode 'column-1'
   const column = state.columns[currentColumn];
   const newTaskIds = Array.from(column.taskIds);
+  let updatedTaskIds;
+  let prevTask;
 
   switch (action.type) {
 
@@ -87,19 +89,40 @@ export const TaskReducer = (state, action) => {
         tasks: newTasks,
       };
 
-    // Adds the new task to the TaskList's state
-    case 'DUPLICATE_TASK':
-      const duplicatedTask = { ...action.task };
-      duplicatedTask.id = nanoid(5);
+    // Adds back the deleted task
+    case 'UNDO_DELETE_TASK':
+      prevTask = { ...action.task }
 
-      const updatedTaskIds = [...state.columns[currentColumn].taskIds]
-      updatedTaskIds.splice(action.index, 0, duplicatedTask.id)
+      updatedTaskIds = [...state.columns[currentColumn].taskIds]
+      updatedTaskIds.splice(action.index, 0, prevTask.id)
 
       return {
         ...state,
         tasks: {
           ...state.tasks,
-          [duplicatedTask.id]: duplicatedTask,
+          [prevTask.id]: prevTask,
+        },
+        columns: {
+          [currentColumn]: {
+            ...state.columns[currentColumn],
+            taskIds: updatedTaskIds,
+          },
+        },
+      };
+
+    // Adds the new task to the TaskList's state
+    case 'DUPLICATE_TASK':
+      prevTask = { ...action.task };
+      prevTask.id = nanoid(5);
+
+      updatedTaskIds = [...state.columns[currentColumn].taskIds]
+      updatedTaskIds.splice(action.index, 0, prevTask.id)
+
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          [prevTask.id]: prevTask,
         },
         columns: {
           [currentColumn]: {
