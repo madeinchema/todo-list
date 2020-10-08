@@ -1,5 +1,6 @@
 import React, { useReducer, createContext, useEffect } from 'react';
 import { TaskReducer } from '../reducers/TaskReducer';
+import PropTypes from 'prop-types';
 
 const TasksContext = createContext();
 
@@ -50,3 +51,14 @@ const TasksContextProvider = (props) => {
 };
 
 export { TasksContextProvider, TasksContext };
+
+TasksContext.Provider.propTypes = {
+  value: PropTypes.shape({
+    tasksData: PropTypes.shape({
+      tasks: PropTypes.object.isRequired,
+      columns: PropTypes.object.isRequired,
+      columnOrder: PropTypes.array.isRequired,
+    }),
+    dispatch: PropTypes.func.isRequired
+  }),
+}
