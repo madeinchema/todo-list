@@ -9,7 +9,8 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuGroup, useToast,
+  MenuGroup,
+  useToast,
 } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
 import { TasksContext } from '../contexts/TasksContext';
@@ -43,10 +44,11 @@ export default function TaskActionsList({ task, index }) {
           justifyContent='space-between'
           alignContent='center'
         >
-          <Text mr='1em' pt='.2rem'>Task removed</Text>
+          <Text mr='1em' pt='.2rem' color='white'>Task removed</Text>
           <Button
             onClick={() => undoDeleteTask(onClose)}
             backgroundColor={'rgba(255, 255, 255, .15)'}
+            color='white'
             variant="ghost"
             size='sm'
             _hover={{ bg: 'rgba(255, 255, 255, .25)'}}
@@ -100,7 +102,7 @@ export default function TaskActionsList({ task, index }) {
             </MenuButton>
           </PseudoBox>
 
-          <MenuList placement='auto'>
+          <MenuList placement='auto' zIndex={2}>
             <MenuItem onClick={deleteTask}>
               <Icon
                 aria-label="Remove Task"
