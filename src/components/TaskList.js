@@ -59,7 +59,7 @@ export default function TaskList() {
                           isDraggingOver={snapshot.isDraggingOver}
                         >
                           {tasks.map((task, index) => (
-                            <Task key={task.id} task={task} index={index}/>
+                            <Task key={task.id} task={task} index={index} droppableSnapshot={snapshot}/>
                           ))}
                           {provided.placeholder}
                         </Box>
