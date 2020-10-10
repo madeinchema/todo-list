@@ -62,8 +62,7 @@ export default function Task({ task, index, droppableSnapshot }) {
 
             <Flex
               h='auto'
-              py='.5rem'
-              px='.75rem'
+              p='.5rem'
               align='flex-start'
               bg={bgColor[colorMode]}
               shadow='md'
@@ -73,7 +72,7 @@ export default function Task({ task, index, droppableSnapshot }) {
             >
 
               <Box {...provided.dragHandleProps}>
-                <Icon name='drag-handle' mr={'.75rem'} opacity={.5}/>
+                <Icon name='drag-handle' mr='.5rem' opacity={.5}/>
               </Box>
 
               <Checkbox
@@ -88,7 +87,7 @@ export default function Task({ task, index, droppableSnapshot }) {
               <Editable
                 mt='.05rem'
                 pl='.75rem'
-                w='calc(100% - 5rem)'
+                w='calc(100% - 4.5rem)'
                 opacity={task.checked ? '0.5' : '1'}
                 fontSize='1.2em'
                 fontWeight='600'
