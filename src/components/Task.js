@@ -16,12 +16,12 @@ import { TasksContext } from '../contexts/TasksContext';
 import { Draggable } from 'react-beautiful-dnd';
 
 
-export default function Task({ task, index }) {
+export default function Task({ task, index, droppableSnapshot }) {
   const { dispatch } = useContext(TasksContext);
   const [prevTitle, setPrevTitle] = useState('');
+  const { colorMode } = useColorMode();
   const [hovering, attrs] = useHover();
   const bgColor = { light: 'gray.50', dark: 'gray.800' };
-  const { colorMode } = useColorMode();
 
   // Handles tasks' editing and onCancel
   const editTask = (event) => {
@@ -35,13 +35,13 @@ export default function Task({ task, index }) {
   // Updates the state of a task's checkbox
   const handleCheck = () => dispatch({ type: 'HANDLE_CHECK', task });
 
-  // Styles for the priorities
+  // Styles
   const styles = {
     priorities: `${task.priority === 1 ? 'red.600'
       : task.priority === 2 ? 'yellow.500'
         : task.priority === 3 ? 'blue.400'
-          : task.priority === 4 && 'gray.500' }`,
-  }
+          : task.priority === 4 && 'gray.500'}`,
+  };
 
   // Check if the device has touch capabilities
   const touch = 'ontouchstart' in document.documentElement;
@@ -52,11 +52,12 @@ export default function Task({ task, index }) {
         draggableId={task.id}
         index={index}
       >
-        {(provided) => (
+        {(provided, snapshot) => (
           <Box
             {...provided.draggableProps}
             ref={provided.innerRef}
             mb='.5rem'
+            opacity={!snapshot.isDragging && droppableSnapshot.isDraggingOver ? 0.75 : 1}
           >
 
             <Flex
