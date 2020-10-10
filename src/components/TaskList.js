@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Flex, List } from '@chakra-ui/core';
+import { Box, Flex, List, Heading, Icon } from '@chakra-ui/core';
 import Task from './Task';
 import { TasksContext } from '../contexts/TasksContext';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import {MdCheck} from 'react-icons/all';
 
 
 export default function TaskList() {
@@ -36,28 +37,38 @@ export default function TaskList() {
           p='.5rem'
         >
           <Flex flexDir='column'>
-            <List mb='2rem'>
-              {tasksData && tasksData.columnOrder.map((columnId) => {
-                const column = tasksData.columns[columnId];
-                const tasks = column.taskIds.map(taskId => tasksData.tasks[taskId]);
-                return (
-                  <Droppable droppableId={column.id} key={column.id} tasks={tasks}>
-                    {(provided, snapshot) => (
-                      <Box
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        isDraggingOver={snapshot.isDraggingOver}
-                      >
-                        {tasks.map((task, index) => (
-                          <Task key={task.id} task={task} index={index} />
-                        ))}
-                        {provided.placeholder}
-                      </Box>
-                    )}
-                  </Droppable>
-                );
-              })}
-            </List>
+
+            {tasksData.columns['column-1'].taskIds.length === 0 && (
+              <Flex justify='center' align='center' height='40vh' direction='column'>
+                <Icon as={MdCheck} size='4rem' />
+                <Heading size='lg'>There are no tasks</Heading>
+              </Flex>
+            )}
+
+            {tasksData.columns['column-1'].taskIds.length >= 1 && (
+              <List mb='2rem'>
+                {tasksData && tasksData.columnOrder.map((columnId) => {
+                  const column = tasksData.columns[columnId];
+                  const tasks = column.taskIds.map(taskId => tasksData.tasks[taskId]);
+                  return (
+                    <Droppable droppableId={column.id} key={column.id} tasks={tasks}>
+                      {(provided, snapshot) => (
+                        <Box
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          isDraggingOver={snapshot.isDraggingOver}
+                        >
+                          {tasks.map((task, index) => (
+                            <Task key={task.id} task={task} index={index} droppableSnapshot={snapshot}/>
+                          ))}
+                          {provided.placeholder}
+                        </Box>
+                      )}
+                    </Droppable>
+                  );
+                })}
+              </List>
+            )}
           </Flex>
         </Box>
       </Flex>
