@@ -22,19 +22,17 @@ export default function TaskList() {
     <DragDropContext onDragEnd={onDragEnd}>
       <Flex
         direction="column"
-        align="center"
-        justify="center"
+        justify="flex-start"
+        maxW='680px'
         h="calc(100vh - 178px)"
-        p='0 .5rem .5rem'
+        mx='auto'
       >
         <Box
           className='custom-scroll'
-          h='100%'
           w='100%'
-          maxW='680px'
           overflow='auto'
           borderRadius='5px'
-          p='.5rem'
+          px='.5rem'
         >
           <Flex flexDir='column'>
 
