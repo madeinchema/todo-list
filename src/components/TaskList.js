@@ -1,11 +1,28 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Flex, List, Heading, Icon } from '@chakra-ui/core';
+import { Box, Flex, Text, List, Heading, Icon } from '@chakra-ui/core';
 import Task from './Task';
 import { TasksContext } from '../contexts/TasksContext';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import {MdCheck} from 'react-icons/all';
+import { MdCheck, MdSort } from 'react-icons/all';
 
+const ColumnHeader = ({ title }) => (
+  <Flex
+    mb='.5rem'
+    w='100%'
+    justify='space-between'
+    align='flex-end'
+  >
+    <Flex align='center'>
+      <Icon name='chevron-right' size='1.5rem' mt='.25rem'/>
+      <Heading size='lg'>{title}</Heading>
+    </Flex>
+    <Flex align='center' pr='.75rem'>
+      <Icon as={MdSort} size='1.5rem' mr='.25rem'/>
+      <Text display='inline-block' fontWeight='500'>Sort</Text>
+    </Flex>
+  </Flex>
+)
 
 export default function TaskList() {
   const { tasksData, dispatch } = useContext(TasksContext);
@@ -22,19 +39,15 @@ export default function TaskList() {
     <DragDropContext onDragEnd={onDragEnd}>
       <Flex
         direction="column"
-        align="center"
-        justify="center"
+        w='100%'
         h="calc(100vh - 178px)"
-        p='0 .5rem .5rem'
       >
+        <ColumnHeader title={'To do'}/>
         <Box
           className='custom-scroll'
-          h='100%'
-          w='100%'
-          maxW='680px'
           overflow='auto'
           borderRadius='5px'
-          p='.5rem'
+          px='.5rem'
         >
           <Flex flexDir='column'>
 
