@@ -24,6 +24,7 @@ export default function App() {
               direction='column'
               maxW='680px'
               mx='auto'
+              h="calc(100vh - 4.5rem)"
             >
               <NewTask />
               <TaskList />
