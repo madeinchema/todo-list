@@ -4,7 +4,8 @@ import {
   ColorModeProvider,
   CSSReset,
   useColorMode,
-  Box
+  Box,
+  Flex,
 } from '@chakra-ui/core';
 import Navbar from './components/Navbar';
 import TaskList from './components/TaskList';
@@ -19,8 +20,15 @@ export default function App() {
           <CSSReset />
           <TasksContextProvider>
             <Navbar />
-            <NewTask />
-            <TaskList />
+            <Flex
+              direction='column'
+              maxW='680px'
+              mx='auto'
+              h="calc(100vh - 4.5rem)"
+            >
+              <NewTask />
+              <TaskList />
+            </Flex>
           </TasksContextProvider>
         </TurnOnColorMode>
       </ColorModeProvider>
