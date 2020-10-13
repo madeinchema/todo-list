@@ -1,15 +1,38 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Flex, Button, Text, List, Heading, Collapse, Icon, Tag } from '@chakra-ui/core';
+import {
+  Box,
+  Flex,
+  Button,
+  Text,
+  List,
+  Heading,
+  Collapse,
+  Icon,
+  Tag,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from '@chakra-ui/core';
 import Task from './Task';
 import { TasksContext } from '../contexts/TasksContext';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { MdCheck, MdSort } from 'react-icons/all';
 
-const ColumnHeader = ({ title, quantity, children }) => {
+const ColumnHeader = ({ title, quantity, children, columnId }) => {
+  const { dispatch } = useContext(TasksContext);
   const [show, setShow] = useState(true);
 
   const handleToggle = () => setShow(!show);
+
+  const handleSort = (order) => {
+    dispatch({
+      type: 'SORT_TASKS',
+      order,
+      columnId,
+    })
+  }
 
   return (
     <>
@@ -32,21 +55,26 @@ const ColumnHeader = ({ title, quantity, children }) => {
           >
             <Icon name={show ? 'chevron-down' : 'chevron-right'} size='1.5rem' mt='.125rem' mr='.15rem'/>
             <Heading size='lg' mr='.25rem'>{title}</Heading>
-
           </Button>
           <Tag variant='subtle'>{quantity}</Tag>
         </Flex>
 
-        <Button
-          d='flex'
-          size='sm'
-          align='center'
-          pr='.75rem'
-          variant="ghost"
-        >
-          <Icon as={MdSort} size='1.5rem' mr='.25rem'/>
-          <Text display='inline-block' fontWeight='500'>Sort</Text>
-        </Button>
+        <Menu>
+          <MenuButton
+            as={Button}
+            d='flex'
+            size='sm'
+            align='center'
+            pr='.75rem'
+          >
+            <Icon as={MdSort} size='1.5rem' mr='.25rem'/>
+            <Text display='inline-block' fontWeight='500'>Sort</Text>
+          </MenuButton>
+          <MenuList placement='auto-start' zIndex={2}>
+              <MenuItem onClick={() => handleSort('SORT_HIGHEST')}>Highest priority first</MenuItem>
+              <MenuItem onClick={() => handleSort('SORT_LOWEST')}>Lowest priority first</MenuItem>
+          </MenuList>
+        </Menu>
 
       </Flex>
       <Collapse isOpen={show}>
@@ -57,30 +85,34 @@ const ColumnHeader = ({ title, quantity, children }) => {
   )
 }
 
-export default function TaskList() {
+export default function TaskList({ columnId }) {
   const { tasksData, dispatch } = useContext(TasksContext);
-  const tasksLength = tasksData.columns['column-1'].taskIds.length;
+  const tasksLength = tasksData.columns[columnId].taskIds.length;
+
+  const column = tasksData.columns[columnId];
+  const tasks = column.taskIds.map(taskId => tasksData.tasks[taskId]);
 
   // Handle the dropping of tasks
   const onDragEnd = result => {
     dispatch({
       type: 'HANDLE_DRAG_END',
       result,
+      columnId
     })
   }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
 
-      {tasksData.columns['column-1'].taskIds.length === 0 && (
+      {tasksData.columns[columnId].taskIds.length === 0 && (
         <Flex justify='center' align='center' height='40vh' direction='column'>
           <Icon as={MdCheck} size='4rem'/>
           <Heading size='lg'>There are no tasks</Heading>
         </Flex>
       )}
 
-      {tasksData.columns['column-1'].taskIds.length >= 1 && (
-        <ColumnHeader title={'To do'} quantity={tasksLength}>
+      {tasksData.columns[columnId].taskIds.length >= 1 && (
+        <ColumnHeader title={'To do'} quantity={tasksLength} columnId={columnId}>
           <Flex
             flexDir='column'
             className='custom-scroll'
@@ -90,26 +122,22 @@ export default function TaskList() {
             h="calc(100vh - 13.25rem)"
           >
             <List mb='2rem'>
-              {tasksData && tasksData.columnOrder.map((columnId) => {
-                const column = tasksData.columns[columnId];
-                const tasks = column.taskIds.map(taskId => tasksData.tasks[taskId]);
-                return (
-                  <Droppable droppableId={column.id} key={column.id} tasks={tasks}>
-                    {(provided, snapshot) => (
-                      <Box
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        isDraggingOver={snapshot.isDraggingOver}
-                      >
-                        {tasks.map((task, index) => (
-                          <Task key={task.id} task={task} index={index} droppableSnapshot={snapshot}/>
-                        ))}
-                        {provided.placeholder}
-                      </Box>
-                    )}
-                  </Droppable>
-                )
-              })}
+              {tasksData && (
+                <Droppable droppableId={column.id} key={column.id} tasks={tasks}>
+                  {(provided, snapshot) => (
+                    <Box
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      isDraggingOver={snapshot.isDraggingOver}
+                    >
+                      {tasks.map((task, index) => (
+                        <Task key={task.id} task={task} index={index} droppableSnapshot={snapshot} columnId={column.id}/>
+                      ))}
+                      {provided.placeholder}
+                    </Box>
+                  )}
+                </Droppable>
+              )}
             </List>
           </Flex>
         </ColumnHeader>
