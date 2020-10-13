@@ -12,8 +12,8 @@ const initialData = {
     // 'task-4': { id: 'task-4', title: 'Cook dinner', checked: false, priority: 4 },
   },
   columns: {
-    'column-1': {
-      id: 'column-1',
+    'to-do': {
+      id: 'to-do',
       title: 'To do',
       taskIds: [
         // 'task-1', 'task-2', 'task-3', 'task-4'
@@ -21,7 +21,7 @@ const initialData = {
     }
   },
   // Facilitate reordering of the columns
-  columnOrder: ['column-1']
+  columnOrder: ['to-do']
 };
 
 const TasksContextProvider = (props) => {
