@@ -21,16 +21,17 @@ import { TasksContext } from '../contexts/TasksContext';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { MdCheck, MdSort } from 'react-icons/all';
 
-const ColumnHeader = ({ title, quantity, children }) => {
+const ColumnHeader = ({ title, quantity, children, columnId }) => {
   const { dispatch } = useContext(TasksContext);
   const [show, setShow] = useState(true);
 
   const handleToggle = () => setShow(!show);
 
-  const handleSort = (direction) => {
+  const handleSort = (order) => {
     dispatch({
       type: 'SORT_TASKS',
-      direction,
+      order,
+      columnId
     })
   }
 
@@ -72,7 +73,7 @@ const ColumnHeader = ({ title, quantity, children }) => {
             <Text display='inline-block' fontWeight='500'>Sort</Text>
           </MenuButton>
           <MenuList placement='auto-start' zIndex={2}>
-            <MenuOptionGroup defaultValue='' onChange={(value) => handleSort(value)} title='By priority' type='radio'>
+            <MenuOptionGroup defaultValue='' onChange={(order) => handleSort(order)} title='By priority' type='radio'>
               <MenuItemOption value='SORT_HIGHEST'>Highest priority first</MenuItemOption>
               <MenuItemOption value='SORT_LOWEST'>Lowest priority first</MenuItemOption>
             </MenuOptionGroup>
@@ -88,30 +89,33 @@ const ColumnHeader = ({ title, quantity, children }) => {
   )
 }
 
-export default function TaskList() {
+export default function TaskList({ columnId }) {
   const { tasksData, dispatch } = useContext(TasksContext);
-  const tasksLength = tasksData.columns['column-1'].taskIds.length;
+  const tasksLength = tasksData.columns[columnId].taskIds.length;
+
+  const column = tasksData.columns[columnId];
+  const tasks = column.taskIds.map(taskId => tasksData.tasks[taskId]);
 
   // Handle the dropping of tasks
-  const onDragEnd = value => {
+  const onDragEnd = result => {
     dispatch({
       type: 'HANDLE_DRAG_END',
-      value,
+      result,
     })
   }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
 
-      {tasksData.columns['column-1'].taskIds.length === 0 && (
+      {tasksData.columns[columnId].taskIds.length === 0 && (
         <Flex justify='center' align='center' height='40vh' direction='column'>
           <Icon as={MdCheck} size='4rem'/>
           <Heading size='lg'>There are no tasks</Heading>
         </Flex>
       )}
 
-      {tasksData.columns['column-1'].taskIds.length >= 1 && (
-        <ColumnHeader title={'To do'} quantity={tasksLength}>
+      {tasksData.columns[columnId].taskIds.length >= 1 && (
+        <ColumnHeader title={'To do'} quantity={tasksLength} columnId={columnId}>
           <Flex
             flexDir='column'
             className='custom-scroll'
@@ -121,26 +125,22 @@ export default function TaskList() {
             h="calc(100vh - 13.25rem)"
           >
             <List mb='2rem'>
-              {tasksData && tasksData.columnOrder.map((columnId) => {
-                const column = tasksData.columns[columnId];
-                const tasks = column.taskIds.map(taskId => tasksData.tasks[taskId]);
-                return (
-                  <Droppable droppableId={column.id} key={column.id} tasks={tasks}>
-                    {(provided, snapshot) => (
-                      <Box
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        isDraggingOver={snapshot.isDraggingOver}
-                      >
-                        {tasks.map((task, index) => (
-                          <Task key={task.id} task={task} index={index} droppableSnapshot={snapshot}/>
-                        ))}
-                        {provided.placeholder}
-                      </Box>
-                    )}
-                  </Droppable>
-                )
-              })}
+              {tasksData && (
+                <Droppable droppableId={column.id} key={column.id} tasks={tasks}>
+                  {(provided, snapshot) => (
+                    <Box
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      isDraggingOver={snapshot.isDraggingOver}
+                    >
+                      {tasks.map((task, index) => (
+                        <Task key={task.id} task={task} index={index} droppableSnapshot={snapshot} columnId={column.id}/>
+                      ))}
+                      {provided.placeholder}
+                    </Box>
+                  )}
+                </Droppable>
+              )}
             </List>
           </Flex>
         </ColumnHeader>
