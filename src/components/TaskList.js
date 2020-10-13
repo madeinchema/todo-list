@@ -1,6 +1,21 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Flex, Button, Text, List, Heading, Collapse, Icon, Tag } from '@chakra-ui/core';
+import {
+  Box,
+  Flex,
+  Button,
+  Text,
+  List,
+  Heading,
+  Collapse,
+  Icon,
+  Tag,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuGroup
+} from '@chakra-ui/core';
 import Task from './Task';
 import { TasksContext } from '../contexts/TasksContext';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
@@ -37,16 +52,22 @@ const ColumnHeader = ({ title, quantity, children }) => {
           <Tag variant='subtle'>{quantity}</Tag>
         </Flex>
 
-        <Button
-          d='flex'
-          size='sm'
-          align='center'
-          pr='.75rem'
-          variant="ghost"
-        >
-          <Icon as={MdSort} size='1.5rem' mr='.25rem'/>
-          <Text display='inline-block' fontWeight='500'>Sort</Text>
-        </Button>
+        <Menu>
+          <MenuButton
+            as={Button}
+            d='flex'
+            size='sm'
+            align='center'
+            pr='.75rem'
+          >
+            <Icon as={MdSort} size='1.5rem' mr='.25rem'/>
+            <Text display='inline-block' fontWeight='500'>Sort</Text>
+          </MenuButton>
+          <MenuList placement='auto-start' zIndex={2}>
+            <MenuItem>Highest priority first</MenuItem>
+            <MenuItem>Lowest priority first</MenuItem>
+          </MenuList>
+        </Menu>
 
       </Flex>
       <Collapse isOpen={show}>

@@ -102,7 +102,7 @@ export default function TaskActionsList({ task, index }) {
             </MenuButton>
           </PseudoBox>
 
-          <MenuList placement='auto' zIndex={2}>
+          <MenuList placement='auto-end' zIndex={2}>
             <MenuItem onClick={deleteTask}>
               <Icon
                 aria-label="Remove Task"
