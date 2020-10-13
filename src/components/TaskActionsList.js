@@ -18,7 +18,7 @@ import { TasksContext } from '../contexts/TasksContext';
 import {MdMoreVert, MdFlag, BiDuplicate} from 'react-icons/all';
 
 
-export default function TaskActionsList({ task, index }) {
+export default function TaskActionsList({ task, index, columnId }) {
   const { dispatch } = useContext(TasksContext);
   const toast = useToast();
   const toastRef = useRef();
@@ -29,6 +29,7 @@ export default function TaskActionsList({ task, index }) {
       type: 'REMOVE_TASK',
       task,
       index,
+      columnId
     });
     toast({
       position: 'bottom-left',
@@ -66,6 +67,7 @@ export default function TaskActionsList({ task, index }) {
       type: 'UNDO_DELETE_TASK',
       task,
       index,
+      columnId
     });
     callback()
   }
@@ -76,6 +78,7 @@ export default function TaskActionsList({ task, index }) {
       type: 'DUPLICATE_TASK',
       task: task,
       index,
+      columnId
     })
   }
 
@@ -85,6 +88,7 @@ export default function TaskActionsList({ task, index }) {
       task: task,
       index,
       priority,
+      columnId
     })
   }
 
