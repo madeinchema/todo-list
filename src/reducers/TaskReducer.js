@@ -186,6 +186,28 @@ export const TaskReducer = (state, action) => {
         },
       };
 
+    // Sort the tasks from a column
+    case 'SORT_TASKS':
+      const sortedTasksList = newTaskIds.map(taskId => {
+        return state.tasks[taskId];
+      }).sort((a, b) => {
+        if (action.order === 'SORT_HIGHEST') {
+          return a.priority < b.priority ? -1 : (a.priority > b.priority ? 1 : 0);
+        } else if (action.order === 'SORT_LOWEST') {
+          return a.priority > b.priority ? -1 : (a.priority < b.priority ? 1 : 0);
+        }
+      }).map(task => task.id);
+
+      return {
+        ...state,
+        columns: {
+          [currentColumn]: {
+            ...state.columns[currentColumn],
+            taskIds: sortedTasksList,
+          }
+        }
+      };
+
     default:
       return state;
   }
