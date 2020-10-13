@@ -16,7 +16,7 @@ import { TasksContext } from '../contexts/TasksContext';
 import { Draggable } from 'react-beautiful-dnd';
 
 
-export default function Task({ task, index, droppableSnapshot }) {
+export default function Task({ task, index, droppableSnapshot, columnId }) {
   const { dispatch } = useContext(TasksContext);
   const [prevTitle, setPrevTitle] = useState('');
   const { colorMode } = useColorMode();
@@ -26,14 +26,14 @@ export default function Task({ task, index, droppableSnapshot }) {
   // Handles tasks' editing and onCancel
   const editTask = (event) => {
     const { value } = event.target;
-    dispatch({ type: 'EDIT_TASK', task, value })
+    dispatch({ type: 'EDIT_TASK', task, value, columnId })
   };
 
   // Retrieves the initial title and sets it back
-  const cancelTask = () => dispatch({ type: 'CANCEL_TASK', task, prevTitle });
+  const cancelTask = () => dispatch({ type: 'CANCEL_TASK', task, prevTitle, columnId });
 
   // Updates the state of a task's checkbox
-  const handleCheck = () => dispatch({ type: 'HANDLE_CHECK', task });
+  const handleCheck = () => dispatch({ type: 'HANDLE_CHECK', task, columnId });
 
   // Styles
   const styles = {
@@ -106,7 +106,7 @@ export default function Task({ task, index, droppableSnapshot }) {
               </Editable>
 
               <Box ml='auto' my='auto' maxW='3rem'>
-                {(hovering || touch) && <TaskActionsList task={task} index={index}/>}
+                {(hovering || touch) && <TaskActionsList task={task} index={index} columnId={columnId}/>}
               </Box>
             </Flex>
 

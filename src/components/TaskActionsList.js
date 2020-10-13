@@ -10,6 +10,7 @@ import {
   MenuList,
   MenuItem,
   MenuGroup,
+  MenuDivider,
   useToast,
 } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
@@ -17,7 +18,7 @@ import { TasksContext } from '../contexts/TasksContext';
 import {MdMoreVert, MdFlag, BiDuplicate} from 'react-icons/all';
 
 
-export default function TaskActionsList({ task, index }) {
+export default function TaskActionsList({ task, index, columnId }) {
   const { dispatch } = useContext(TasksContext);
   const toast = useToast();
   const toastRef = useRef();
@@ -28,6 +29,7 @@ export default function TaskActionsList({ task, index }) {
       type: 'REMOVE_TASK',
       task,
       index,
+      columnId
     });
     toast({
       position: 'bottom-left',
@@ -65,6 +67,7 @@ export default function TaskActionsList({ task, index }) {
       type: 'UNDO_DELETE_TASK',
       task,
       index,
+      columnId
     });
     callback()
   }
@@ -75,6 +78,7 @@ export default function TaskActionsList({ task, index }) {
       type: 'DUPLICATE_TASK',
       task: task,
       index,
+      columnId
     })
   }
 
@@ -84,6 +88,7 @@ export default function TaskActionsList({ task, index }) {
       task: task,
       index,
       priority,
+      columnId
     })
   }
 
@@ -102,7 +107,7 @@ export default function TaskActionsList({ task, index }) {
             </MenuButton>
           </PseudoBox>
 
-          <MenuList placement='auto' zIndex={2}>
+          <MenuList placement='auto-end' zIndex={2}>
             <MenuItem onClick={deleteTask}>
               <Icon
                 aria-label="Remove Task"
@@ -123,7 +128,7 @@ export default function TaskActionsList({ task, index }) {
                 opacity='.75'
               />Duplicate
             </MenuItem>
-
+            <MenuDivider />
             <MenuGroup title="Priority">
               <MenuItem onClick={() => changePriority(1)}>
                 <Icon aria-label="Priority 1" as={MdFlag} color='red.600' size='1.4rem' mr='.5rem'/>Priority 1
