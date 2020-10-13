@@ -87,7 +87,7 @@ export default function TaskList() {
             overflow='auto'
             borderRadius='5px'
             px='.5rem'
-            h="calc(100vh - 13.125rem)"
+            h="calc(100vh - 13.25rem)"
           >
             <List mb='2rem'>
               {tasksData && tasksData.columnOrder.map((columnId) => {
