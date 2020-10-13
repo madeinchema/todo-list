@@ -27,7 +27,7 @@ export default function App() {
               h="calc(100vh - 4.5rem)"
             >
               <NewTask />
-              <TaskList />
+              <TaskList columnId='to-do'/>
             </Flex>
           </TasksContextProvider>
         </TurnOnColorMode>
