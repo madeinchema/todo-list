@@ -101,6 +101,7 @@ export default function TaskList({ columnId }) {
     dispatch({
       type: 'HANDLE_DRAG_END',
       result,
+      columnId
     })
   }
 

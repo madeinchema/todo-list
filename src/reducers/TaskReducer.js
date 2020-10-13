@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
 
 export const TaskReducer = (state, action) => {
-  const currentColumn = 'column-1';  // Task: Don't hardcode 'column-1'
+  const currentColumn = action.columnId;
   const column = state.columns[currentColumn];
   const newTaskIds = Array.from(column.taskIds);
   let updatedTaskIds;
@@ -25,12 +25,13 @@ export const TaskReducer = (state, action) => {
       /**
        * Reorder the taskIds, moving the target from old to new index in the array.
        */
-      const column = state.columns[source.droppableId]; // Get the column source
+      console.log(state.columns[source.droppableId])
+      const columnSource = state.columns[source.droppableId]; // Get the column source
       newTaskIds.splice(source.index, 1); // Remove the item from the array
       newTaskIds.splice(destination.index, 0, draggableId); // Insert it in the destination
 
       // Create our new, updated column
-      const newColumn = { ...column, taskIds: newTaskIds }
+      const newColumn = { ...columnSource, taskIds: newTaskIds }
 
       // Update the state with the next updated column
       return {
