@@ -10,6 +10,7 @@ import {
   MenuList,
   MenuItem,
   MenuGroup,
+  MenuDivider,
   useToast,
 } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
@@ -123,7 +124,7 @@ export default function TaskActionsList({ task, index }) {
                 opacity='.75'
               />Duplicate
             </MenuItem>
-
+            <MenuDivider />
             <MenuGroup title="Priority">
               <MenuItem onClick={() => changePriority(1)}>
                 <Icon aria-label="Priority 1" as={MdFlag} color='red.600' size='1.4rem' mr='.5rem'/>Priority 1

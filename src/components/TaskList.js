@@ -13,8 +13,8 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItem,
-  MenuGroup
+  MenuItemOption,
+  MenuOptionGroup,
 } from '@chakra-ui/core';
 import Task from './Task';
 import { TasksContext } from '../contexts/TasksContext';
@@ -22,9 +22,17 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { MdCheck, MdSort } from 'react-icons/all';
 
 const ColumnHeader = ({ title, quantity, children }) => {
+  const { dispatch } = useContext(TasksContext);
   const [show, setShow] = useState(true);
 
   const handleToggle = () => setShow(!show);
+
+  const handleSort = (direction) => {
+    dispatch({
+      type: 'SORT_TASKS',
+      direction,
+    })
+  }
 
   return (
     <>
@@ -64,8 +72,10 @@ const ColumnHeader = ({ title, quantity, children }) => {
             <Text display='inline-block' fontWeight='500'>Sort</Text>
           </MenuButton>
           <MenuList placement='auto-start' zIndex={2}>
-            <MenuItem>Highest priority first</MenuItem>
-            <MenuItem>Lowest priority first</MenuItem>
+            <MenuOptionGroup defaultValue='' onChange={(value) => handleSort(value)} title='By priority' type='radio'>
+              <MenuItemOption value='SORT_HIGHEST'>Highest priority first</MenuItemOption>
+              <MenuItemOption value='SORT_LOWEST'>Lowest priority first</MenuItemOption>
+            </MenuOptionGroup>
           </MenuList>
         </Menu>
 
@@ -83,10 +93,10 @@ export default function TaskList() {
   const tasksLength = tasksData.columns['column-1'].taskIds.length;
 
   // Handle the dropping of tasks
-  const onDragEnd = result => {
+  const onDragEnd = value => {
     dispatch({
       type: 'HANDLE_DRAG_END',
-      result,
+      value,
     })
   }
 
