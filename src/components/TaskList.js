@@ -13,8 +13,7 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItemOption,
-  MenuOptionGroup,
+  MenuItem,
 } from '@chakra-ui/core';
 import Task from './Task';
 import { TasksContext } from '../contexts/TasksContext';
@@ -31,7 +30,7 @@ const ColumnHeader = ({ title, quantity, children, columnId }) => {
     dispatch({
       type: 'SORT_TASKS',
       order,
-      columnId
+      columnId,
     })
   }
 
@@ -56,7 +55,6 @@ const ColumnHeader = ({ title, quantity, children, columnId }) => {
           >
             <Icon name={show ? 'chevron-down' : 'chevron-right'} size='1.5rem' mt='.125rem' mr='.15rem'/>
             <Heading size='lg' mr='.25rem'>{title}</Heading>
-
           </Button>
           <Tag variant='subtle'>{quantity}</Tag>
         </Flex>
@@ -73,10 +71,8 @@ const ColumnHeader = ({ title, quantity, children, columnId }) => {
             <Text display='inline-block' fontWeight='500'>Sort</Text>
           </MenuButton>
           <MenuList placement='auto-start' zIndex={2}>
-            <MenuOptionGroup defaultValue='' onChange={(order) => handleSort(order)} title='By priority' type='radio'>
-              <MenuItemOption value='SORT_HIGHEST'>Highest priority first</MenuItemOption>
-              <MenuItemOption value='SORT_LOWEST'>Lowest priority first</MenuItemOption>
-            </MenuOptionGroup>
+              <MenuItem onClick={() => handleSort('SORT_HIGHEST')}>Highest priority first</MenuItem>
+              <MenuItem onClick={() => handleSort('SORT_LOWEST')}>Lowest priority first</MenuItem>
           </MenuList>
         </Menu>
 
