@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Flex, Text, List, Heading, Link, Collapse, Icon, Badge } from '@chakra-ui/core';
+import { Box, Flex, Button, Text, List, Heading, Collapse, Icon, Tag } from '@chakra-ui/core';
 import Task from './Task';
 import { TasksContext } from '../contexts/TasksContext';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
@@ -15,19 +15,39 @@ const ColumnHeader = ({ title, quantity, children }) => {
     <>
       <Flex
         mb='.5rem'
+        px='.5rem'
         w='100%'
         justify='space-between'
         align='flex-end'
       >
-        <Flex align='center' as={Link} onClick={handleToggle}>
-          <Icon name='chevron-right' size='1.5rem' mt='.25rem'/>
-          <Heading size='lg' mr='.5rem'>{title}</Heading>
-          <Badge mt='.2rem' fontSize='.8rem'>{quantity}</Badge>
+        <Flex align='center'>
+          <Button
+            d='flex'
+            pl='.25rem'
+            pr='.5rem'
+            mr='.5rem'
+            size='sm'
+            alignContent='center'
+            onClick={handleToggle}
+          >
+            <Icon name={show ? 'chevron-down' : 'chevron-right'} size='1.5rem' mt='.125rem' mr='.15rem'/>
+            <Heading size='lg' mr='.25rem'>{title}</Heading>
+
+          </Button>
+          <Tag variant='subtle'>{quantity}</Tag>
         </Flex>
-        <Flex align='center' pr='.75rem'>
+
+        <Button
+          d='flex'
+          size='sm'
+          align='center'
+          pr='.75rem'
+          variant="ghost"
+        >
           <Icon as={MdSort} size='1.5rem' mr='.25rem'/>
           <Text display='inline-block' fontWeight='500'>Sort</Text>
-        </Flex>
+        </Button>
+
       </Flex>
       <Collapse isOpen={show}>
         {children}
