@@ -33,7 +33,7 @@ export default function NewTask() {
   const handleSubmit = (event) => {
     event.preventDefault();
     let title = inputTitle.trim().toString(); // Remove whitespace from both ends & make sure it's a string
-    dispatch({ type: 'ADD_TASK', title, priority: inputPriority });
+    dispatch({ type: 'ADD_TASK', title, priority: inputPriority, columnId: 'to-do' });
     setInputTitle('');
     inputTitleRef.current.focus();
   }
