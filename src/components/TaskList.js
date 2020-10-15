@@ -89,7 +89,7 @@ const ColumnHeader = ({ quantity, children, columnId, filter, setFilter }) => {
 
 export default function TaskList({ columnId }) {
   const { tasksData, dispatch } = useContext(TasksContext);
-  const [ filter, setFilter ] = useState('To do');
+  const [ filter, setFilter ] = useState('All');
   const tasksLength = tasksData.columns[columnId].taskIds.length;
 
   const column = tasksData.columns[columnId];
@@ -103,6 +103,13 @@ export default function TaskList({ columnId }) {
       columnId
     })
   }
+
+  // Filtered tasks
+  const handleFilter = () => {
+    if (filter === 'All') return [...tasks].filter(task => task);
+    if (filter === 'To do') return [...tasks].filter(task => !task.checked);
+    if (filter === 'Completed') return [...tasks].filter(task => task.checked);
+  };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -138,7 +145,7 @@ export default function TaskList({ columnId }) {
                       {...provided.droppableProps}
                       isDraggingOver={snapshot.isDraggingOver}
                     >
-                      {tasks.map((task, index) => (
+                      {handleFilter().map((task, index) => (
                         <Task key={task.id} task={task} index={index} droppableSnapshot={snapshot} columnId={column.id}/>
                       ))}
                       {provided.placeholder}
