@@ -19,8 +19,10 @@ import { TasksContext } from '../contexts/TasksContext';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { MdCheck, MdSort } from 'react-icons/all';
 
-const ColumnHeader = ({ title, quantity, children, columnId }) => {
+const ColumnHeader = ({ quantity, children, columnId, filter, setFilter }) => {
   const { dispatch } = useContext(TasksContext);
+
+  const handleFilter = (newFilter) => setFilter(newFilter);
 
   const handleSort = (order) => {
     dispatch({
@@ -49,12 +51,12 @@ const ColumnHeader = ({ title, quantity, children, columnId }) => {
               size='sm'
               alignContent='center'
             >
-              <Heading size='md'>{title}</Heading>
+              <Heading size='md'>{filter}</Heading>
             </MenuButton>
             <MenuList>
-              <MenuItem>All</MenuItem>
-              <MenuItem>To do</MenuItem>
-              <MenuItem>Completed</MenuItem>
+              <MenuItem onClick={() => handleFilter('All')}>All</MenuItem>
+              <MenuItem onClick={() => handleFilter('To do')}>To do</MenuItem>
+              <MenuItem onClick={() => handleFilter('Completed')}>Completed</MenuItem>
             </MenuList>
           </Menu>
           <Tag variant='subtle'>{quantity}</Tag>
@@ -87,6 +89,7 @@ const ColumnHeader = ({ title, quantity, children, columnId }) => {
 
 export default function TaskList({ columnId }) {
   const { tasksData, dispatch } = useContext(TasksContext);
+  const [ filter, setFilter ] = useState('To do');
   const tasksLength = tasksData.columns[columnId].taskIds.length;
 
   const column = tasksData.columns[columnId];
@@ -112,7 +115,12 @@ export default function TaskList({ columnId }) {
       )}
 
       {tasksData.columns[columnId].taskIds.length >= 1 && (
-        <ColumnHeader title={'To do'} quantity={tasksLength} columnId={columnId}>
+        <ColumnHeader
+          quantity={tasksLength}
+          columnId={columnId}
+          filter={filter}
+          setFilter={setFilter}
+        >
           <Flex
             flexDir='column'
             className='custom-scroll'
