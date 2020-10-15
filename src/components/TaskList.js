@@ -7,7 +7,6 @@ import {
   Text,
   List,
   Heading,
-  Collapse,
   Icon,
   Tag,
   Menu,
@@ -22,9 +21,6 @@ import { MdCheck, MdSort } from 'react-icons/all';
 
 const ColumnHeader = ({ title, quantity, children, columnId }) => {
   const { dispatch } = useContext(TasksContext);
-  const [show, setShow] = useState(true);
-
-  const handleToggle = () => setShow(!show);
 
   const handleSort = (order) => {
     dispatch({
@@ -44,18 +40,23 @@ const ColumnHeader = ({ title, quantity, children, columnId }) => {
         align='flex-end'
       >
         <Flex align='center'>
-          <Button
-            d='flex'
-            pl='.25rem'
-            pr='.5rem'
-            mr='.5rem'
-            size='sm'
-            alignContent='center'
-            onClick={handleToggle}
-          >
-            <Icon name={show ? 'chevron-down' : 'chevron-right'} size='1.5rem' mt='.125rem' mr='.15rem'/>
-            <Heading size='lg' mr='.25rem'>{title}</Heading>
-          </Button>
+          <Menu>
+            <MenuButton
+              d='flex'
+              as={Button}
+              px='.5rem'
+              mr='.5rem'
+              size='sm'
+              alignContent='center'
+            >
+              <Heading size='md'>{title}</Heading>
+            </MenuButton>
+            <MenuList>
+              <MenuItem>All</MenuItem>
+              <MenuItem>To do</MenuItem>
+              <MenuItem>Completed</MenuItem>
+            </MenuList>
+          </Menu>
           <Tag variant='subtle'>{quantity}</Tag>
         </Flex>
 
@@ -77,10 +78,9 @@ const ColumnHeader = ({ title, quantity, children, columnId }) => {
         </Menu>
 
       </Flex>
-      <Collapse isOpen={show}>
+      <Box>
         {children}
-      </Collapse>
-
+      </Box>
     </>
   )
 }
