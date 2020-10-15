@@ -25,7 +25,6 @@ export const TaskReducer = (state, action) => {
       /**
        * Reorder the taskIds, moving the target from old to new index in the array.
        */
-      console.log(state.columns[source.droppableId])
       const columnSource = state.columns[source.droppableId]; // Get the column source
       newTaskIds.splice(source.index, 1); // Remove the item from the array
       newTaskIds.splice(destination.index, 0, draggableId); // Insert it in the destination
