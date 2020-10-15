@@ -7,7 +7,6 @@ import {
   Text,
   List,
   Heading,
-  Collapse,
   Icon,
   Tag,
   Menu,
@@ -20,11 +19,10 @@ import { TasksContext } from '../contexts/TasksContext';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { MdCheck, MdSort } from 'react-icons/all';
 
-const ColumnHeader = ({ title, quantity, children, columnId }) => {
+const ColumnHeader = ({ quantity, children, columnId, filter, setFilter }) => {
   const { dispatch } = useContext(TasksContext);
-  const [show, setShow] = useState(true);
 
-  const handleToggle = () => setShow(!show);
+  const handleFilter = (newFilter) => setFilter(newFilter);
 
   const handleSort = (order) => {
     dispatch({
@@ -44,18 +42,23 @@ const ColumnHeader = ({ title, quantity, children, columnId }) => {
         align='flex-end'
       >
         <Flex align='center'>
-          <Button
-            d='flex'
-            pl='.25rem'
-            pr='.5rem'
-            mr='.5rem'
-            size='sm'
-            alignContent='center'
-            onClick={handleToggle}
-          >
-            <Icon name={show ? 'chevron-down' : 'chevron-right'} size='1.5rem' mt='.125rem' mr='.15rem'/>
-            <Heading size='lg' mr='.25rem'>{title}</Heading>
-          </Button>
+          <Menu>
+            <MenuButton
+              d='flex'
+              as={Button}
+              px='.5rem'
+              mr='.5rem'
+              size='sm'
+              alignContent='center'
+            >
+              <Heading size='md'>{filter}</Heading>
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => handleFilter('All')}>All</MenuItem>
+              <MenuItem onClick={() => handleFilter('To do')}>To do</MenuItem>
+              <MenuItem onClick={() => handleFilter('Completed')}>Completed</MenuItem>
+            </MenuList>
+          </Menu>
           <Tag variant='subtle'>{quantity}</Tag>
         </Flex>
 
@@ -77,17 +80,16 @@ const ColumnHeader = ({ title, quantity, children, columnId }) => {
         </Menu>
 
       </Flex>
-      <Collapse isOpen={show}>
+      <Box>
         {children}
-      </Collapse>
-
+      </Box>
     </>
   )
 }
 
 export default function TaskList({ columnId }) {
   const { tasksData, dispatch } = useContext(TasksContext);
-  const tasksLength = tasksData.columns[columnId].taskIds.length;
+  const [ filter, setFilter ] = useState('All');
 
   const column = tasksData.columns[columnId];
   const tasks = column.taskIds.map(taskId => tasksData.tasks[taskId]);
@@ -101,6 +103,13 @@ export default function TaskList({ columnId }) {
     })
   }
 
+  // Filtered tasks
+  const handleFilter = () => {
+    if (filter === 'All') return [...tasks].filter(task => task);
+    if (filter === 'To do') return [...tasks].filter(task => !task.checked);
+    if (filter === 'Completed') return [...tasks].filter(task => task.checked);
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
 
@@ -112,7 +121,12 @@ export default function TaskList({ columnId }) {
       )}
 
       {tasksData.columns[columnId].taskIds.length >= 1 && (
-        <ColumnHeader title={'To do'} quantity={tasksLength} columnId={columnId}>
+        <ColumnHeader
+          quantity={handleFilter().length}
+          columnId={columnId}
+          filter={filter}
+          setFilter={setFilter}
+        >
           <Flex
             flexDir='column'
             className='custom-scroll'
@@ -130,7 +144,7 @@ export default function TaskList({ columnId }) {
                       {...provided.droppableProps}
                       isDraggingOver={snapshot.isDraggingOver}
                     >
-                      {tasks.map((task, index) => (
+                      {handleFilter().map((task, index) => (
                         <Task key={task.id} task={task} index={index} droppableSnapshot={snapshot} columnId={column.id}/>
                       ))}
                       {provided.placeholder}
