@@ -90,7 +90,6 @@ const ColumnHeader = ({ quantity, children, columnId, filter, setFilter }) => {
 export default function TaskList({ columnId }) {
   const { tasksData, dispatch } = useContext(TasksContext);
   const [ filter, setFilter ] = useState('All');
-  const tasksLength = tasksData.columns[columnId].taskIds.length;
 
   const column = tasksData.columns[columnId];
   const tasks = column.taskIds.map(taskId => tasksData.tasks[taskId]);
@@ -123,7 +122,7 @@ export default function TaskList({ columnId }) {
 
       {tasksData.columns[columnId].taskIds.length >= 1 && (
         <ColumnHeader
-          quantity={tasksLength}
+          quantity={handleFilter().length}
           columnId={columnId}
           filter={filter}
           setFilter={setFilter}
