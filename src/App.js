@@ -11,6 +11,7 @@ import Navbar from './components/Navbar';
 import TaskList from './components/TaskList';
 import NewTask from './components/NewTask';
 import { TasksContextProvider } from './contexts/TasksContext';
+import Settings from './components/Settings';
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
               h="calc(100vh - 4.5rem)"
             >
               <NewTask />
+              <Settings/>
               <TaskList columnId='to-do'/>
             </Flex>
           </TasksContextProvider>
