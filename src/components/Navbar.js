@@ -79,7 +79,8 @@ export default function Navbar() {
               icon="settings"
               fontSize={iconSize}
               aria-label='Switch to light mode'
-              isDisabled={true}
+              as={Link}
+              href='/settings'
             />
           </MenuIcons>
         </Flex>
