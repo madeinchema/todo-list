@@ -20,6 +20,14 @@ const Settings = () => {
 
         <Box flexGrow='1' width='100%'/>
       </Flex>
+
+      <Flex direction='column'>
+        <Heading size='mg' mb='.75rem'>Notes and Lists</Heading>
+        <Flex justify='space-between' align='center' mb='.75rem'>
+          <Text>Move completed tasks to the bottom</Text>
+          <Switch size="sm" />
+        </Flex>
+      </Flex>
     </Box>
   );
 };
