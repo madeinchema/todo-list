@@ -11,7 +11,6 @@ const Settings = () => {
       p='2rem 1rem'
       maxW='512px'
       w='100%'
-      h="calc(100vh - 72px)"
     >
       <Flex w='100%' justify='space-between' align='center' mb='1.5rem'>
 
