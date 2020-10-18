@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link as ReactLink } from 'react-router-dom';
 import { FaClipboardCheck } from 'react-icons/fa';
 import { GoMarkGithub } from 'react-icons/go';
 import {
@@ -37,7 +38,7 @@ export default function Navbar() {
         {/* Logo */}
         <Flex align="center" mr={5}>
           <Heading as='h1' size='lg' fontWeight='700'>
-            <Link href='#' display='flex' alignItems='center'>
+            <Link as={ReactLink} to='/' display='flex' alignItems='center'>
               <FaClipboardCheck mr={'12px'}/>Todolist
             </Link>
           </Heading>
@@ -79,7 +80,7 @@ export default function Navbar() {
               icon="settings"
               fontSize={iconSize}
               aria-label='Switch to light mode'
-              isDisabled={true}
+              as={ReactLink} to='/settings'
             />
           </MenuIcons>
         </Flex>
