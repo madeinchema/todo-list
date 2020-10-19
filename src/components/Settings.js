@@ -1,6 +1,24 @@
 import React from 'react';
 import { Link as ReactLink } from 'react-router-dom';
-import { Box, Flex, Text, Button, Switch, Icon, Heading, Divider, useColorMode } from '@chakra-ui/core';
+import {
+  Box,
+  Flex,
+  Text,
+  Button,
+  Switch,
+  Icon,
+  Heading,
+  Divider,
+  useColorMode,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure
+} from '@chakra-ui/core';
 import { MdArrowBack} from 'react-icons/all';
 
 const Settings = () => {
@@ -11,6 +29,28 @@ const Settings = () => {
     light: ['gray.200', 'gray.300'],
     dark: ['gray.800', 'gray.700'],
   }
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const DeleteAllModal = () => (
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <ModalOverlay/>
+      <ModalContent>
+        <ModalHeader>Delete all the tasks</ModalHeader>
+        <ModalCloseButton/>
+        <ModalBody>
+          Are you sure you want to delete all the tasks? This action is irreversible.
+        </ModalBody>
+
+        <ModalFooter>
+          <Button variantColor="blue" mr={3} onClick={onClose}>
+            No
+          </Button>
+          <Button variantColor='red'>Yes, delete all the tasks</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
 
   return (
     <Box
@@ -56,9 +96,12 @@ const Settings = () => {
             color={deleteBtnColor[colorMode]}
             variant='outline'
             variantColor='red'
+            onClick={onOpen}
           >Delete all the tasks</Button>
         </Flex>
       </Flex>
+
+      <DeleteAllModal />
     </Box>
   );
 };
