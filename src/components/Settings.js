@@ -7,7 +7,10 @@ const Settings = () => {
   const { colorMode } = useColorMode();
   const deleteBtnColor = { light: 'red.600', dark: 'red.400' };
   const dividerColor = { light: 'gray.400', dark: 'gray.600' };
-
+  const goBackBtnColor = {
+    light: ['gray.200', 'gray.300'],
+    dark: ['gray.800', 'gray.700'],
+  }
 
   return (
     <Box
@@ -19,7 +22,15 @@ const Settings = () => {
     >
       <Flex w='100%' justify='space-between' align='center' my='1.5rem'>
         <Box flexGrow='1' width='100%'>
-          <Button size='sm' as={ReactLink} to='/'>
+          <Button
+            size='sm'
+            as={ReactLink}
+            to='/'
+            bg={goBackBtnColor[colorMode][0]}
+            _hover={{
+              bg: goBackBtnColor[colorMode][1]
+            }}
+          >
             <Icon as={MdArrowBack} mr='.25rem'/>
             <Text mb='.05rem'>Go back</Text>
           </Button>
