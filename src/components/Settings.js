@@ -17,7 +17,8 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure
+  useDisclosure,
+  useToast,
 } from '@chakra-ui/core';
 import { MdArrowBack} from 'react-icons/all';
 import { TasksContext } from '../contexts/TasksContext';
@@ -25,6 +26,7 @@ import { TasksContext } from '../contexts/TasksContext';
 const Settings = () => {
   const { dispatch } = useContext(TasksContext);
   const { colorMode } = useColorMode();
+  const toast = useToast();
   const deleteBtnColor = { light: 'red.600', dark: 'red.400' };
   const dividerColor = { light: 'gray.400', dark: 'gray.600' };
   const goBackBtnColor = {
@@ -35,8 +37,27 @@ const Settings = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleDeleteAll = () => {
+
     dispatch({
       type: 'DELETE_ALL',
+    });
+    toast({
+      position: 'bottom-left',
+      title: 'All the tasks have been deleted',
+      duration: 5000,
+      isClosable: true,
+      render: () => (
+        <Flex
+          backgroundColor='red.600'
+          m={3}
+          py={3}
+          px={5}
+          justifyContent='space-between'
+          alignContent='center'
+        >
+          <Text mr='1em' pt='.2rem' color='white'>All the tasks have been deleted</Text>
+        </Flex>
+      )
     });
     onClose();
   }
