@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Link as ReactLink } from 'react-router-dom';
 import {
   Box,
@@ -20,8 +20,10 @@ import {
   useDisclosure
 } from '@chakra-ui/core';
 import { MdArrowBack} from 'react-icons/all';
+import { TasksContext } from '../contexts/TasksContext';
 
 const Settings = () => {
+  const { dispatch } = useContext(TasksContext);
   const { colorMode } = useColorMode();
   const deleteBtnColor = { light: 'red.600', dark: 'red.400' };
   const dividerColor = { light: 'gray.400', dark: 'gray.600' };
@@ -32,6 +34,12 @@ const Settings = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const handleDeleteAll = () => {
+    dispatch({
+      type: 'DELETE_ALL',
+    })
+  }
+
   const DeleteAllModal = () => (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay/>
@@ -41,12 +49,16 @@ const Settings = () => {
         <ModalBody>
           Are you sure you want to delete all the tasks? This action is irreversible.
         </ModalBody>
-
         <ModalFooter>
-          <Button variantColor="blue" mr={3} onClick={onClose}>
-            No
-          </Button>
-          <Button variantColor='red'>Yes, delete all the tasks</Button>
+          <Button
+            variantColor="blue"
+            mr={3}
+            onClick={onClose}
+          >No</Button>
+          <Button
+            variantColor='red'
+            onClick={handleDeleteAll}
+          >Yes, delete all the tasks</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
