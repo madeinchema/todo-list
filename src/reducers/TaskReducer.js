@@ -1,11 +1,16 @@
 import { nanoid } from 'nanoid'
 
 export const TaskReducer = (state, action) => {
-  const currentColumn = action.columnId;
-  const column = state.columns[currentColumn];
-  const newTaskIds = Array.from(column.taskIds);
+  let currentColumn;
+  let column;
+  let newTaskIds;
   let updatedTaskIds;
   let prevTask;
+  if (action.columnId) {
+    currentColumn = action.columnId && action.columnId;
+    column = state.columns[currentColumn];
+    newTaskIds = Array.from(column.taskIds);
+  }
 
   switch (action.type) {
 
@@ -205,6 +210,22 @@ export const TaskReducer = (state, action) => {
             taskIds: sortedTasksList,
           }
         }
+      };
+
+    // Deletes all the tasks
+    case 'DELETE_ALL':
+      // Remove all the tasks from taskIds & tasks obj.
+      const newColumns = { ...state.columns };
+      for (column in newColumns) {
+        newColumns[column].taskIds = [];
+      }
+
+      return {
+        ...state,
+        columns: {
+          ...newColumns,
+        },
+        tasks: {},
       };
 
     default:
