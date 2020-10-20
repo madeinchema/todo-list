@@ -37,7 +37,8 @@ const Settings = () => {
   const handleDeleteAll = () => {
     dispatch({
       type: 'DELETE_ALL',
-    })
+    });
+    onClose();
   }
 
   const DeleteAllModal = () => (
