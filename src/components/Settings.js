@@ -24,7 +24,7 @@ import { MdArrowBack} from 'react-icons/all';
 import { TasksContext } from '../contexts/TasksContext';
 
 const Settings = () => {
-  const { dispatch } = useContext(TasksContext);
+  const { tasksData, dispatch } = useContext(TasksContext);
   const { colorMode } = useColorMode();
   const toast = useToast();
   const deleteBtnColor = { light: 'red.600', dark: 'red.400' };
@@ -62,6 +62,13 @@ const Settings = () => {
     onClose();
   }
 
+  const handleSwitch = (setting) => {
+    dispatch({
+      type: 'HANDLE_SETTINGS',
+      setting,
+    })
+  }
+
   const DeleteAllModal = () => (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay/>
@@ -90,7 +97,7 @@ const Settings = () => {
     <Box
       mx='auto'
       mb='5rem'
-      p='2rem 1rem'
+      p='0 1rem 2rem'
       maxW='512px'
       w='100%'
     >
@@ -121,7 +128,11 @@ const Settings = () => {
         <Heading size='mg' mb='.75rem'>Notes and Lists</Heading>
         <Flex justify='space-between' align='center' mb='.75rem'>
           <Text>Move completed tasks to the bottom</Text>
-          <Switch size="sm" isDisabled={true}/>
+          <Switch
+            size="sm"
+            isChecked={tasksData.settings.moveCompletedToBottom}
+            onChange={() => handleSwitch('moveCompletedToBottom')}
+          />
         </Flex>
         <Divider borderColor={dividerColor[colorMode]}/>
         <Flex align='center' my='.75rem'>
