@@ -228,6 +228,18 @@ export const TaskReducer = (state, action) => {
         tasks: {},
       };
 
+    // Manages settings
+    case 'HANDLE_SETTINGS':
+      if (action.setting === 'moveCompletedToBottom') {
+        return {
+          ...state,
+          settings: {
+            moveCompletedToBottom: !state.settings.moveCompletedToBottom,
+          }
+        }
+      }
+      return;
+
     default:
       return state;
   }
