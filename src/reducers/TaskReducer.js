@@ -234,6 +234,25 @@ export const TaskReducer = (state, action) => {
         ...state,
         settings: {
           [action.setting]: !state.settings[action.setting],
+        },
+      };
+
+    // Manages 'moveCompletedToBottom' persistent settings
+    case 'MOVE_COMPLETED_TO_BOTTOM':
+      const sortedTasks = Array.from(state.columns['to-do'].taskIds);
+
+      // TODO: Fix the sort so it doesn't affect the non-checked ones
+      if (state.settings.moveCompletedToBottom) {
+        sortedTasks.sort(task => state.tasks[task].checked - !state.tasks[task].checked);
+      }
+
+      return {
+        ...state,
+        columns: {
+          'to-do': {
+            ...state.columns['to-do'],
+            taskIds: sortedTasks,
+          }
         }
       }
 
