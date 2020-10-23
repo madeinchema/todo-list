@@ -99,8 +99,9 @@ export default function TaskList({ columnId }) {
     dispatch({
       type: 'HANDLE_DRAG_END',
       result,
-      columnId
-    })
+      columnId,
+    });
+    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' });
   }
 
   // Filtered tasks
