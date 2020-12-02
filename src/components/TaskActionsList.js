@@ -59,6 +59,7 @@ export default function TaskActionsList({ task, index, columnId }) {
         </Flex>
       )
     });
+    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' });
   }
 
   // Adds back the deleted task
@@ -69,7 +70,8 @@ export default function TaskActionsList({ task, index, columnId }) {
       index,
       columnId
     });
-    callback()
+    callback();
+    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' });
   }
 
   // Duplicates the task
@@ -78,8 +80,9 @@ export default function TaskActionsList({ task, index, columnId }) {
       type: 'DUPLICATE_TASK',
       task: task,
       index,
-      columnId
-    })
+      columnId,
+    });
+    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' });
   }
 
   const changePriority = (priority) => {

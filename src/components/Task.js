@@ -33,7 +33,10 @@ export default function Task({ task, index, droppableSnapshot, columnId }) {
   const cancelTask = () => dispatch({ type: 'CANCEL_TASK', task, prevTitle, columnId });
 
   // Updates the state of a task's checkbox
-  const handleCheck = () => dispatch({ type: 'HANDLE_CHECK', task, columnId });
+  const handleCheck = () => {
+    dispatch({ type: 'HANDLE_CHECK', task, columnId })
+    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
+  };
 
   // Styles
   const styles = {

@@ -21,7 +21,10 @@ const initialData = {
     }
   },
   // Facilitate reordering of the columns
-  columnOrder: ['to-do']
+  columnOrder: ['to-do'],
+  settings: {
+    moveCompletedToBottom: false,
+  }
 };
 
 const TasksContextProvider = (props) => {
