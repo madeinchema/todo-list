@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Box,
@@ -74,8 +74,8 @@ const ColumnHeader = ({ quantity, children, columnId, filter, setFilter }) => {
             <Text display='inline-block' fontWeight='500'>Sort</Text>
           </MenuButton>
           <MenuList placement='auto-start' zIndex={2}>
-              <MenuItem onClick={() => handleSort('SORT_HIGHEST')}>Highest priority first</MenuItem>
-              <MenuItem onClick={() => handleSort('SORT_LOWEST')}>Lowest priority first</MenuItem>
+            <MenuItem onClick={() => handleSort('SORT_HIGHEST')}>Highest priority first</MenuItem>
+            <MenuItem onClick={() => handleSort('SORT_LOWEST')}>Lowest priority first</MenuItem>
           </MenuList>
         </Menu>
 
@@ -90,25 +90,44 @@ const ColumnHeader = ({ quantity, children, columnId, filter, setFilter }) => {
 export default function TaskList({ columnId }) {
   const { tasksData, dispatch } = useContext(TasksContext);
   const [ filter, setFilter ] = useState('All');
+  const [ filteredTasks, setFilteredTasks ] = useState(undefined);
 
   const column = tasksData.columns[columnId];
   const tasks = column.taskIds.map(taskId => tasksData.tasks[taskId]);
+
+  // Todo: This is terrible code and I will change everything
+
+  useEffect(() => {
+      let theFilteredTasks;
+
+      if (filter === 'All') {
+        theFilteredTasks = [...tasks].filter(task => task);
+      }
+      if (filter === 'To do') {
+        theFilteredTasks = [...tasks].filter(task => !task.checked);
+      }
+      if (filter === 'Completed') {
+        theFilteredTasks = [...tasks].filter(task => task.checked);
+      }
+
+      // Handle moveCompletedToBottom
+      if (tasksData['settings'].moveCompletedToBottom) {
+        theFilteredTasks.sort((a, b) => a.checked > b)
+      }
+
+      setFilteredTasks(theFilteredTasks);
+
+  }, [filter, tasksData])
 
   // Handle the dropping of tasks
   const onDragEnd = result => {
     dispatch({
       type: 'HANDLE_DRAG_END',
       result,
-      columnId
-    })
+      columnId,
+    });
+    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' });
   }
-
-  // Filtered tasks
-  const handleFilter = () => {
-    if (filter === 'All') return [...tasks].filter(task => task);
-    if (filter === 'To do') return [...tasks].filter(task => !task.checked);
-    if (filter === 'Completed') return [...tasks].filter(task => task.checked);
-  };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -122,7 +141,7 @@ export default function TaskList({ columnId }) {
 
       {tasksData.columns[columnId].taskIds.length >= 1 && (
         <ColumnHeader
-          quantity={handleFilter().length}
+          quantity={filteredTasks && filteredTasks.length}
           columnId={columnId}
           filter={filter}
           setFilter={setFilter}
@@ -136,7 +155,7 @@ export default function TaskList({ columnId }) {
             h="calc(100vh - 13.25rem)"
           >
             <List mb='2rem'>
-              {tasksData && (
+              {filteredTasks && (
                 <Droppable droppableId={column.id} key={column.id} tasks={tasks}>
                   {(provided, snapshot) => (
                     <Box
@@ -144,7 +163,7 @@ export default function TaskList({ columnId }) {
                       {...provided.droppableProps}
                       isDraggingOver={snapshot.isDraggingOver}
                     >
-                      {handleFilter().map((task, index) => (
+                      {filteredTasks.map((task, index) => (
                         <Task key={task.id} task={task} index={index} droppableSnapshot={snapshot} columnId={column.id}/>
                       ))}
                       {provided.placeholder}
