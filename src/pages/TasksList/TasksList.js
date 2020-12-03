@@ -19,13 +19,12 @@ import { TasksContext } from "../../contexts/TasksContext";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { MdCheck, MdSort } from "react-icons/all";
 import NewTask from "./NewTask/NewTask";
+import TasksFilter from "./TasksFilter/TasksFilter";
 
-const ColumnHeader = ({ quantity, children, columnId, filter, setFilter }) => {
+const ColumnHeader = ({ quantity, columnId, filter, setFilter }) => {
   const { dispatch } = useContext(TasksContext);
 
-  const handleFilter = (newFilter) => setFilter(newFilter);
-
-  const handleSort = (order) => {
+  const setTasksSort = (order) => {
     dispatch({
       type: "SORT_TASKS",
       order,
@@ -34,7 +33,7 @@ const ColumnHeader = ({ quantity, children, columnId, filter, setFilter }) => {
   };
 
   return (
-    <Flex direction="column" maxW="680px" mx="auto" h="calc(100vh - 4.5rem)">
+    <Flex direction="column" maxW="680px" mx="auto">
       <NewTask />
       <Flex
         mb=".5rem"
@@ -44,25 +43,7 @@ const ColumnHeader = ({ quantity, children, columnId, filter, setFilter }) => {
         align="flex-end"
       >
         <Flex align="center">
-          <Menu>
-            <MenuButton
-              d="flex"
-              as={Button}
-              px=".5rem"
-              mr=".5rem"
-              size="sm"
-              alignContent="center"
-            >
-              <Heading size="md">{filter}</Heading>
-            </MenuButton>
-            <MenuList>
-              <MenuItem onClick={() => handleFilter("All")}>All</MenuItem>
-              <MenuItem onClick={() => handleFilter("To do")}>To do</MenuItem>
-              <MenuItem onClick={() => handleFilter("Completed")}>
-                Completed
-              </MenuItem>
-            </MenuList>
-          </Menu>
+          <TasksFilter filter={filter} setFilter={setFilter} />
           <Tag variant="subtle">{quantity}</Tag>
         </Flex>
 
@@ -74,16 +55,15 @@ const ColumnHeader = ({ quantity, children, columnId, filter, setFilter }) => {
             </Text>
           </MenuButton>
           <MenuList placement="auto-start" zIndex={2}>
-            <MenuItem onClick={() => handleSort("SORT_HIGHEST")}>
+            <MenuItem onClick={() => setTasksSort("SORT_HIGHEST")}>
               Highest priority first
             </MenuItem>
-            <MenuItem onClick={() => handleSort("SORT_LOWEST")}>
+            <MenuItem onClick={() => setTasksSort("SORT_LOWEST")}>
               Lowest priority first
             </MenuItem>
           </MenuList>
         </Menu>
       </Flex>
-      <Box>{children}</Box>
     </Flex>
   );
 };
@@ -129,6 +109,8 @@ export default function TasksList({ columnId }) {
     dispatch({ type: "MOVE_COMPLETED_TO_BOTTOM" });
   };
 
+  console.log(filteredTasks)
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {tasksData.columns[columnId].taskIds.length === 0 && (
@@ -139,12 +121,13 @@ export default function TasksList({ columnId }) {
       )}
 
       {tasksData.columns[columnId].taskIds.length >= 1 && (
-        <ColumnHeader
-          quantity={filteredTasks && filteredTasks.length}
-          columnId={columnId}
-          filter={filter}
-          setFilter={setFilter}
-        >
+        <Box h="calc(100vh - 4.5rem)">
+          <ColumnHeader
+            quantity={filteredTasks && filteredTasks.length}
+            columnId={columnId}
+            filter={filter}
+            setFilter={setFilter}
+          />
           <Flex
             flexDir="column"
             className="custom-scroll"
@@ -182,7 +165,7 @@ export default function TasksList({ columnId }) {
               )}
             </List>
           </Flex>
-        </ColumnHeader>
+        </Box>
       )}
     </DragDropContext>
   );
