@@ -14,11 +14,11 @@ import {
   useToast,
 } from '@chakra-ui/core';
 import PropTypes from 'prop-types';
-import { TasksContext } from '../contexts/TasksContext';
+import { TasksContext } from '../../../contexts/TasksContext';
 import {MdMoreVert, MdFlag, BiDuplicate} from 'react-icons/all';
 
 
-export default function TaskActionsList({ task, index, columnId }) {
+export default function TaskItemMenu({ task, index, columnId }) {
   const { dispatch } = useContext(TasksContext);
   const toast = useToast();
   const toastRef = useRef();
@@ -153,7 +153,7 @@ export default function TaskActionsList({ task, index, columnId }) {
   );
 }
 
-TaskActionsList.propTypes = {
+TaskItemMenu.propTypes = {
   task: PropTypes.exact({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
