@@ -10,7 +10,7 @@ import {
   Text,
 } from "@chakra-ui/core";
 import { MdCheck, MdSort } from "react-icons/all";
-import { TasksContext } from "../../../contexts/TasksContext";
+import { TasksContext } from "../../../../contexts/TasksContext";
 
 const TasksSort = ({ columnId }) => {
   const { dispatch } = useContext(TasksContext);

@@ -5,11 +5,11 @@ import TaskItem from "../../components/TaskItem/TaskItem";
 import { TasksContext } from "../../contexts/TasksContext";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { MdCheck } from "react-icons/all";
-import NewTask from "./NewTask/NewTask";
-import TasksFilter from "./TasksFilter/TasksFilter";
-import TasksSort from "./TasksSort/TasksSort";
+import NewTask from "./components/NewTask/NewTask";
+import TasksFilter from "./components/TasksFilter/TasksFilter";
+import TasksSort from "./components/TasksSort/TasksSort";
 
-const ColumnHeader = ({ quantity, columnId, filter, setFilter }) => {
+const TasksListMenu = ({ quantity, columnId, filter, setFilter }) => {
   return (
     <Flex direction="column" maxW="680px" mx="auto">
       <Flex
@@ -91,7 +91,7 @@ export default function TasksList({ columnId }) {
 
         {tasksData.columns[columnId].taskIds.length >= 1 && (
           <Box h="calc(100vh - 4.5rem)">
-            <ColumnHeader
+            <TasksListMenu
               quantity={filteredTasks && filteredTasks.length}
               columnId={columnId}
               filter={filter}
