@@ -1,13 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import {
-  Box,
-  Flex,
-  List,
-  Heading,
-  Icon,
-  Tag,
-} from "@chakra-ui/core";
+import { Box, Flex, List, Heading, Icon, Tag } from "@chakra-ui/core";
 import TaskItem from "../../components/TaskItem/TaskItem";
 import { TasksContext } from "../../contexts/TasksContext";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -19,7 +12,6 @@ import TasksSort from "./TasksSort/TasksSort";
 const ColumnHeader = ({ quantity, columnId, filter, setFilter }) => {
   return (
     <Flex direction="column" maxW="680px" mx="auto">
-      <NewTask />
       <Flex
         mb=".5rem"
         px=".5rem"
@@ -32,7 +24,7 @@ const ColumnHeader = ({ quantity, columnId, filter, setFilter }) => {
           <Tag variant="subtle">{quantity}</Tag>
         </Flex>
 
-        <TasksSort columnId={columnId}/>
+        <TasksSort columnId={columnId} />
       </Flex>
     </Flex>
   );
@@ -79,65 +71,73 @@ export default function TasksList({ columnId }) {
     dispatch({ type: "MOVE_COMPLETED_TO_BOTTOM" });
   };
 
-  console.log(filteredTasks)
+  console.log(filteredTasks);
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      {tasksData.columns[columnId].taskIds.length === 0 && (
-        <Flex justify="center" align="center" height="40vh" direction="column">
-          <Icon as={MdCheck} size="4rem" />
-          <Heading size="lg">There are no tasks</Heading>
-        </Flex>
-      )}
-
-      {tasksData.columns[columnId].taskIds.length >= 1 && (
-        <Box h="calc(100vh - 4.5rem)">
-          <ColumnHeader
-            quantity={filteredTasks && filteredTasks.length}
-            columnId={columnId}
-            filter={filter}
-            setFilter={setFilter}
-          />
+    <>
+      <NewTask />
+      <DragDropContext onDragEnd={onDragEnd}>
+        {tasksData.columns[columnId].taskIds.length === 0 && (
           <Flex
-            flexDir="column"
-            className="custom-scroll"
-            overflow="auto"
-            borderRadius="5px"
-            px=".5rem"
-            h="calc(100vh - 13.25rem)"
+            justify="center"
+            align="center"
+            height="40vh"
+            direction="column"
           >
-            <List mb="2rem">
-              {filteredTasks && (
-                <Droppable
-                  droppableId={column.id}
-                  key={column.id}
-                  tasks={tasks}
-                >
-                  {(provided, snapshot) => (
-                    <Box
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      isDraggingOver={snapshot.isDraggingOver}
-                    >
-                      {filteredTasks.map((task, index) => (
-                        <TaskItem
-                          key={task.id}
-                          task={task}
-                          index={index}
-                          droppableSnapshot={snapshot}
-                          columnId={column.id}
-                        />
-                      ))}
-                      {provided.placeholder}
-                    </Box>
-                  )}
-                </Droppable>
-              )}
-            </List>
+            <Icon as={MdCheck} size="4rem" />
+            <Heading size="lg">There are no tasks</Heading>
           </Flex>
-        </Box>
-      )}
-    </DragDropContext>
+        )}
+
+        {tasksData.columns[columnId].taskIds.length >= 1 && (
+          <Box h="calc(100vh - 4.5rem)">
+            <ColumnHeader
+              quantity={filteredTasks && filteredTasks.length}
+              columnId={columnId}
+              filter={filter}
+              setFilter={setFilter}
+            />
+            <Flex
+              flexDir="column"
+              className="custom-scroll"
+              overflow="auto"
+              borderRadius="5px"
+              px=".5rem"
+              h="calc(100vh - 13.25rem)"
+            >
+              <List mb="2rem">
+                {filteredTasks && (
+                  <Droppable
+                    droppableId={column.id}
+                    key={column.id}
+                    tasks={tasks}
+                  >
+                    {(provided, snapshot) => (
+                      <Box
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        isDraggingOver={snapshot.isDraggingOver}
+                      >
+                        {filteredTasks.map((task, index) => (
+                          <TaskItem
+                            key={task.id}
+                            task={task}
+                            index={index}
+                            droppableSnapshot={snapshot}
+                            columnId={column.id}
+                          />
+                        ))}
+                        {provided.placeholder}
+                      </Box>
+                    )}
+                  </Droppable>
+                )}
+              </List>
+            </Flex>
+          </Box>
+        )}
+      </DragDropContext>
+    </>
   );
 }
 
