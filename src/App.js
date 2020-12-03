@@ -6,11 +6,9 @@ import {
   CSSReset,
   useColorMode,
   Box,
-  Flex,
 } from '@chakra-ui/core';
 import Header from './components/Header/Header';
-import TaskList from './pages/TasksList/TasksList';
-import NewTask from './pages/TasksList/NewTask/NewTask';
+import TasksList from './pages/TasksList/TasksList';
 import { TasksContextProvider } from './contexts/TasksContext';
 import Settings from './pages/Settings';
 
@@ -27,15 +25,7 @@ export default function App() {
 
               <Switch>
                 <Route exact path='/'>
-                  <Flex
-                    direction='column'
-                    maxW='680px'
-                    mx='auto'
-                    h="calc(100vh - 4.5rem)"
-                  >
-                    <NewTask />
-                    <TaskList columnId='to-do'/>
-                  </Flex>
+                  <TasksList columnId='to-do'/>
                 </Route>
 
                 <Route path='/settings'>
