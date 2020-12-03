@@ -14,8 +14,8 @@ import {
   MenuList,
   MenuItem,
 } from '@chakra-ui/core';
-import Task from './Task';
-import { TasksContext } from '../contexts/TasksContext';
+import TaskItem from '../../components/TaskItem/TaskItem';
+import { TasksContext } from '../../contexts/TasksContext';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { MdCheck, MdSort } from 'react-icons/all';
 
@@ -87,7 +87,7 @@ const ColumnHeader = ({ quantity, children, columnId, filter, setFilter }) => {
   )
 }
 
-export default function TaskList({ columnId }) {
+export default function TasksList({ columnId }) {
   const { tasksData, dispatch } = useContext(TasksContext);
   const [ filter, setFilter ] = useState('All');
   const [ filteredTasks, setFilteredTasks ] = useState(undefined);
@@ -164,7 +164,7 @@ export default function TaskList({ columnId }) {
                       isDraggingOver={snapshot.isDraggingOver}
                     >
                       {filteredTasks.map((task, index) => (
-                        <Task key={task.id} task={task} index={index} droppableSnapshot={snapshot} columnId={column.id}/>
+                        <TaskItem key={task.id} task={task} index={index} droppableSnapshot={snapshot} columnId={column.id}/>
                       ))}
                       {provided.placeholder}
                     </Box>
@@ -180,7 +180,7 @@ export default function TaskList({ columnId }) {
   );
 };
 
-TaskList.propTypes = {
+TasksList.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.exact({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,

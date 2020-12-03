@@ -8,11 +8,11 @@ import {
   Box,
   Flex,
 } from '@chakra-ui/core';
-import Navbar from './components/Navbar';
-import TaskList from './components/TaskList';
-import NewTask from './components/NewTask';
+import Header from './components/Header/Header';
+import TaskList from './pages/TasksList/TasksList';
+import NewTask from './pages/TasksList/NewTask/NewTask';
 import { TasksContextProvider } from './contexts/TasksContext';
-import Settings from './components/Settings';
+import Settings from './pages/Settings';
 
 export default function App() {
   return (
@@ -23,7 +23,7 @@ export default function App() {
             <CSSReset />
             <TasksContextProvider>
 
-              <Navbar />
+              <Header />
 
               <Switch>
                 <Route exact path='/'>

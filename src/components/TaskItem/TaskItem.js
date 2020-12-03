@@ -10,9 +10,9 @@ import {
   EditableInput,
   EditablePreview,
 } from '@chakra-ui/core';
-import useHover from '../hooks/useHover';
-import TaskActionsList from './TaskActionsList';
-import { TasksContext } from '../contexts/TasksContext';
+import useHover from '../../hooks/useHover';
+import TaskItemMenu from './TaskItemMenu/TaskItemMenu';
+import { TasksContext } from '../../contexts/TasksContext';
 import { Draggable } from 'react-beautiful-dnd';
 
 
@@ -109,7 +109,7 @@ export default function Task({ task, index, droppableSnapshot, columnId }) {
               </Editable>
 
               <Box ml='auto' my='auto' maxW='3rem'>
-                {(hovering || touch) && <TaskActionsList task={task} index={index} columnId={columnId}/>}
+                {(hovering || touch) && <TaskItemMenu task={task} index={index} columnId={columnId}/>}
               </Box>
             </Flex>
 
