@@ -3,35 +3,20 @@ import PropTypes from "prop-types";
 import {
   Box,
   Flex,
-  Button,
-  Text,
   List,
   Heading,
   Icon,
   Tag,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
 } from "@chakra-ui/core";
 import TaskItem from "../../components/TaskItem/TaskItem";
 import { TasksContext } from "../../contexts/TasksContext";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { MdCheck, MdSort } from "react-icons/all";
+import { MdCheck } from "react-icons/all";
 import NewTask from "./NewTask/NewTask";
 import TasksFilter from "./TasksFilter/TasksFilter";
+import TasksSort from "./TasksSort/TasksSort";
 
 const ColumnHeader = ({ quantity, columnId, filter, setFilter }) => {
-  const { dispatch } = useContext(TasksContext);
-
-  const setTasksSort = (order) => {
-    dispatch({
-      type: "SORT_TASKS",
-      order,
-      columnId,
-    });
-  };
-
   return (
     <Flex direction="column" maxW="680px" mx="auto">
       <NewTask />
@@ -47,22 +32,7 @@ const ColumnHeader = ({ quantity, columnId, filter, setFilter }) => {
           <Tag variant="subtle">{quantity}</Tag>
         </Flex>
 
-        <Menu>
-          <MenuButton as={Button} d="flex" size="sm" align="center" pr=".75rem">
-            <Icon as={MdSort} size="1.5rem" mr=".25rem" />
-            <Text display="inline-block" fontWeight="500">
-              Sort
-            </Text>
-          </MenuButton>
-          <MenuList placement="auto-start" zIndex={2}>
-            <MenuItem onClick={() => setTasksSort("SORT_HIGHEST")}>
-              Highest priority first
-            </MenuItem>
-            <MenuItem onClick={() => setTasksSort("SORT_LOWEST")}>
-              Lowest priority first
-            </MenuItem>
-          </MenuList>
-        </Menu>
+        <TasksSort columnId={columnId}/>
       </Flex>
     </Flex>
   );

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Heading, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/core'
 
-const TasksSort = ({filter, setFilter}) => {
+const TasksFilter = ({filter, setFilter}) => {
   const setTasksFilter = (newFilter) => setFilter(newFilter);
 
   return (
@@ -28,8 +28,8 @@ const TasksSort = ({filter, setFilter}) => {
   )
 }
 
-TasksSort.propTypes = {
+TasksFilter.propTypes = {
 
 }
 
-export default TasksSort
+export default TasksFilter
