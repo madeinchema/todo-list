@@ -6,30 +6,8 @@ import { TasksContext } from "../../contexts/TasksContext";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { MdCheck } from "react-icons/all";
 import NewTask from "./components/NewTask/NewTask";
-import TasksFilter from "./components/TasksFilter/TasksFilter";
-import TasksSort from "./components/TasksSort/TasksSort";
 import EmptyTasksList from "./components/EmptyTasksList";
-
-const TasksListMenu = ({ quantity, columnId, filter, setFilter }) => {
-  return (
-    <>
-      <Flex
-        mb=".5rem"
-        px=".5rem"
-        w="100%"
-        justify="space-between"
-        align="flex-end"
-      >
-        <Flex align="center">
-          <TasksFilter filter={filter} setFilter={setFilter} />
-          <Tag variant="subtle">{quantity}</Tag>
-        </Flex>
-
-        <TasksSort columnId={columnId} />
-      </Flex>
-    </>
-  );
-};
+import TasksListMenu from "./components/TasksListMenu/TasksListMenu";
 
 export default function TasksList({ columnId }) {
   const { tasksData, dispatch } = useContext(TasksContext);
