@@ -8,10 +8,11 @@ import { MdCheck } from "react-icons/all";
 import NewTask from "./components/NewTask/NewTask";
 import TasksFilter from "./components/TasksFilter/TasksFilter";
 import TasksSort from "./components/TasksSort/TasksSort";
+import EmptyTasksList from "./components/EmptyTasksList";
 
 const TasksListMenu = ({ quantity, columnId, filter, setFilter }) => {
   return (
-    <Flex direction="column" maxW="680px" mx="auto">
+    <>
       <Flex
         mb=".5rem"
         px=".5rem"
@@ -26,7 +27,7 @@ const TasksListMenu = ({ quantity, columnId, filter, setFilter }) => {
 
         <TasksSort columnId={columnId} />
       </Flex>
-    </Flex>
+    </>
   );
 };
 
@@ -74,19 +75,12 @@ export default function TasksList({ columnId }) {
   console.log(filteredTasks);
 
   return (
-    <>
+    <Flex direction="column" maxW="680px" mx="auto">
       <NewTask />
       <DragDropContext onDragEnd={onDragEnd}>
+        
         {tasksData.columns[columnId].taskIds.length === 0 && (
-          <Flex
-            justify="center"
-            align="center"
-            height="40vh"
-            direction="column"
-          >
-            <Icon as={MdCheck} size="4rem" />
-            <Heading size="lg">There are no tasks</Heading>
-          </Flex>
+          <EmptyTasksList />
         )}
 
         {tasksData.columns[columnId].taskIds.length >= 1 && (
@@ -137,7 +131,7 @@ export default function TasksList({ columnId }) {
           </Box>
         )}
       </DragDropContext>
-    </>
+    </Flex>
   );
 }
 
