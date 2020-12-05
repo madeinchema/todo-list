@@ -1,70 +1,64 @@
-import React, { useContext, useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { Box, Flex, List, Heading, Icon, Tag } from "@chakra-ui/core";
-import TaskItem from "../../components/TaskItem/TaskItem";
-import { TasksContext } from "../../contexts/TasksContext";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { MdCheck } from "react-icons/all";
-import NewTask from "./components/NewTask/NewTask";
-import EmptyTasksList from "./components/EmptyTasksList";
-import TasksListMenu from "./components/TasksListMenu/TasksListMenu";
+import React, { useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Box, Flex, List, Heading, Icon, Tag } from '@chakra-ui/core';
+import TaskItem from '../../components/TaskItem/TaskItem';
+import { TasksContext } from '../../contexts/TasksContext';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import NewTask from './components/NewTask/NewTask';
+import EmptyTasksList from './components/EmptyTasksList';
+import TasksListMenu from './components/TasksListMenu/TasksListMenu';
 
 export default function TasksList({ columnId }) {
   const { tasksData, dispatch } = useContext(TasksContext);
-  const [filter, setFilter] = useState("All");
-  const [filteredTasks, setFilteredTasks] = useState(undefined);
+  const [filter, setFilter] = useState('All');
+  const [tasksToShow, setTasksToShow] = useState(undefined);
 
   const column = tasksData.columns[columnId];
   const tasks = column.taskIds.map((taskId) => tasksData.tasks[taskId]);
 
-  // Todo: This is terrible code and I will change everything
-
   useEffect(() => {
-    let theFilteredTasks;
+    let filteredTasks;
+    const isFilterAll = filter === 'All';
+    const isFilterToDo = filter === 'To do';
+    const isFilterCompleted = filter === 'Completed';
 
-    if (filter === "All") {
-      theFilteredTasks = [...tasks].filter((task) => task);
-    }
-    if (filter === "To do") {
-      theFilteredTasks = [...tasks].filter((task) => !task.checked);
-    }
-    if (filter === "Completed") {
-      theFilteredTasks = [...tasks].filter((task) => task.checked);
-    }
-
-    // Handle moveCompletedToBottom
-    if (tasksData["settings"].moveCompletedToBottom) {
-      theFilteredTasks.sort((a, b) => a.checked > b);
+    if (isFilterAll) {
+      filteredTasks = [...tasks].filter((task) => task);
+    } else if (isFilterToDo) {
+      filteredTasks = [...tasks].filter((task) => !task.checked);
+    } else if (isFilterCompleted) {
+      filteredTasks = [...tasks].filter((task) => task.checked);
     }
 
-    setFilteredTasks(theFilteredTasks);
+    filteredTasks && setTasksToShow(filteredTasks);
   }, [filter, tasksData]);
 
-  // Handle the dropping of tasks
+  useEffect(() => {
+    // todo: handle settings in other function/file
+    if (tasksToShow && tasksData['settings'].moveCompletedToBottom) {
+      tasksToShow.sort((a, b) => a.checked > b);
+    }
+  }, [setTasksToShow]);
+
   const onDragEnd = (result) => {
     dispatch({
-      type: "HANDLE_DRAG_END",
+      type: 'HANDLE_DRAG_END',
       result,
       columnId,
     });
-    dispatch({ type: "MOVE_COMPLETED_TO_BOTTOM" });
+    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' });
   };
-
-  console.log(filteredTasks);
 
   return (
     <Flex direction="column" maxW="680px" mx="auto">
       <NewTask />
       <DragDropContext onDragEnd={onDragEnd}>
-        
-        {tasksData.columns[columnId].taskIds.length === 0 && (
-          <EmptyTasksList />
-        )}
+        {tasksData.columns[columnId].taskIds.length === 0 && <EmptyTasksList />}
 
         {tasksData.columns[columnId].taskIds.length >= 1 && (
           <Box h="calc(100vh - 4.5rem)">
             <TasksListMenu
-              quantity={filteredTasks && filteredTasks.length}
+              quantity={tasksToShow && tasksToShow.length}
               columnId={columnId}
               filter={filter}
               setFilter={setFilter}
@@ -78,7 +72,7 @@ export default function TasksList({ columnId }) {
               h="calc(100vh - 13.25rem)"
             >
               <List mb="2rem">
-                {filteredTasks && (
+                {tasksToShow && (
                   <Droppable
                     droppableId={column.id}
                     key={column.id}
@@ -90,7 +84,7 @@ export default function TasksList({ columnId }) {
                         {...provided.droppableProps}
                         isDraggingOver={snapshot.isDraggingOver}
                       >
-                        {filteredTasks.map((task, index) => (
+                        {tasksToShow.map((task, index) => (
                           <TaskItem
                             key={task.id}
                             task={task}
