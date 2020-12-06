@@ -11,7 +11,7 @@ import {
 import Header from './components/Header/Header';
 import TasksList from './pages/TasksList/TasksList';
 import { TasksContextProvider } from './contexts/TasksContext';
-import Settings from './pages/Settings';
+import Settings from './pages/Settings/Settings';
 import './index.scss';
 
 const App = () => {
@@ -22,19 +22,17 @@ const App = () => {
           <TurnOnColorMode>
             <CSSReset />
             <TasksContextProvider>
-
               <Header />
 
               <Switch>
-                <Route exact path='/'>
-                  <TasksList columnId='to-do'/>
+                <Route exact path="/">
+                  <TasksList columnId="to-do" />
                 </Route>
 
-                <Route path='/settings'>
-                  <Settings/>
+                <Route path="/settings">
+                  <Settings />
                 </Route>
               </Switch>
-
             </TasksContextProvider>
           </TurnOnColorMode>
         </ColorModeProvider>
@@ -48,11 +46,7 @@ function TurnOnColorMode({ children }) {
   const bgColor = { light: 'gray.100', dark: 'gray.900' };
   const { colorMode } = useColorMode();
 
-  return (
-    <Box bg={bgColor[colorMode]}>
-      {children}
-    </Box>
-  );
+  return <Box bg={bgColor[colorMode]}>{children}</Box>;
 }
 
 ReactDOM.render(
@@ -61,5 +55,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-
