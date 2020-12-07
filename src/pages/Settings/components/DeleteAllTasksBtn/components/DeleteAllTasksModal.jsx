@@ -14,7 +14,7 @@ import {
 import { TasksContext } from '../../../../../contexts/TasksContext';
 
 const DeleteAllTasksModal = ({ isOpen, onClose }) => {
-  const { tasksData, dispatch } = useContext(TasksContext);
+  const { dispatch } = useContext(TasksContext);
   const toast = useToast();
 
   const showDeleteAllTasksNotification = () =>
@@ -57,6 +57,9 @@ const DeleteAllTasksModal = ({ isOpen, onClose }) => {
   );
 };
 
-DeleteAllTasksModal.propTypes = {};
+DeleteAllTasksModal.propTypes = {
+  isOpen: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default DeleteAllTasksModal;

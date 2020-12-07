@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Button, useColorMode, useDisclosure } from '@chakra-ui/core';
 import DeleteAllTasksModal from './components/DeleteAllTasksModal';
 
 const deleteBtnColor = { light: 'red.600', dark: 'red.400' };
 
-const DeleteAllTasksBtn = (props) => {
+const DeleteAllTasksBtn = () => {
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -25,7 +24,5 @@ const DeleteAllTasksBtn = (props) => {
     </>
   );
 };
-
-DeleteAllTasksBtn.propTypes = {};
 
 export default DeleteAllTasksBtn;

@@ -10,7 +10,6 @@ import {
   Heading,
   Divider,
   useColorMode,
-  useToast,
 } from '@chakra-ui/core';
 import { MdArrowBack } from 'react-icons/all';
 import { TasksContext } from '../../contexts/TasksContext';
