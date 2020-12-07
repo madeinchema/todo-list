@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/core';
 import { MdArrowBack } from 'react-icons/all';
 import { TasksContext } from '../../contexts/TasksContext';
-import DeleteAllTasksBtn from './components/DeleteAllTasksBtn';
+import DeleteAllTasksBtn from './components/DeleteAllTasksBtn/DeleteAllTasksBtn';
 
 const Settings = () => {
   const { tasksData, dispatch } = useContext(TasksContext);

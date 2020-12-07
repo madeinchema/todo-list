@@ -1,9 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Box,
-  Flex,
-  Text,
   Button,
   Modal,
   ModalOverlay,
@@ -12,28 +9,10 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useColorMode,
-  useDisclosure,
   useToast,
 } from '@chakra-ui/core';
-import { TasksContext } from '../../../contexts/TasksContext';
-
-const deleteBtnColor = { light: 'red.600', dark: 'red.400' };
-
-const DeleteAllTasksNotification = () => (
-  <Flex
-    backgroundColor="red.600"
-    m={3}
-    py={3}
-    px={5}
-    justifyContent="space-between"
-    alignContent="center"
-  >
-    <Text mr="1em" pt=".2rem" color="white">
-      All the tasks have been deleted
-    </Text>
-  </Flex>
-);
+import DeleteAllTasksNotification from './DeleteAllTasksNotification';
+import { TasksContext } from '../../../../../contexts/TasksContext';
 
 const DeleteAllTasksModal = ({ isOpen, onClose }) => {
   const { tasksData, dispatch } = useContext(TasksContext);
@@ -78,27 +57,6 @@ const DeleteAllTasksModal = ({ isOpen, onClose }) => {
   );
 };
 
-const DeleteAllTasksBtn = (props) => {
-  const { colorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+DeleteAllTasksModal.propTypes = {};
 
-  return (
-    <>
-      <Button
-        borderColor={deleteBtnColor[colorMode]}
-        color={deleteBtnColor[colorMode]}
-        variant="outline"
-        variantColor="red"
-        onClick={onOpen}
-      >
-        Delete all the tasks
-      </Button>
-
-      <DeleteAllTasksModal isOpen={isOpen} onClose={onClose} />
-    </>
-  );
-};
-
-DeleteAllTasksBtn.propTypes = {};
-
-export default DeleteAllTasksBtn;
+export default DeleteAllTasksModal;
