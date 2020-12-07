@@ -1,44 +1,35 @@
 import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Flex, List, Heading, Icon, Tag } from '@chakra-ui/core';
+import { Box, Flex, List, Skeleton, Stack } from '@chakra-ui/core';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import TaskItem from '../../components/TaskItem/TaskItem';
 import { TasksContext } from '../../contexts/TasksContext';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import NewTask from './components/NewTask/NewTask';
 import EmptyTasksList from './components/EmptyTasksList';
 import TasksListMenu from './components/TasksListMenu/TasksListMenu';
+import getFilteredTasks from './utils/functions/getFilteredTasks';
+import getSortedTasks from './utils/functions/getSortedTasks';
 
 export default function TasksList({ columnId }) {
   const { tasksData, dispatch } = useContext(TasksContext);
   const [filter, setFilter] = useState('All');
   const [tasksToShow, setTasksToShow] = useState(undefined);
+  const [loading, setLoading] = useState(undefined);
 
   const column = tasksData.columns[columnId];
-  const tasks = column.taskIds.map((taskId) => tasksData.tasks[taskId]);
 
   useEffect(() => {
-    let filteredTasks;
-    const isFilterAll = filter === 'All';
-    const isFilterToDo = filter === 'To do';
-    const isFilterCompleted = filter === 'Completed';
-
-    if (isFilterAll) {
-      filteredTasks = [...tasks].filter((task) => task);
-    } else if (isFilterToDo) {
-      filteredTasks = [...tasks].filter((task) => !task.checked);
-    } else if (isFilterCompleted) {
-      filteredTasks = [...tasks].filter((task) => task.checked);
-    }
-
-    filteredTasks && setTasksToShow(filteredTasks);
-  }, [filter, tasksData]);
-
-  useEffect(() => {
-    // todo: handle settings in other function/file
-    if (tasksToShow && tasksData['settings'].moveCompletedToBottom) {
-      tasksToShow.sort((a, b) => a.checked > b);
-    }
-  }, [setTasksToShow]);
+    const tasks = column.taskIds.map((taskId) => tasksData.tasks[taskId]);
+    // todo: redo this implementation
+    const handleTasksToShow = async () => {
+      setLoading(true);
+      const filteredTasks = await getFilteredTasks([...tasks], filter);
+      const sortedTasks = await getSortedTasks(filteredTasks);
+      setTasksToShow(sortedTasks);
+      setLoading(false);
+    };
+    handleTasksToShow();
+  }, [column.taskIds, filter, tasksData]);
 
   const onDragEnd = (result) => {
     dispatch({
@@ -72,11 +63,11 @@ export default function TasksList({ columnId }) {
               h="calc(100vh - 13.25rem)"
             >
               <List mb="2rem">
-                {tasksToShow && (
+                {!loading && tasksToShow && (
                   <Droppable
                     droppableId={column.id}
                     key={column.id}
-                    tasks={tasks}
+                    tasks={tasksToShow}
                   >
                     {(provided, snapshot) => (
                       <Box
@@ -107,14 +98,4 @@ export default function TasksList({ columnId }) {
   );
 }
 
-TasksList.propTypes = {
-  tasks: PropTypes.arrayOf(
-    PropTypes.exact({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      checked: PropTypes.bool.isRequired,
-      indent: PropTypes.number,
-      priority: PropTypes.number,
-    })
-  ),
-};
+TasksList.propTypes = {};
