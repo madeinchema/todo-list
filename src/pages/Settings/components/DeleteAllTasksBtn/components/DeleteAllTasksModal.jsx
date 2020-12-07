@@ -11,26 +11,26 @@ import {
   ModalCloseButton,
   useToast,
 } from '@chakra-ui/core';
-import DeleteAllTasksNotification from './DeleteAllTasksNotification';
 import { TasksContext } from '../../../../../contexts/TasksContext';
 
 const DeleteAllTasksModal = ({ isOpen, onClose }) => {
   const { tasksData, dispatch } = useContext(TasksContext);
   const toast = useToast();
 
-  // todo: move into a functions file
-  const handleDeleteAll = () => {
-    dispatch({
-      type: 'DELETE_ALL',
-    });
+  const showDeleteAllTasksNotification = () =>
     toast({
-      // todo: this should probably be a function, close to DeleteAllTasksNotification
       position: 'bottom-left',
       title: 'All the tasks have been deleted',
       duration: 5000,
       isClosable: true,
-      render: () => DeleteAllTasksNotification,
+      status: 'success',
     });
+
+  const deleteAllTasks = () => {
+    dispatch({
+      type: 'DELETE_ALL',
+    });
+    showDeleteAllTasksNotification();
     onClose();
   };
 
@@ -48,7 +48,7 @@ const DeleteAllTasksModal = ({ isOpen, onClose }) => {
           <Button variantColor="blue" mr={3} onClick={onClose}>
             No
           </Button>
-          <Button variantColor="red" onClick={handleDeleteAll}>
+          <Button variantColor="red" onClick={deleteAllTasks}>
             Yes, delete all the tasks
           </Button>
         </ModalFooter>
