@@ -20,4 +20,10 @@ module.exports = {
   settings: {
     'import/extensions': ['.js', '.jsx'],
   },
+  env: {
+    browser: true,
+  },
+  rules: {
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+  },
 };
