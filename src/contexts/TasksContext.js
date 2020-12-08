@@ -1,6 +1,6 @@
 import React, { useReducer, createContext, useEffect } from 'react';
-import { TaskReducer } from '../reducers/TaskReducer';
 import PropTypes from 'prop-types';
+import { TaskReducer } from '../reducers/TaskReducer';
 
 const TasksContext = createContext();
 
@@ -18,50 +18,51 @@ const initialData = {
       taskIds: [
         // 'task-1', 'task-2', 'task-3', 'task-4'
       ],
-    }
+    },
   },
   // Facilitate reordering of the columns
   columnOrder: ['to-do'],
   settings: {
     moveCompletedToBottom: false,
-  }
+  },
 };
 
-const TasksContextProvider = (props) => {
-  // Initialize state, check localStorage or use dummy data
-  const [tasksData, dispatch] = useReducer(TaskReducer, initialData, () => {
-    if (
-      localStorage.getItem('tasks-v1') === 'null' ||
-      localStorage.getItem('tasks-v1') === 'undefined'
-    ) {
-      return initialData
-    } else if (localStorage.getItem('tasks-v1') !== null) {
-      return JSON.parse(localStorage.getItem('tasks-v1'));
-    }
-    return initialData
-  });
+const setInitialLocalStorage = () => {
+  const hasLocalStorageItems =
+    localStorage.getItem('tasks-v1') !== null &&
+    localStorage.getItem('tasks-v1') !== 'undefined';
+  const getLocalStorageTasks = () =>
+    JSON.parse(localStorage.getItem('tasks-v1'));
+  return hasLocalStorageItems ? getLocalStorageTasks() : initialData;
+};
 
-  // Update localStorage to match the current state
+const TasksContextProvider = ({ children }) => {
+  const [tasksData, dispatch] = useReducer(
+    TaskReducer,
+    initialData,
+    setInitialLocalStorage
+  );
+
   useEffect(() => {
-    localStorage.setItem('tasks-v1', JSON.stringify(tasksData));
-  }, [tasksData])
+    const updateLocalStorageWithCurrentState = () => {
+      localStorage.setItem('tasks-v1', JSON.stringify(tasksData));
+    };
+    updateLocalStorageWithCurrentState();
+  }, [tasksData]);
 
   return (
-    <TasksContext.Provider value={{ tasksData: tasksData, dispatch }}>
-      { props.children }
+    <TasksContext.Provider value={{ tasksData, dispatch }}>
+      {children}
     </TasksContext.Provider>
   );
 };
 
-export { TasksContextProvider, TasksContext };
+TasksContextProvider.propTypes = {
+  children: PropTypes.node,
+};
 
-TasksContext.Provider.propTypes = {
-  value: PropTypes.shape({
-    tasksData: PropTypes.shape({
-      tasks: PropTypes.object.isRequired,
-      columns: PropTypes.object.isRequired,
-      columnOrder: PropTypes.array.isRequired,
-    }),
-    dispatch: PropTypes.func.isRequired
-  }),
-}
+TasksContextProvider.defaultProps = {
+  children: undefined,
+};
+
+export { TasksContextProvider, TasksContext };
