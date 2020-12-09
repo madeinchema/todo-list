@@ -10,6 +10,7 @@ import {
   Menu,
   MenuList,
 } from '@chakra-ui/core';
+import newTaskPriorityMenuTexts from '../utils/constants/newTaskTexts';
 
 const NewTaskPriorityMenu = (props) => {
   const { handleInputPriority, inputPriority } = props;
@@ -50,43 +51,43 @@ const NewTaskPriorityMenu = (props) => {
       <MenuList>
         <MenuItem onClick={() => handleInputPriority(1)}>
           <Icon
-            aria-label="Priority 1"
+            aria-label={newTaskPriorityMenuTexts.priority1}
             as={MdFlag}
             color="red.600"
             size="1.5rem"
             mr=".5rem"
           />
-          Priority 1
+          {newTaskPriorityMenuTexts.priority1}
         </MenuItem>
         <MenuItem onClick={() => handleInputPriority(2)}>
           <Icon
-            aria-label="Priority 2"
+            aria-label={newTaskPriorityMenuTexts.priority2}
             as={MdFlag}
             color="yellow.500"
             size="1.5rem"
             mr=".5rem"
           />
-          Priority 2
+          {newTaskPriorityMenuTexts.priority2}
         </MenuItem>
         <MenuItem onClick={() => handleInputPriority(3)}>
           <Icon
-            aria-label="Priority 3"
+            aria-label={newTaskPriorityMenuTexts.priority3}
             as={MdFlag}
             color="blue.400"
             size="1.5rem"
             mr=".5rem"
           />
-          Priority 3
+          {newTaskPriorityMenuTexts.priority3}
         </MenuItem>
         <MenuItem onClick={() => handleInputPriority(4)}>
           <Icon
-            aria-label="Priority 4"
+            aria-label={newTaskPriorityMenuTexts.priority4}
             as={MdFlag}
             color="gray.500"
             size="1.5rem"
             mr=".5rem"
           />
-          Priority 4
+          {newTaskPriorityMenuTexts.priority4}
         </MenuItem>
       </MenuList>
     </Menu>
