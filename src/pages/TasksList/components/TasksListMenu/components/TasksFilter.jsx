@@ -10,8 +10,8 @@ import {
 } from '@chakra-ui/core';
 
 const TasksFilter = (props) => {
-  const { filter, setFilter } = props;
-  const setTasksFilter = (newFilter) => setFilter(newFilter);
+  const { tasksListFilter, setTasksListFilter } = props;
+  const setTasksFilter = (newFilter) => setTasksListFilter(newFilter);
 
   return (
     <Menu>
@@ -23,7 +23,7 @@ const TasksFilter = (props) => {
         size="sm"
         alignContent="center"
       >
-        <Heading size="md">{filter}</Heading>
+        <Heading size="md">{tasksListFilter}</Heading>
       </MenuButton>
       <MenuList>
         <MenuItem onClick={() => setTasksFilter('All')}>All</MenuItem>
@@ -37,13 +37,13 @@ const TasksFilter = (props) => {
 };
 
 TasksFilter.propTypes = {
-  filter: PropTypes.string,
-  setFilter: PropTypes.func,
+  tasksListFilter: PropTypes.string,
+  setTasksListFilter: PropTypes.func,
 };
 
 TasksFilter.defaultProps = {
-  filter: undefined,
-  setFilter: undefined,
+  tasksListFilter: undefined,
+  setTasksListFilter: undefined,
 };
 
 export default TasksFilter;

@@ -135,8 +135,8 @@ TaskItem.propTypes = {
   }),
   index: PropTypes.number,
   droppableSnapshot: PropTypes.shape({
-    draggingFromThisWith: PropTypes.bool,
-    draggingOverWith: PropTypes.bool,
+    draggingFromThisWith: PropTypes.string,
+    draggingOverWith: PropTypes.string,
     isDraggingOver: PropTypes.bool,
     isUsingPlaceholder: PropTypes.bool,
   }),
