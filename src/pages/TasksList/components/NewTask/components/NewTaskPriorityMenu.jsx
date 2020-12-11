@@ -13,7 +13,7 @@ import {
 import newTaskPriorityMenuTexts from '../utils/constants/newTaskTexts';
 
 const NewTaskPriorityMenu = (props) => {
-  const { handleInputPriority, inputPriority } = props;
+  const { updateNewTaskPriority } = props;
 
   const styles = {
     priorityColor: `${
@@ -49,7 +49,7 @@ const NewTaskPriorityMenu = (props) => {
       </PseudoBox>
 
       <MenuList>
-        <MenuItem onClick={() => handleInputPriority(1)}>
+        <MenuItem onClick={() => updateNewTaskPriority(1)}>
           <Icon
             aria-label={newTaskPriorityMenuTexts.priority1}
             as={MdFlag}
@@ -59,7 +59,7 @@ const NewTaskPriorityMenu = (props) => {
           />
           {newTaskPriorityMenuTexts.priority1}
         </MenuItem>
-        <MenuItem onClick={() => handleInputPriority(2)}>
+        <MenuItem onClick={() => updateNewTaskPriority(2)}>
           <Icon
             aria-label={newTaskPriorityMenuTexts.priority2}
             as={MdFlag}
@@ -69,7 +69,7 @@ const NewTaskPriorityMenu = (props) => {
           />
           {newTaskPriorityMenuTexts.priority2}
         </MenuItem>
-        <MenuItem onClick={() => handleInputPriority(3)}>
+        <MenuItem onClick={() => updateNewTaskPriority(3)}>
           <Icon
             aria-label={newTaskPriorityMenuTexts.priority3}
             as={MdFlag}
@@ -79,7 +79,7 @@ const NewTaskPriorityMenu = (props) => {
           />
           {newTaskPriorityMenuTexts.priority3}
         </MenuItem>
-        <MenuItem onClick={() => handleInputPriority(4)}>
+        <MenuItem onClick={() => updateNewTaskPriority(4)}>
           <Icon
             aria-label={newTaskPriorityMenuTexts.priority4}
             as={MdFlag}
@@ -94,6 +94,12 @@ const NewTaskPriorityMenu = (props) => {
   );
 };
 
-NewTaskPriorityMenu.propTypes = {};
+NewTaskPriorityMenu.propTypes = {
+  updateNewTaskPriority: PropTypes.func,
+};
+
+NewTaskPriorityMenu.defaultProps = {
+  updateNewTaskPriority: undefined,
+};
 
 export default NewTaskPriorityMenu;
