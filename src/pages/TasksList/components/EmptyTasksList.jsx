@@ -1,8 +1,8 @@
-import React from "react";
-import { Flex, Heading, Icon } from "@chakra-ui/core";
-import { MdCheck } from "react-icons/md";
+import React from 'react';
+import { Flex, Heading, Icon } from '@chakra-ui/core';
+import { MdCheck } from 'react-icons/md';
 
-const EmptyTasksList = (props) => {
+const EmptyTasksList = () => {
   return (
     <Flex justify="center" align="center" height="40vh" direction="column">
       <Icon as={MdCheck} size="4rem" />

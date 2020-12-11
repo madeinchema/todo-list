@@ -13,17 +13,17 @@ import {
 import newTaskPriorityMenuTexts from '../utils/constants/newTaskTexts';
 
 const NewTaskPriorityMenu = (props) => {
-  const { updateNewTaskPriority } = props;
+  const { newTaskPriority, updateNewTaskPriority } = props;
 
   const styles = {
     priorityColor: `${
-      inputPriority === 1
+      newTaskPriority === 1
         ? 'red.600'
-        : inputPriority === 2
+        : newTaskPriority === 2
         ? 'yellow.500'
-        : inputPriority === 3
+        : newTaskPriority === 3
         ? 'blue.400'
-        : inputPriority === 4 && 'gray.500'
+        : newTaskPriority === 4 && 'gray.500'
     }`,
   };
 
@@ -95,10 +95,12 @@ const NewTaskPriorityMenu = (props) => {
 };
 
 NewTaskPriorityMenu.propTypes = {
+  newTaskPriority: PropTypes.number,
   updateNewTaskPriority: PropTypes.func,
 };
 
 NewTaskPriorityMenu.defaultProps = {
+  newTaskPriority: undefined,
   updateNewTaskPriority: undefined,
 };
 

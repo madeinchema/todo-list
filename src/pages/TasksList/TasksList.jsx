@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Flex, List, Skeleton, Stack } from '@chakra-ui/core';
+import { Box, Flex, List } from '@chakra-ui/core';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import TaskItem from '../../components/TaskItem/TaskItem';
 import { TasksContext } from '../../contexts/TasksContext';
@@ -10,9 +10,10 @@ import TasksListMenu from './components/TasksListMenu/TasksListMenu';
 import getFilteredTasks from './utils/functions/getFilteredTasks';
 import getSortedTasks from './utils/functions/getSortedTasks';
 
-export default function TasksList({ columnId }) {
+const TasksList = (props) => {
+  const { columnId } = props;
   const { tasksData, dispatch } = useContext(TasksContext);
-  const [filter, setFilter] = useState('All');
+  const [tasksListFilter, setTasksListFilter] = useState('All');
   const [tasksToShow, setTasksToShow] = useState(undefined);
   const [loading, setLoading] = useState(undefined);
 
@@ -23,13 +24,13 @@ export default function TasksList({ columnId }) {
     // todo: redo this implementation
     const handleTasksToShow = async () => {
       setLoading(true);
-      const filteredTasks = await getFilteredTasks([...tasks], filter);
+      const filteredTasks = await getFilteredTasks([...tasks], tasksListFilter);
       const sortedTasks = await getSortedTasks(filteredTasks);
       setTasksToShow(sortedTasks);
       setLoading(false);
     };
     handleTasksToShow();
-  }, [column.taskIds, filter, tasksData]);
+  }, [column.taskIds, tasksListFilter, tasksData]);
 
   const onDragEnd = (result) => {
     dispatch({
@@ -51,8 +52,8 @@ export default function TasksList({ columnId }) {
             <TasksListMenu
               quantity={tasksToShow && tasksToShow.length}
               columnId={columnId}
-              filter={filter}
-              setFilter={setFilter}
+              tasksListFilter={tasksListFilter}
+              setTasksListFilter={setTasksListFilter}
             />
             <Flex
               flexDir="column"
@@ -96,6 +97,14 @@ export default function TasksList({ columnId }) {
       </DragDropContext>
     </Flex>
   );
-}
+};
 
-TasksList.propTypes = {};
+TasksList.propTypes = {
+  columnId: PropTypes.string,
+};
+
+TasksList.defaultProps = {
+  columnId: undefined,
+};
+
+export default TasksList;

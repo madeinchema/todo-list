@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import {
   Button,
   Icon,
@@ -8,16 +8,17 @@ import {
   MenuItem,
   MenuList,
   Text,
-} from "@chakra-ui/core";
-import { MdCheck, MdSort } from "react-icons/all";
-import { TasksContext } from "../../../../../contexts/TasksContext";
+} from '@chakra-ui/core';
+import { MdSort } from 'react-icons/all';
+import { TasksContext } from '../../../../../contexts/TasksContext';
 
-const TasksSort = ({ columnId }) => {
+const TasksSort = (props) => {
+  const { columnId } = props;
   const { dispatch } = useContext(TasksContext);
 
   const setTasksSort = (order) => {
     dispatch({
-      type: "SORT_TASKS",
+      type: 'SORT_TASKS',
       order,
       columnId,
     });
@@ -32,10 +33,10 @@ const TasksSort = ({ columnId }) => {
         </Text>
       </MenuButton>
       <MenuList placement="auto-start" zIndex={2}>
-        <MenuItem onClick={() => setTasksSort("SORT_HIGHEST")}>
+        <MenuItem onClick={() => setTasksSort('SORT_HIGHEST')}>
           Highest priority first
         </MenuItem>
-        <MenuItem onClick={() => setTasksSort("SORT_LOWEST")}>
+        <MenuItem onClick={() => setTasksSort('SORT_LOWEST')}>
           Lowest priority first
         </MenuItem>
       </MenuList>
@@ -43,6 +44,12 @@ const TasksSort = ({ columnId }) => {
   );
 };
 
-TasksSort.propTypes = {};
+TasksSort.propTypes = {
+  columnId: PropTypes.string,
+};
+
+TasksSort.defaultProps = {
+  columnId: undefined,
+};
 
 export default TasksSort;
