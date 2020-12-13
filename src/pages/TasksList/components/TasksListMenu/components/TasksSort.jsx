@@ -27,7 +27,7 @@ const TasksSort = (props) => {
   return (
     <Menu>
       <MenuButton as={Button} d="flex" size="sm" align="center" pr=".75rem">
-        <Icon as={MdSort} size="1.5rem" mr=".25rem" />
+        <Icon as={MdSort} boxSize="1.5rem" mr=".25rem" />
         <Text display="inline-block" fontWeight="500">
           Sort
         </Text>

@@ -42,7 +42,7 @@ const NewTaskPriorityMenu = (props) => {
             alignSelf="center"
             as={MdFlag}
             color={styles.priorityColor}
-            size="1.5rem"
+            boxSize="1.5rem"
             h="100%"
           />
         </MenuButton>
@@ -54,7 +54,7 @@ const NewTaskPriorityMenu = (props) => {
             aria-label={newTaskPriorityMenuTexts.priority1}
             as={MdFlag}
             color="red.600"
-            size="1.5rem"
+            boxSize="1.5rem"
             mr=".5rem"
           />
           {newTaskPriorityMenuTexts.priority1}
@@ -64,7 +64,7 @@ const NewTaskPriorityMenu = (props) => {
             aria-label={newTaskPriorityMenuTexts.priority2}
             as={MdFlag}
             color="yellow.500"
-            size="1.5rem"
+            boxSize="1.5rem"
             mr=".5rem"
           />
           {newTaskPriorityMenuTexts.priority2}
@@ -74,7 +74,7 @@ const NewTaskPriorityMenu = (props) => {
             aria-label={newTaskPriorityMenuTexts.priority3}
             as={MdFlag}
             color="blue.400"
-            size="1.5rem"
+            boxSize="1.5rem"
             mr=".5rem"
           />
           {newTaskPriorityMenuTexts.priority3}
@@ -84,7 +84,7 @@ const NewTaskPriorityMenu = (props) => {
             aria-label={newTaskPriorityMenuTexts.priority4}
             as={MdFlag}
             color="gray.500"
-            size="1.5rem"
+            boxSize="1.5rem"
             mr=".5rem"
           />
           {newTaskPriorityMenuTexts.priority4}

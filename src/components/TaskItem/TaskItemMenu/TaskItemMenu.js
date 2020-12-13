@@ -108,7 +108,11 @@ export default function TaskItemMenu({ task, index, columnId }) {
           _hover={{ opacity: '1' }}
         >
           <MenuButton aria-label={'Open task menu'}>
-            <Icon aria-label="Search database" as={MdMoreVert} size="1.5rem" />
+            <Icon
+              aria-label="Search database"
+              as={MdMoreVert}
+              boxSize="1.5rem"
+            />
           </MenuButton>
         </PseudoBox>
 
@@ -117,7 +121,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
             <Icon
               aria-label="Remove Task"
               name="delete"
-              size="1rem"
+              boxSize="1rem"
               mr=".6rem"
               opacity=".75"
               ml=".25rem"
@@ -128,7 +132,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
             <Icon
               aria-label="Duplicate Task"
               as={BiDuplicate}
-              size="1.25rem"
+              boxSize="1.25rem"
               mr=".5rem"
               ml=".1rem"
               opacity=".75"
@@ -142,7 +146,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
                 aria-label="Priority 1"
                 as={MdFlag}
                 color="red.600"
-                size="1.4rem"
+                boxSize="1.4rem"
                 mr=".5rem"
               />
               Priority 1
@@ -152,7 +156,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
                 aria-label="Priority 2"
                 as={MdFlag}
                 color="yellow.500"
-                size="1.4rem"
+                boxSize="1.4rem"
                 mr=".5rem"
               />
               Priority 2
@@ -162,7 +166,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
                 aria-label="Priority 3"
                 as={MdFlag}
                 color="blue.400"
-                size="1.4rem"
+                boxSize="1.4rem"
                 mr=".5rem"
               />
               Priority 3
@@ -172,7 +176,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
                 aria-label="Priority 4"
                 as={MdFlag}
                 color="gray.500"
-                size="1.4rem"
+                boxSize="1.4rem"
                 mr=".5rem"
               />
               Priority 4
