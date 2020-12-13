@@ -5,11 +5,11 @@ import {
   Icon,
   Link,
   MenuItem,
-  PseudoBox,
+  Box,
   MenuButton,
   Menu,
   MenuList,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import newTaskPriorityMenuTexts from '../utils/constants/newTaskTexts';
 
 const NewTaskPriorityMenu = (props) => {
@@ -29,7 +29,7 @@ const NewTaskPriorityMenu = (props) => {
 
   return (
     <Menu>
-      <PseudoBox
+      <Box
         style={{ transition: 'all .1s ease-out' }}
         d="flex"
         opacity="0.75"
@@ -42,11 +42,11 @@ const NewTaskPriorityMenu = (props) => {
             alignSelf="center"
             as={MdFlag}
             color={styles.priorityColor}
-            size="1.5rem"
+            boxSize="1.5rem"
             h="100%"
           />
         </MenuButton>
-      </PseudoBox>
+      </Box>
 
       <MenuList>
         <MenuItem onClick={() => updateNewTaskPriority(1)}>
@@ -54,7 +54,7 @@ const NewTaskPriorityMenu = (props) => {
             aria-label={newTaskPriorityMenuTexts.priority1}
             as={MdFlag}
             color="red.600"
-            size="1.5rem"
+            boxSize="1.5rem"
             mr=".5rem"
           />
           {newTaskPriorityMenuTexts.priority1}
@@ -64,7 +64,7 @@ const NewTaskPriorityMenu = (props) => {
             aria-label={newTaskPriorityMenuTexts.priority2}
             as={MdFlag}
             color="yellow.500"
-            size="1.5rem"
+            boxSize="1.5rem"
             mr=".5rem"
           />
           {newTaskPriorityMenuTexts.priority2}
@@ -74,7 +74,7 @@ const NewTaskPriorityMenu = (props) => {
             aria-label={newTaskPriorityMenuTexts.priority3}
             as={MdFlag}
             color="blue.400"
-            size="1.5rem"
+            boxSize="1.5rem"
             mr=".5rem"
           />
           {newTaskPriorityMenuTexts.priority3}
@@ -84,7 +84,7 @@ const NewTaskPriorityMenu = (props) => {
             aria-label={newTaskPriorityMenuTexts.priority4}
             as={MdFlag}
             color="gray.500"
-            size="1.5rem"
+            boxSize="1.5rem"
             mr=".5rem"
           />
           {newTaskPriorityMenuTexts.priority4}

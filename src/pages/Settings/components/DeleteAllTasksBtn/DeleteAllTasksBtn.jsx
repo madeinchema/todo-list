@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, useColorMode, useDisclosure } from '@chakra-ui/core';
+import { Button, useColorMode, useDisclosure } from '@chakra-ui/react';
 import DeleteAllTasksModal from './components/DeleteAllTasksModal';
 
 const deleteBtnColor = { light: 'red.600', dark: 'red.400' };
@@ -14,7 +14,7 @@ const DeleteAllTasksBtn = () => {
         borderColor={deleteBtnColor[colorMode]}
         color={deleteBtnColor[colorMode]}
         variant="outline"
-        variantColor="red"
+        colorScheme="red"
         onClick={onOpen}
       >
         Delete all the tasks

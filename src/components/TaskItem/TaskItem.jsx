@@ -9,11 +9,12 @@ import {
   Editable,
   EditableInput,
   EditablePreview,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { Draggable } from 'react-beautiful-dnd';
 import useHover from '../../utils/hooks/useHover';
 import TaskItemMenu from './TaskItemMenu/TaskItemMenu';
 import { TasksContext } from '../../contexts/TasksContext';
+import { DragHandleIcon } from '@chakra-ui/icons';
 
 const TaskItem = (props) => {
   const { task, index, droppableSnapshot, columnId } = props;
@@ -80,7 +81,7 @@ const TaskItem = (props) => {
               borderColor={styles.priorities}
             >
               <Box {...provided.dragHandleProps}>
-                <Icon name="drag-handle" mr=".5rem" opacity={0.5} />
+                <Icon as={DragHandleIcon} mr=".5rem" opacity={0.5} />
               </Box>
 
               <Checkbox
