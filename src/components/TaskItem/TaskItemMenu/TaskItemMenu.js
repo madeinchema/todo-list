@@ -12,11 +12,10 @@ import {
   MenuGroup,
   MenuDivider,
   useToast,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { TasksContext } from '../../../contexts/TasksContext';
-import {MdMoreVert, MdFlag, BiDuplicate} from 'react-icons/all';
-
+import { MdMoreVert, MdFlag, BiDuplicate } from 'react-icons/all';
 
 export default function TaskItemMenu({ task, index, columnId }) {
   const { dispatch } = useContext(TasksContext);
@@ -29,7 +28,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
       type: 'REMOVE_TASK',
       task,
       index,
-      columnId
+      columnId,
     });
     toast({
       position: 'bottom-left',
@@ -39,28 +38,32 @@ export default function TaskItemMenu({ task, index, columnId }) {
       render: ({ onClose }) => (
         <Flex
           ref={toastRef}
-          backgroundColor='red.600'
+          backgroundColor="red.600"
           m={3}
           py={3}
           px={5}
-          justifyContent='space-between'
-          alignContent='center'
+          justifyContent="space-between"
+          alignContent="center"
         >
-          <Text mr='1em' pt='.2rem' color='white'>Task removed</Text>
+          <Text mr="1em" pt=".2rem" color="white">
+            Task removed
+          </Text>
           <Button
             onClick={() => undoDeleteTask(onClose)}
             backgroundColor={'rgba(255, 255, 255, .15)'}
-            color='white'
+            color="white"
             variant="ghost"
-            size='sm'
-            _hover={{ bg: 'rgba(255, 255, 255, .25)'}}
-            _active={{ bg: 'rgba(255, 255, 255, .5)'}}
-          >Undo</Button>
+            size="sm"
+            _hover={{ bg: 'rgba(255, 255, 255, .25)' }}
+            _active={{ bg: 'rgba(255, 255, 255, .5)' }}
+          >
+            Undo
+          </Button>
         </Flex>
-      )
+      ),
     });
     dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' });
-  }
+  };
 
   // Adds back the deleted task
   const undoDeleteTask = (callback) => {
@@ -68,11 +71,11 @@ export default function TaskItemMenu({ task, index, columnId }) {
       type: 'UNDO_DELETE_TASK',
       task,
       index,
-      columnId
+      columnId,
     });
     callback();
     dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' });
-  }
+  };
 
   // Duplicates the task
   const duplicateTask = () => {
@@ -83,7 +86,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
       columnId,
     });
     dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' });
-  }
+  };
 
   const changePriority = (priority) => {
     dispatch({
@@ -91,64 +94,92 @@ export default function TaskItemMenu({ task, index, columnId }) {
       task: task,
       index,
       priority,
-      columnId
-    })
-  }
+      columnId,
+    });
+  };
 
   return (
     <Flex>
-        <Menu>
+      <Menu>
+        <PseudoBox
+          style={{ transition: 'all .1s ease-out' }}
+          d="flex"
+          opacity="0.5"
+          _hover={{ opacity: '1' }}
+        >
+          <MenuButton aria-label={'Open task menu'}>
+            <Icon aria-label="Search database" as={MdMoreVert} size="1.5rem" />
+          </MenuButton>
+        </PseudoBox>
 
-          <PseudoBox
-            style={{ transition: 'all .1s ease-out' }}
-            d='flex'
-            opacity='0.5'
-            _hover={{ opacity: "1" }}
-          >
-            <MenuButton aria-label={'Open task menu'}>
-              <Icon aria-label="Search database" as={MdMoreVert} size='1.5rem' />
-            </MenuButton>
-          </PseudoBox>
-
-          <MenuList placement='auto-end' zIndex={2}>
-            <MenuItem onClick={deleteTask}>
+        <MenuList placement="auto-end" zIndex={2}>
+          <MenuItem onClick={deleteTask}>
+            <Icon
+              aria-label="Remove Task"
+              name="delete"
+              size="1rem"
+              mr=".6rem"
+              opacity=".75"
+              ml=".25rem"
+            />
+            Delete
+          </MenuItem>
+          <MenuItem onClick={duplicateTask}>
+            <Icon
+              aria-label="Duplicate Task"
+              as={BiDuplicate}
+              size="1.25rem"
+              mr=".5rem"
+              ml=".1rem"
+              opacity=".75"
+            />
+            Duplicate
+          </MenuItem>
+          <MenuDivider />
+          <MenuGroup title="Priority">
+            <MenuItem onClick={() => changePriority(1)}>
               <Icon
-                aria-label="Remove Task"
-                name='delete'
-                size='1rem'
-                mr='.6rem'
-                opacity='.75'
-                ml='.25rem'
-              />Delete
+                aria-label="Priority 1"
+                as={MdFlag}
+                color="red.600"
+                size="1.4rem"
+                mr=".5rem"
+              />
+              Priority 1
             </MenuItem>
-            <MenuItem onClick={duplicateTask}>
+            <MenuItem onClick={() => changePriority(2)}>
               <Icon
-                aria-label="Duplicate Task"
-                as={BiDuplicate}
-                size='1.25rem'
-                mr='.5rem'
-                ml='.1rem'
-                opacity='.75'
-              />Duplicate
+                aria-label="Priority 2"
+                as={MdFlag}
+                color="yellow.500"
+                size="1.4rem"
+                mr=".5rem"
+              />
+              Priority 2
             </MenuItem>
-            <MenuDivider />
-            <MenuGroup title="Priority">
-              <MenuItem onClick={() => changePriority(1)}>
-                <Icon aria-label="Priority 1" as={MdFlag} color='red.600' size='1.4rem' mr='.5rem'/>Priority 1
-              </MenuItem>
-              <MenuItem onClick={() => changePriority(2)}>
-                <Icon aria-label="Priority 2" as={MdFlag} color='yellow.500' size='1.4rem' mr='.5rem'/>Priority 2
-              </MenuItem>
-              <MenuItem onClick={() => changePriority(3)}>
-                <Icon aria-label="Priority 3" as={MdFlag} color='blue.400' size='1.4rem' mr='.5rem'/>Priority 3
-              </MenuItem>
-              <MenuItem onClick={() => changePriority(4)}>
-                <Icon aria-label="Priority 4" as={MdFlag} color='gray.500' size='1.4rem' mr='.5rem'/>Priority 4
-              </MenuItem>
-            </MenuGroup>
-          </MenuList>
-
-        </Menu>
+            <MenuItem onClick={() => changePriority(3)}>
+              <Icon
+                aria-label="Priority 3"
+                as={MdFlag}
+                color="blue.400"
+                size="1.4rem"
+                mr=".5rem"
+              />
+              Priority 3
+            </MenuItem>
+            <MenuItem onClick={() => changePriority(4)}>
+              <Icon
+                aria-label="Priority 4"
+                as={MdFlag}
+                color="gray.500"
+                size="1.4rem"
+                mr=".5rem"
+              />
+              Priority 4
+            </MenuItem>
+          </MenuGroup>
+        </MenuList>
+      </Menu>
     </Flex>
   );
 }
@@ -161,4 +192,4 @@ TaskItemMenu.propTypes = {
     indent: PropTypes.number,
     priority: PropTypes.number,
   }),
-}
+};

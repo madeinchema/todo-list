@@ -7,7 +7,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 
 const TasksFilter = (props) => {
   const { tasksListFilter, setTasksListFilter } = props;

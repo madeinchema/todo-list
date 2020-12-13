@@ -5,7 +5,7 @@ import {
   InputRightElement,
   InputGroup,
   Flex,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { TasksContext } from '../../../../contexts/TasksContext';
 import NewTaskPriorityMenu from './components/NewTaskPriorityMenu';
 

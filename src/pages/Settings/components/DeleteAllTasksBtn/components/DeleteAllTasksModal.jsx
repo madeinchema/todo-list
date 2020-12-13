@@ -10,7 +10,7 @@ import {
   ModalBody,
   ModalCloseButton,
   useToast,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { TasksContext } from '../../../../../contexts/TasksContext';
 
 const DeleteAllTasksModal = ({ isOpen, onClose }) => {
@@ -45,10 +45,10 @@ const DeleteAllTasksModal = ({ isOpen, onClose }) => {
           irreversible.
         </ModalBody>
         <ModalFooter>
-          <Button variantColor="blue" mr={3} onClick={onClose}>
+          <Button colorScheme="blue" mr={3} onClick={onClose}>
             No
           </Button>
-          <Button variantColor="red" onClick={deleteAllTasks}>
+          <Button colorScheme="red" onClick={deleteAllTasks}>
             Yes, delete all the tasks
           </Button>
         </ModalFooter>

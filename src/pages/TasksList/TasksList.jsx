@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Flex, List } from '@chakra-ui/core';
+import { Box, Flex, List } from '@chakra-ui/react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import TaskItem from '../../components/TaskItem/TaskItem';
 import { TasksContext } from '../../contexts/TasksContext';

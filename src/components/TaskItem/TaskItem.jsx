@@ -9,7 +9,7 @@ import {
   Editable,
   EditableInput,
   EditablePreview,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { Draggable } from 'react-beautiful-dnd';
 import useHover from '../../utils/hooks/useHover';
 import TaskItemMenu from './TaskItemMenu/TaskItemMenu';

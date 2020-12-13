@@ -10,7 +10,7 @@ import {
   Heading,
   Divider,
   useColorMode,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { MdArrowBack } from 'react-icons/all';
 import { TasksContext } from '../../contexts/TasksContext';
 import DeleteAllTasksBtn from './components/DeleteAllTasksBtn/DeleteAllTasksBtn';

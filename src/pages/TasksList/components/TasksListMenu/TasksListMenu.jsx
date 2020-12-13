@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Flex, Tag } from '@chakra-ui/core';
+import { Flex, Tag } from '@chakra-ui/react';
 import TasksFilter from './components/TasksFilter';
 import TasksSort from './components/TasksSort';
 

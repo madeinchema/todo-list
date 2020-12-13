@@ -8,7 +8,7 @@ import {
   MenuItem,
   MenuList,
   Text,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { MdSort } from 'react-icons/all';
 import { TasksContext } from '../../../../../contexts/TasksContext';
 

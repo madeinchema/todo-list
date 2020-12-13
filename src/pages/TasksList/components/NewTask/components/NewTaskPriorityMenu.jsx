@@ -9,7 +9,7 @@ import {
   MenuButton,
   Menu,
   MenuList,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import newTaskPriorityMenuTexts from '../utils/constants/newTaskTexts';
 
 const NewTaskPriorityMenu = (props) => {
