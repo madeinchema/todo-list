@@ -16,6 +16,7 @@ import {
 import PropTypes from 'prop-types';
 import { TasksContext } from '../../../contexts/TasksContext';
 import { MdMoreVert, MdFlag, BiDuplicate } from 'react-icons/all';
+import { DeleteIcon } from '@chakra-ui/icons';
 
 export default function TaskItemMenu({ task, index, columnId }) {
   const { dispatch } = useContext(TasksContext);
@@ -120,7 +121,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
           <MenuItem onClick={deleteTask}>
             <Icon
               aria-label="Remove Task"
-              name="delete"
+              as={DeleteIcon}
               boxSize="1rem"
               mr=".6rem"
               opacity=".75"
