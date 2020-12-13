@@ -9,6 +9,7 @@ import {
   Heading,
   useColorMode,
 } from '@chakra-ui/react';
+import { MoonIcon, SettingsIcon, SunIcon } from '@chakra-ui/icons';
 
 const MenuIcons = ({ children }) => <Flex ml={2}>{children}</Flex>;
 
@@ -57,14 +58,14 @@ export default function Navbar() {
             {colorMode === 'light' ? (
               <IconButton
                 onClick={() => toggleColorMode()}
-                icon="moon"
+                icon={<MoonIcon />}
                 fontSize={iconSize}
                 aria-label="Switch to dark mode"
               />
             ) : (
               <IconButton
                 onClick={() => toggleColorMode()}
-                icon="sun"
+                icon={<SunIcon />}
                 fontSize={iconSize}
                 aria-label="Switch to light mode"
               />
@@ -73,7 +74,7 @@ export default function Navbar() {
 
           <MenuIcons>
             <IconButton
-              icon="settings"
+              icon={<SettingsIcon />}
               fontSize={iconSize}
               aria-label="Switch to light mode"
               as={ReactLink}
