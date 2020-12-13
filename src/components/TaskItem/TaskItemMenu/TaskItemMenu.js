@@ -3,7 +3,7 @@ import {
   Flex,
   Text,
   Button,
-  PseudoBox,
+  Box,
   Icon,
   Menu,
   MenuButton,
@@ -101,7 +101,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
   return (
     <Flex>
       <Menu>
-        <PseudoBox
+        <Box
           style={{ transition: 'all .1s ease-out' }}
           d="flex"
           opacity="0.5"
@@ -114,7 +114,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
               boxSize="1.5rem"
             />
           </MenuButton>
-        </PseudoBox>
+        </Box>
 
         <MenuList placement="auto-end" zIndex={2}>
           <MenuItem onClick={deleteTask}>

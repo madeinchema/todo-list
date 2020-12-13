@@ -5,7 +5,7 @@ import {
   Icon,
   Link,
   MenuItem,
-  PseudoBox,
+  Box,
   MenuButton,
   Menu,
   MenuList,
@@ -29,7 +29,7 @@ const NewTaskPriorityMenu = (props) => {
 
   return (
     <Menu>
-      <PseudoBox
+      <Box
         style={{ transition: 'all .1s ease-out' }}
         d="flex"
         opacity="0.75"
@@ -46,7 +46,7 @@ const NewTaskPriorityMenu = (props) => {
             h="100%"
           />
         </MenuButton>
-      </PseudoBox>
+      </Box>
 
       <MenuList>
         <MenuItem onClick={() => updateNewTaskPriority(1)}>
