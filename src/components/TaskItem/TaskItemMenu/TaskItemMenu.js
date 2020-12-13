@@ -101,7 +101,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
 
   return (
     <Flex>
-      <Menu>
+      <Menu placement="auto-end">
         <Box
           style={{ transition: 'all .1s ease-out' }}
           d="flex"
@@ -117,7 +117,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
           </MenuButton>
         </Box>
 
-        <MenuList placement="auto-end" zIndex={2}>
+        <MenuList zIndex={2}>
           <MenuItem onClick={deleteTask}>
             <Icon
               aria-label="Remove Task"
