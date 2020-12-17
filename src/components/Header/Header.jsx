@@ -11,8 +11,6 @@ import {
 } from '@chakra-ui/react';
 import { MoonIcon, SettingsIcon, SunIcon } from '@chakra-ui/icons';
 
-const MenuIcons = ({ children }) => <Flex ml={2}>{children}</Flex>;
-
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode();
   const bgColor = { light: 'white', dark: 'gray.800' };
@@ -20,7 +18,7 @@ export default function Navbar() {
   const iconSize = '1.25rem';
 
   return (
-    <React.Fragment>
+    <>
       <Flex
         as="nav"
         align="center"
@@ -35,7 +33,7 @@ export default function Navbar() {
         <Flex align="center" mr={5}>
           <Heading as="h1" size="lg" fontWeight="700">
             <Link as={ReactLink} to="/" display="flex" alignItems="center">
-              <FaClipboardCheck mr={'12px'} />
+              <FaClipboardCheck mr="12px" />
               Todolist
             </Link>
           </Heading>
@@ -43,7 +41,7 @@ export default function Navbar() {
 
         {/* Icons */}
         <Flex align="center" justify="center">
-          <MenuIcons>
+          <Flex ml={2}>
             <Link
               href="https://github.com/madeinchema/todo-list"
               borderRadius={4}
@@ -52,9 +50,9 @@ export default function Navbar() {
             >
               <GoMarkGithub size={iconSize} />
             </Link>
-          </MenuIcons>
+          </Flex>
 
-          <MenuIcons>
+          <Flex ml={2}>
             {colorMode === 'light' ? (
               <IconButton
                 onClick={() => toggleColorMode()}
@@ -70,9 +68,9 @@ export default function Navbar() {
                 aria-label="Switch to light mode"
               />
             )}
-          </MenuIcons>
+          </Flex>
 
-          <MenuIcons>
+          <Flex ml={2}>
             <IconButton
               icon={<SettingsIcon />}
               fontSize={iconSize}
@@ -80,9 +78,9 @@ export default function Navbar() {
               as={ReactLink}
               to="/settings"
             />
-          </MenuIcons>
+          </Flex>
         </Flex>
       </Flex>
-    </React.Fragment>
+    </>
   );
 }

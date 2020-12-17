@@ -34,8 +34,7 @@ const NewTaskPriorityMenu = (props) => {
         d="flex"
         opacity="0.75"
         _hover={{ opacity: '1' }}
-        w="25%"
-        h="100%"
+        mr=".5rem"
       >
         <MenuButton as={Link} aria-label="Search database" d="flex" w="25%">
           <Icon
