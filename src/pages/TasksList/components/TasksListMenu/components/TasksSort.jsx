@@ -8,7 +8,7 @@ import {
   MenuItem,
   MenuList,
   Text,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { MdSort } from 'react-icons/all';
 import { TasksContext } from '../../../../../contexts/TasksContext';
 
@@ -25,14 +25,14 @@ const TasksSort = (props) => {
   };
 
   return (
-    <Menu>
+    <Menu placement="auto-start">
       <MenuButton as={Button} d="flex" size="sm" align="center" pr=".75rem">
-        <Icon as={MdSort} size="1.5rem" mr=".25rem" />
+        <Icon as={MdSort} boxSize="1.5rem" mr=".25rem" />
         <Text display="inline-block" fontWeight="500">
           Sort
         </Text>
       </MenuButton>
-      <MenuList placement="auto-start" zIndex={2}>
+      <MenuList zIndex={2}>
         <MenuItem onClick={() => setTasksSort('SORT_HIGHEST')}>
           Highest priority first
         </MenuItem>
