@@ -25,27 +25,31 @@ const NewTaskPriorityMenu = (props) => {
         ? 'blue.400'
         : newTaskPriority === 4 && 'gray.500'
     }`,
+    menuButton: {
+      transition: 'all .1s ease-out',
+    },
   };
 
   return (
     <Menu>
-      <Box
-        style={{ transition: 'all .1s ease-out' }}
+      <MenuButton
+        as={Link}
+        aria-label="Search database"
         d="flex"
+        w="25%"
+        mr=".25rem"
         opacity="0.75"
         _hover={{ opacity: '1' }}
-        mr=".5rem"
+        style={styles.menuButton}
       >
-        <MenuButton as={Link} aria-label="Search database" d="flex" w="25%">
-          <Icon
-            alignSelf="center"
-            as={MdFlag}
-            color={styles.priorityColor}
-            boxSize="1.5rem"
-            h="100%"
-          />
-        </MenuButton>
-      </Box>
+        <Icon
+          alignSelf="center"
+          as={MdFlag}
+          color={styles.priorityColor}
+          boxSize="1.5rem"
+          h="100%"
+        />
+      </MenuButton>
 
       <MenuList>
         <MenuItem onClick={() => updateNewTaskPriority(1)}>
