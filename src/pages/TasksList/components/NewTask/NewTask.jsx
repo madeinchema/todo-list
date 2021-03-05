@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import {
   Button,
   Input,
@@ -14,6 +14,20 @@ export default function NewTask() {
   const [inputTitle, setInputTitle] = useState('');
   const [newTaskPriority, setNewTaskPriority] = useState(4);
   const inputTitleRef = useRef();
+  const inputBtnRef = useRef();
+
+  useEffect(() => {
+    const handleInputFocus = () => {
+      setTimeout(() => {
+        if (inputTitle) {
+          inputBtnRef.current.focus();
+        } else {
+          inputTitleRef.current.focus();
+        }
+      }, 1);
+    };
+    handleInputFocus();
+  }, [newTaskPriority]);
 
   const updateNewTaskTitle = (event) => {
     setInputTitle(event.target.value);
@@ -34,7 +48,6 @@ export default function NewTask() {
 
   const updateNewTaskPriority = (priority) => {
     setNewTaskPriority(priority);
-    inputTitleRef.current.focus();
   };
 
   return (
@@ -71,6 +84,7 @@ export default function NewTask() {
             type="submit"
             onClick={submitNewTask}
             isDisabled={!inputTitle}
+            ref={inputBtnRef}
           >
             Add Task
           </Button>
