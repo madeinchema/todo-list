@@ -135,11 +135,36 @@ export const tasksDataSlice = createSlice({
         tasks: newTasks,
       }
     },
+    undoDeleteTask(state, { payload }) {
+      const prevTask = { ...payload.task }
+
+      const updatedTaskIds = [...state.columns[payload.columnId].taskIds]
+      updatedTaskIds.splice(payload.index, 0, prevTask.id)
+
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          [prevTask.id]: prevTask,
+        },
+        columns: {
+          [payload.columnId]: {
+            ...state.columns[payload.columnId],
+            taskIds: updatedTaskIds,
+          },
+        },
+      }
+    },
     moveCompletedToBottom() {},
   },
 })
 
-export const { handleDragEnd, moveCompletedToBottom, removeTask, addTask } =
-  tasksDataSlice.actions
+export const {
+  handleDragEnd,
+  moveCompletedToBottom,
+  removeTask,
+  undoDeleteTask,
+  addTask,
+} = tasksDataSlice.actions
 
 export default tasksDataSlice.reducer

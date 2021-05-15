@@ -17,7 +17,6 @@ import PropTypes from 'prop-types'
 import { MdMoreVert, MdFlag, BiDuplicate } from 'react-icons/all'
 import { DeleteIcon } from '@chakra-ui/icons'
 import { useDispatch } from 'react-redux'
-import { TasksContext } from '../../../contexts/TasksContext'
 import { removeTask } from '../../../redux/tasksData/tasksDataSlice'
 
 export default function TaskItemMenu({ task, index, columnId }) {
@@ -74,14 +73,14 @@ export default function TaskItemMenu({ task, index, columnId }) {
   // Adds back the deleted task
   const undoDeleteTask = callback => {
     console.log('undoDeleteTask')
-    // dispatch({
-    //   type: 'UNDO_DELETE_TASK',
-    //   task,
-    //   index,
-    //   columnId,
-    // })
-    // callback()
-    // dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
+    // dispatch(
+    //   undoDeleteTask({
+    //     task,
+    //     index,
+    //     columnId,
+    //   })
+    // )
+    callback()
   }
 
   // Duplicates the task
