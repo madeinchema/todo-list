@@ -107,11 +107,39 @@ export const tasksDataSlice = createSlice({
         },
       }
     },
+    removeTask(state, { payload }) {
+      const column = state.columns[payload.columnId]
+      const newTaskIds = Array.from(column.taskIds)
+
+      // Remove current task from the taskIds
+      newTaskIds.splice(payload.index, 1)
+
+      // Create object where the selected task is removed
+      let newTasks = {}
+      Object.entries(state.tasks).forEach(entry => {
+        const [key, value] = entry
+        if (key !== payload.task.id) {
+          newTasks = { ...newTasks, [key]: value }
+        }
+      })
+
+      // Update state without the selected taskId and task.
+      return {
+        ...state,
+        columns: {
+          [payload.columnId]: {
+            ...state.columns[payload.columnId],
+            taskIds: newTaskIds,
+          },
+        },
+        tasks: newTasks,
+      }
+    },
     moveCompletedToBottom() {},
   },
 })
 
-export const { handleDragEnd, moveCompletedToBottom, addTask } =
+export const { handleDragEnd, moveCompletedToBottom, removeTask, addTask } =
   tasksDataSlice.actions
 
 export default tasksDataSlice.reducer
