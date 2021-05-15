@@ -1,21 +1,26 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex, List } from '@chakra-ui/react'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
+import { useDispatch, useSelector } from 'react-redux'
 import TaskItem from '../../components/TaskItem/TaskItem'
-import { TasksContext } from '../../contexts/TasksContext'
 import NewTask from './components/NewTask/NewTask'
 import EmptyTasksList from './components/EmptyTasksList'
 import TasksListMenu from './components/TasksListMenu/TasksListMenu'
 import getFilteredTasks from './utils/functions/getFilteredTasks'
 import getSortedTasks from './utils/functions/getSortedTasks'
+import {
+  handleDragEnd,
+  moveCompletedToBottom,
+} from '../../redux/tasksData/tasksDataSlice'
 
 const TasksList = props => {
   const { columnId } = props
-  const { tasksData, dispatch } = useContext(TasksContext)
+  const tasksData = useSelector(state => state.tasksData)
   const [tasksListFilter, setTasksListFilter] = useState('All')
   const [tasksToShow, setTasksToShow] = useState(undefined)
   const [loading, setLoading] = useState(undefined)
+  const dispatch = useDispatch()
 
   const column = tasksData.columns[columnId]
 
@@ -33,12 +38,13 @@ const TasksList = props => {
   }, [column.taskIds, tasksListFilter, tasksData])
 
   const onDragEnd = result => {
-    dispatch({
-      type: 'HANDLE_DRAG_END',
-      result,
-      columnId,
-    })
-    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
+    dispatch(
+      handleDragEnd({
+        result,
+        columnId,
+      })
+    )
+    // dispatch(moveCompletedToBottom())
   }
 
   return (
@@ -49,12 +55,12 @@ const TasksList = props => {
 
         {tasksData.columns[columnId].taskIds.length >= 1 && (
           <Box h="calc(100vh - 4.5rem)">
-            <TasksListMenu
+            {/* <TasksListMenu
               quantity={tasksToShow && tasksToShow.length}
               columnId={columnId}
               tasksListFilter={tasksListFilter}
               setTasksListFilter={setTasksListFilter}
-            />
+            /> */}
             <Flex
               flexDir="column"
               className="custom-scroll"
