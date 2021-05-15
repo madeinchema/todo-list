@@ -53,17 +53,8 @@ export const tasksDataSlice = createSlice({
   initialState: persistedState,
   reducers: {
     handleDragEnd(state, { payload }) {
-      let currentColumn
-      let column
-      let newTaskIds
-      let updatedTaskIds
-      let prevTask
-      if (payload.columnId) {
-        currentColumn = payload.columnId && payload.columnId
-        column = state.columns[currentColumn]
-        newTaskIds = Array.from(column.taskIds)
-      }
-
+      const column = state.columns[payload.columnId]
+      const newTaskIds = Array.from(column.taskIds)
       const { destination, source, draggableId } = payload.result
 
       // Check if there is no destination
@@ -96,10 +87,6 @@ export const tasksDataSlice = createSlice({
       }
     },
     addTask(state, { payload }) {
-      let currentColumn
-      if (payload.columnId) {
-        currentColumn = payload.columnId && payload.columnId
-      }
       const newTask = {
         id: nanoid(5),
         title: payload.title,
@@ -113,14 +100,14 @@ export const tasksDataSlice = createSlice({
           [newTask.id]: newTask,
         },
         columns: {
-          [currentColumn]: {
-            ...state.columns[currentColumn],
-            taskIds: [...state.columns[currentColumn].taskIds, newTask.id],
+          [payload.columnId]: {
+            ...state.columns[payload.columnId],
+            taskIds: [...state.columns[payload.columnId].taskIds, newTask.id],
           },
         },
       }
     },
-    moveCompletedToBottom(state, action) {},
+    moveCompletedToBottom() {},
   },
 })
 
