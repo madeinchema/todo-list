@@ -15,15 +15,12 @@ const NewTaskPriorityMenu = props => {
   const { newTaskPriority, updateNewTaskPriority } = props
 
   const styles = {
-    priorityColor: `${
-      newTaskPriority === 1
-        ? 'red.600'
-        : newTaskPriority === 2
-        ? 'yellow.500'
-        : newTaskPriority === 3
-        ? 'blue.400'
-        : newTaskPriority === 4 && 'gray.500'
-    }`,
+    priorityColor: {
+      1: 'red.600',
+      2: 'yellow.500',
+      3: 'blue.400',
+      4: 'gray.500',
+    },
     menuButton: {
       transition: 'all .1s ease-out',
     },
@@ -44,7 +41,7 @@ const NewTaskPriorityMenu = props => {
         <Icon
           alignSelf="center"
           as={MdFlag}
-          color={styles.priorityColor}
+          color={styles.priorityColor[newTaskPriority]}
           boxSize="1.5rem"
           h="100%"
         />
