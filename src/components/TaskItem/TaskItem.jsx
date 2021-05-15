@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   useColorMode,
@@ -15,34 +15,40 @@ import { DragHandleIcon } from '@chakra-ui/icons'
 import { useDispatch } from 'react-redux'
 import useHover from '../../utils/hooks/useHover'
 import TaskItemMenu from './TaskItemMenu/TaskItemMenu'
-import { cancelEditTitleTask } from '../../redux/tasksData/tasksDataSlice'
+import {
+  cancelEditTitleTask,
+  toggleCheckTask,
+  editTaskTitle,
+} from '../../redux/tasksData/tasksDataSlice'
 
 const TaskItem = props => {
   const { task, index, droppableSnapshot, columnId } = props
-  const [prevTitle, setPrevTitle] = useState('')
+  const [taskTitle, setTaskTitle] = useState('')
   const { colorMode } = useColorMode()
   const [hovering, attrs] = useHover()
   const bgColor = { light: 'gray.50', dark: 'gray.800' }
   const dispatch = useDispatch()
 
-  // Handles tasks' editing and onCancel
-  const editTaskTitle = event => {
-    const { value } = event.target
-    console.log('editTaskTitle')
-    // dispatch({ type: 'EDIT_TASK', task, value, columnId })
-  }
+  useEffect(() => {
+    setTaskTitle(task.title)
+  }, [task.title])
 
-  // Retrieves the initial title and sets it back
+  // Handles tasks' editing and onCancel
+  const handleEditTaskTitle = value =>
+    dispatch(editTaskTitle({ task, value, columnId }))
+
   const handleCancelEditTitleTask = () =>
     dispatch(
-      cancelEditTitleTask({ type: 'CANCEL_TASK', task, prevTitle, columnId })
+      cancelEditTitleTask({
+        type: 'CANCEL_TASK',
+        task,
+        prevTitle: taskTitle,
+        columnId,
+      })
     )
 
-  // Updates the state of a task's checkbox
-  const handleTaskCheck = () => {
-    console.log('handleTaskCheck')
-    /* dispatch({ type: 'HANDLE_CHECK', task, columnId })
-    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' }) */
+  const handleToggleCheckTask = () => {
+    dispatch(toggleCheckTask({ task, columnId }))
   }
 
   // Styles
@@ -90,7 +96,7 @@ const TaskItem = props => {
                 my=".25rem"
                 size="lg"
                 isChecked={task.checked}
-                onChange={handleTaskCheck}
+                onChange={handleToggleCheckTask}
                 d="flex"
               />
 
@@ -102,9 +108,11 @@ const TaskItem = props => {
                 fontSize="1.2em"
                 fontWeight="600"
                 lineHeight="1.5rem"
-                value={task.title}
-                onFocus={() => setPrevTitle(task.title)}
+                value={taskTitle}
+                onFocus={() => setTaskTitle(task.title)}
                 onCancel={handleCancelEditTitleTask}
+                onChange={setTaskTitle}
+                onSubmit={handleEditTaskTitle}
               >
                 <EditablePreview
                   d="block"
@@ -112,7 +120,7 @@ const TaskItem = props => {
                   wordWrap="break-word"
                   overflowWrap="break-word"
                 />
-                <EditableInput onChange={editTaskTitle} />
+                <EditableInput />
               </Editable>
 
               <Box ml="auto" my="auto" maxW="3rem">
