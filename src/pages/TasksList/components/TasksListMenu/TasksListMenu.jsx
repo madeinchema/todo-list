@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Flex, Tag } from '@chakra-ui/react';
-import TasksFilter from './components/TasksFilter';
-import TasksSort from './components/TasksSort';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Flex, Tag } from '@chakra-ui/react'
+import TasksFilter from './components/TasksFilter'
+import TasksSort from './components/TasksSort'
 
-const TasksListMenu = (props) => {
-  const { quantity, columnId, tasksListFilter, setTasksListFilter } = props;
+const TasksListMenu = props => {
+  const { quantity, columnId, tasksListFilter, setTasksListFilter } = props
   return (
     <Flex
       mb=".5rem"
@@ -24,21 +24,21 @@ const TasksListMenu = (props) => {
 
       <TasksSort columnId={columnId} />
     </Flex>
-  );
-};
+  )
+}
 
 TasksListMenu.propTypes = {
   quantity: PropTypes.number,
   columnId: PropTypes.string,
   tasksListFilter: PropTypes.string,
   setTasksListFilter: PropTypes.func,
-};
+}
 
 TasksListMenu.defaultProps = {
   quantity: undefined,
   columnId: undefined,
   tasksListFilter: undefined,
   setTasksListFilter: undefined,
-};
+}
 
-export default TasksListMenu;
+export default TasksListMenu

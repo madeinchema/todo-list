@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react'
+import PropTypes from 'prop-types'
 import {
   Button,
   Icon,
@@ -8,21 +8,21 @@ import {
   MenuItem,
   MenuList,
   Text,
-} from '@chakra-ui/react';
-import { MdSort } from 'react-icons/all';
-import { TasksContext } from '../../../../../contexts/TasksContext';
+} from '@chakra-ui/react'
+import { MdSort } from 'react-icons/all'
+import { TasksContext } from '../../../../../contexts/TasksContext'
 
-const TasksSort = (props) => {
-  const { columnId } = props;
-  const { dispatch } = useContext(TasksContext);
+const TasksSort = props => {
+  const { columnId } = props
+  const { dispatch } = useContext(TasksContext)
 
-  const setTasksSort = (order) => {
+  const setTasksSort = order => {
     dispatch({
       type: 'SORT_TASKS',
       order,
       columnId,
-    });
-  };
+    })
+  }
 
   return (
     <Menu placement="auto-start">
@@ -41,15 +41,15 @@ const TasksSort = (props) => {
         </MenuItem>
       </MenuList>
     </Menu>
-  );
-};
+  )
+}
 
 TasksSort.propTypes = {
   columnId: PropTypes.string,
-};
+}
 
 TasksSort.defaultProps = {
   columnId: undefined,
-};
+}
 
-export default TasksSort;
+export default TasksSort

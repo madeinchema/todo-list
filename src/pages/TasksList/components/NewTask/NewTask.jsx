@@ -1,54 +1,54 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react'
 import {
   Button,
   Input,
   InputRightElement,
   InputGroup,
   Flex,
-} from '@chakra-ui/react';
-import { TasksContext } from '../../../../contexts/TasksContext';
-import NewTaskPriorityMenu from './components/NewTaskPriorityMenu';
+} from '@chakra-ui/react'
+import { TasksContext } from '../../../../contexts/TasksContext'
+import NewTaskPriorityMenu from './components/NewTaskPriorityMenu'
 
 export default function NewTask() {
-  const { dispatch } = useContext(TasksContext);
-  const [inputTitle, setInputTitle] = useState('');
-  const [newTaskPriority, setNewTaskPriority] = useState(4);
-  const inputTitleRef = useRef();
-  const inputBtnRef = useRef();
+  const { dispatch } = useContext(TasksContext)
+  const [inputTitle, setInputTitle] = useState('')
+  const [newTaskPriority, setNewTaskPriority] = useState(4)
+  const inputTitleRef = useRef()
+  const inputBtnRef = useRef()
 
   useEffect(() => {
     const handleInputFocus = () => {
       setTimeout(() => {
         if (inputTitle) {
-          inputBtnRef.current.focus();
+          inputBtnRef.current.focus()
         } else {
-          inputTitleRef.current.focus();
+          inputTitleRef.current.focus()
         }
-      }, 1);
-    };
-    handleInputFocus();
-  }, [newTaskPriority]);
+      }, 1)
+    }
+    handleInputFocus()
+  }, [newTaskPriority])
 
-  const updateNewTaskTitle = (event) => {
-    setInputTitle(event.target.value);
-  };
+  const updateNewTaskTitle = event => {
+    setInputTitle(event.target.value)
+  }
 
-  const submitNewTask = (event) => {
-    event.preventDefault();
-    const title = inputTitle.trim().toString(); // Remove whitespace from both ends & make sure it's a string
+  const submitNewTask = event => {
+    event.preventDefault()
+    const title = inputTitle.trim().toString() // Remove whitespace from both ends & make sure it's a string
     dispatch({
       type: 'ADD_TASK',
       title,
       priority: newTaskPriority,
       columnId: 'to-do',
-    });
-    setInputTitle('');
-    inputTitleRef.current.focus();
-  };
+    })
+    setInputTitle('')
+    inputTitleRef.current.focus()
+  }
 
-  const updateNewTaskPriority = (priority) => {
-    setNewTaskPriority(priority);
-  };
+  const updateNewTaskPriority = priority => {
+    setNewTaskPriority(priority)
+  }
 
   return (
     <Flex
@@ -91,5 +91,5 @@ export default function NewTask() {
         </InputRightElement>
       </InputGroup>
     </Flex>
-  );
+  )
 }

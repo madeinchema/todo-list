@@ -1,19 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { MdFlag } from 'react-icons/all';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { MdFlag } from 'react-icons/all'
 import {
   Icon,
   Link,
   MenuItem,
-  Box,
   MenuButton,
   Menu,
   MenuList,
-} from '@chakra-ui/react';
-import newTaskPriorityMenuTexts from '../utils/constants/newTaskTexts';
+} from '@chakra-ui/react'
+import newTaskPriorityMenuTexts from '../utils/constants/newTaskTexts'
 
-const NewTaskPriorityMenu = (props) => {
-  const { newTaskPriority, updateNewTaskPriority } = props;
+const NewTaskPriorityMenu = props => {
+  const { newTaskPriority, updateNewTaskPriority } = props
 
   const styles = {
     priorityColor: `${
@@ -28,7 +27,7 @@ const NewTaskPriorityMenu = (props) => {
     menuButton: {
       transition: 'all .1s ease-out',
     },
-  };
+  }
 
   return (
     <Menu>
@@ -94,17 +93,17 @@ const NewTaskPriorityMenu = (props) => {
         </MenuItem>
       </MenuList>
     </Menu>
-  );
-};
+  )
+}
 
 NewTaskPriorityMenu.propTypes = {
   newTaskPriority: PropTypes.number,
   updateNewTaskPriority: PropTypes.func,
-};
+}
 
 NewTaskPriorityMenu.defaultProps = {
   newTaskPriority: undefined,
   updateNewTaskPriority: undefined,
-};
+}
 
-export default NewTaskPriorityMenu;
+export default NewTaskPriorityMenu

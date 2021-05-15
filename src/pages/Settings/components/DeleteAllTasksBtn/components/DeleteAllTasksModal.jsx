@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react'
+import PropTypes from 'prop-types'
 import {
   Button,
   Modal,
@@ -10,12 +10,12 @@ import {
   ModalBody,
   ModalCloseButton,
   useToast,
-} from '@chakra-ui/react';
-import { TasksContext } from '../../../../../contexts/TasksContext';
+} from '@chakra-ui/react'
+import { TasksContext } from '../../../../../contexts/TasksContext'
 
 const DeleteAllTasksModal = ({ isOpen, onClose }) => {
-  const { dispatch } = useContext(TasksContext);
-  const toast = useToast();
+  const { dispatch } = useContext(TasksContext)
+  const toast = useToast()
 
   const showDeleteAllTasksNotification = () =>
     toast({
@@ -24,15 +24,15 @@ const DeleteAllTasksModal = ({ isOpen, onClose }) => {
       duration: 5000,
       isClosable: true,
       status: 'success',
-    });
+    })
 
   const deleteAllTasks = () => {
     dispatch({
       type: 'DELETE_ALL',
-    });
-    showDeleteAllTasksNotification();
-    onClose();
-  };
+    })
+    showDeleteAllTasksNotification()
+    onClose()
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -54,12 +54,12 @@ const DeleteAllTasksModal = ({ isOpen, onClose }) => {
         </ModalFooter>
       </ModalContent>
     </Modal>
-  );
-};
+  )
+}
 
 DeleteAllTasksModal.propTypes = {
   isOpen: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-};
+}
 
-export default DeleteAllTasksModal;
+export default DeleteAllTasksModal

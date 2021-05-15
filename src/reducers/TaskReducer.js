@@ -1,38 +1,38 @@
 import { nanoid } from 'nanoid'
 
 export const TaskReducer = (state, action) => {
-  let currentColumn;
-  let column;
-  let newTaskIds;
-  let updatedTaskIds;
-  let prevTask;
+  let currentColumn
+  let column
+  let newTaskIds
+  let updatedTaskIds
+  let prevTask
   if (action.columnId) {
-    currentColumn = action.columnId && action.columnId;
-    column = state.columns[currentColumn];
-    newTaskIds = Array.from(column.taskIds);
+    currentColumn = action.columnId && action.columnId
+    column = state.columns[currentColumn]
+    newTaskIds = Array.from(column.taskIds)
   }
 
   switch (action.type) {
-
     // Handle the drag and drop of tasks
     case 'HANDLE_DRAG_END':
-      const { destination, source, draggableId } = action.result;
+      const { destination, source, draggableId } = action.result
 
       // Check if there is no destination
-      if (!destination) return state;
+      if (!destination) return state
 
       // Check to see if the location of the draggable changed
       if (
         destination.droppableId === source.droppableId &&
         destination.index === source.index
-      ) return state;
+      )
+        return state
 
       /**
        * Reorder the taskIds, moving the target from old to new index in the array.
        */
-      const columnSource = state.columns[source.droppableId]; // Get the column source
-      newTaskIds.splice(source.index, 1); // Remove the item from the array
-      newTaskIds.splice(destination.index, 0, draggableId); // Insert it in the destination
+      const columnSource = state.columns[source.droppableId] // Get the column source
+      newTaskIds.splice(source.index, 1) // Remove the item from the array
+      newTaskIds.splice(destination.index, 0, draggableId) // Insert it in the destination
 
       // Create our new, updated column
       const newColumn = { ...columnSource, taskIds: newTaskIds }
@@ -43,7 +43,7 @@ export const TaskReducer = (state, action) => {
         columns: {
           ...state.columns,
           [newColumn.id]: newColumn,
-        }
+        },
       }
 
     // Adds the new task to the TaskList's state
@@ -53,7 +53,7 @@ export const TaskReducer = (state, action) => {
         title: action.title,
         checked: false,
         priority: action.priority,
-      };
+      }
       return {
         ...state,
         tasks: {
@@ -66,21 +66,21 @@ export const TaskReducer = (state, action) => {
             taskIds: [...state.columns[currentColumn].taskIds, newTask.id],
           },
         },
-      };
+      }
 
     // Removes the clicked task
     case 'REMOVE_TASK':
       // Remove current task from the taskIds
-      newTaskIds.splice(action.index, 1);
+      newTaskIds.splice(action.index, 1)
 
       // Create object where the selected task is removed
-      let newTasks = {};
+      let newTasks = {}
       Object.entries(state.tasks).forEach(entry => {
-        const [key, value] = entry;
+        const [key, value] = entry
         if (key !== action.task.id) {
           newTasks = { ...newTasks, [key]: value }
         }
-      });
+      })
 
       // Update state without the selected taskId and task.
       return {
@@ -92,7 +92,7 @@ export const TaskReducer = (state, action) => {
           },
         },
         tasks: newTasks,
-      };
+      }
 
     // Adds back the deleted task
     case 'UNDO_DELETE_TASK':
@@ -113,12 +113,12 @@ export const TaskReducer = (state, action) => {
             taskIds: updatedTaskIds,
           },
         },
-      };
+      }
 
     // Adds the new task to the TaskList's state
     case 'DUPLICATE_TASK':
-      prevTask = { ...action.task };
-      prevTask.id = nanoid(5);
+      prevTask = { ...action.task }
+      prevTask.id = nanoid(5)
 
       updatedTaskIds = [...state.columns[currentColumn].taskIds]
       updatedTaskIds.splice(action.index, 0, prevTask.id)
@@ -135,7 +135,7 @@ export const TaskReducer = (state, action) => {
             taskIds: updatedTaskIds,
           },
         },
-      };
+      }
 
     // Handles task editing and onCancel
     case 'EDIT_TASK':
@@ -148,7 +148,7 @@ export const TaskReducer = (state, action) => {
             title: action.value,
           },
         },
-      };
+      }
 
     // Handles task editing and onCancel
     case 'CHANGE_PRIORITY':
@@ -161,7 +161,7 @@ export const TaskReducer = (state, action) => {
             priority: action.priority,
           },
         },
-      };
+      }
 
     // Retrieves the initial title and sets it back
     case 'CANCEL_TASK':
@@ -174,7 +174,7 @@ export const TaskReducer = (state, action) => {
             title: action.prevTitle,
           },
         },
-      };
+      }
 
     // Updates the state of a task's checkbox
     case 'HANDLE_CHECK':
@@ -188,19 +188,31 @@ export const TaskReducer = (state, action) => {
             checked: !state.tasks[action.task.id].checked,
           },
         },
-      };
+      }
 
     // Sort the tasks from a column
     case 'SORT_TASKS':
-      const sortedTasksList = newTaskIds.map(taskId => {
-        return state.tasks[taskId];
-      }).sort((a, b) => {
-        if (action.order === 'SORT_HIGHEST') {
-          return a.priority < b.priority ? -1 : (a.priority > b.priority ? 1 : 0);
-        } else if (action.order === 'SORT_LOWEST') {
-          return a.priority > b.priority ? -1 : (a.priority < b.priority ? 1 : 0);
-        }
-      }).map(task => task.id);
+      const sortedTasksList = newTaskIds
+        .map(taskId => {
+          return state.tasks[taskId]
+        })
+        .sort((a, b) => {
+          if (action.order === 'SORT_HIGHEST') {
+            return a.priority < b.priority
+              ? -1
+              : a.priority > b.priority
+              ? 1
+              : 0
+          }
+          if (action.order === 'SORT_LOWEST') {
+            return a.priority > b.priority
+              ? -1
+              : a.priority < b.priority
+              ? 1
+              : 0
+          }
+        })
+        .map(task => task.id)
 
       return {
         ...state,
@@ -208,16 +220,16 @@ export const TaskReducer = (state, action) => {
           [currentColumn]: {
             ...state.columns[currentColumn],
             taskIds: sortedTasksList,
-          }
-        }
-      };
+          },
+        },
+      }
 
     // Deletes all the tasks
     case 'DELETE_ALL':
       // Remove all the tasks from taskIds & tasks obj.
-      const newColumns = { ...state.columns };
+      const newColumns = { ...state.columns }
       for (column in newColumns) {
-        newColumns[column].taskIds = [];
+        newColumns[column].taskIds = []
       }
 
       return {
@@ -226,7 +238,7 @@ export const TaskReducer = (state, action) => {
           ...newColumns,
         },
         tasks: {},
-      };
+      }
 
     // Manages settings
     case 'HANDLE_SETTINGS':
@@ -235,15 +247,17 @@ export const TaskReducer = (state, action) => {
         settings: {
           [action.setting]: !state.settings[action.setting],
         },
-      };
+      }
 
     // Manages 'moveCompletedToBottom' persistent settings
     case 'MOVE_COMPLETED_TO_BOTTOM':
-      const sortedTasks = Array.from(state.columns['to-do'].taskIds);
+      const sortedTasks = Array.from(state.columns['to-do'].taskIds)
 
       // TODO: Fix the sort so it doesn't affect the non-checked ones
       if (state.settings.moveCompletedToBottom) {
-        sortedTasks.sort(task => state.tasks[task].checked - !state.tasks[task].checked);
+        sortedTasks.sort(
+          task => state.tasks[task].checked - !state.tasks[task].checked
+        )
       }
 
       return {
@@ -252,11 +266,11 @@ export const TaskReducer = (state, action) => {
           'to-do': {
             ...state.columns['to-do'],
             taskIds: sortedTasks,
-          }
-        }
+          },
+        },
       }
 
     default:
-      return state;
+      return state
   }
-};
+}

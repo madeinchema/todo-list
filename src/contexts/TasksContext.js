@@ -1,8 +1,8 @@
-import React, { useReducer, createContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { TaskReducer } from '../reducers/TaskReducer';
+import React, { useReducer, createContext, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { TaskReducer } from '../reducers/TaskReducer'
 
-const TasksContext = createContext();
+const TasksContext = createContext()
 
 const initialData = {
   tasks: {
@@ -25,44 +25,44 @@ const initialData = {
   settings: {
     moveCompletedToBottom: false,
   },
-};
+}
 
 const setInitialLocalStorage = () => {
   const hasLocalStorageItems =
     localStorage.getItem('tasks-v1') !== null &&
-    localStorage.getItem('tasks-v1') !== 'undefined';
+    localStorage.getItem('tasks-v1') !== 'undefined'
   const getLocalStorageTasks = () =>
-    JSON.parse(localStorage.getItem('tasks-v1'));
-  return hasLocalStorageItems ? getLocalStorageTasks() : initialData;
-};
+    JSON.parse(localStorage.getItem('tasks-v1'))
+  return hasLocalStorageItems ? getLocalStorageTasks() : initialData
+}
 
 const TasksContextProvider = ({ children }) => {
   const [tasksData, dispatch] = useReducer(
     TaskReducer,
     initialData,
     setInitialLocalStorage
-  );
+  )
 
   useEffect(() => {
     const updateLocalStorageWithCurrentState = () => {
-      localStorage.setItem('tasks-v1', JSON.stringify(tasksData));
-    };
-    updateLocalStorageWithCurrentState();
-  }, [tasksData]);
+      localStorage.setItem('tasks-v1', JSON.stringify(tasksData))
+    }
+    updateLocalStorageWithCurrentState()
+  }, [tasksData])
 
   return (
     <TasksContext.Provider value={{ tasksData, dispatch }}>
       {children}
     </TasksContext.Provider>
-  );
-};
+  )
+}
 
 TasksContextProvider.propTypes = {
   children: PropTypes.node,
-};
+}
 
 TasksContextProvider.defaultProps = {
   children: undefined,
-};
+}
 
-export { TasksContextProvider, TasksContext };
+export { TasksContextProvider, TasksContext }
