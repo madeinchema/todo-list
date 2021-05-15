@@ -20,6 +20,7 @@ import { useDispatch } from 'react-redux'
 import {
   removeTask,
   duplicateTask,
+  undoDeleteTask,
 } from '../../../redux/tasksData/tasksDataSlice'
 
 export default function TaskItemMenu({ task, index, columnId }) {
@@ -57,7 +58,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
             Task removed
           </Text>
           <Button
-            onClick={() => undoDeleteTask(onClose)}
+            onClick={() => handleUndoDeleteTask(onClose)}
             backgroundColor="rgba(255, 255, 255, .15)"
             color="white"
             variant="ghost"
@@ -70,19 +71,17 @@ export default function TaskItemMenu({ task, index, columnId }) {
         </Flex>
       ),
     })
-    // dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
   }
 
   // Adds back the deleted task
-  const undoDeleteTask = callback => {
-    console.log('undoDeleteTask')
-    // dispatch(
-    //   undoDeleteTask({
-    //     task,
-    //     index,
-    //     columnId,
-    //   })
-    // )
+  const handleUndoDeleteTask = callback => {
+    dispatch(
+      undoDeleteTask({
+        task,
+        index,
+        columnId,
+      })
+    )
     callback()
   }
 
