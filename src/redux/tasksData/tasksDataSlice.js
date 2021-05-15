@@ -176,17 +176,67 @@ export const tasksDataSlice = createSlice({
         },
       }
     },
-    moveCompletedToBottom() {},
+    editTask: (state, { payload }) => ({
+      ...state,
+      tasks: {
+        ...state.tasks,
+        [payload.task.id]: {
+          ...state.tasks[payload.task.id],
+          title: payload.value,
+        },
+      },
+    }),
+    changeTaskPriority: (state, { payload }) => ({
+      ...state,
+      tasks: {
+        ...state.tasks,
+        [payload.task.id]: {
+          ...state.tasks[payload.task.id],
+          priority: payload.priority,
+        },
+      },
+    }),
+    cancelTask: (state, { payload }) => ({
+      ...state,
+      tasks: {
+        ...state.tasks,
+        [payload.task.id]: {
+          ...state.tasks[payload.task.id],
+          title: payload.prevTitle,
+        },
+      },
+    }),
+    handleCheck: (state, { payload }) => ({
+      ...state,
+      tasks: {
+        ...state.tasks,
+        [payload.task.id]: {
+          ...state.tasks[payload.task.id],
+          checked: !state.tasks[payload.task.id].checked,
+        },
+      },
+    }),
+    deleteAll: state => ({
+      ...state,
+      columns: {
+        ...defaultData.columns,
+      },
+      tasks: {},
+    }),
   },
 })
 
 export const {
   handleDragEnd,
-  moveCompletedToBottom,
+  addTask,
   removeTask,
   undoDeleteTask,
   duplicateTask,
-  addTask,
+  editTask,
+  changeTaskPriority,
+  cancelTask,
+  handleCheck,
+  deleteAll,
 } = tasksDataSlice.actions
 
 export default tasksDataSlice.reducer
