@@ -3,6 +3,6 @@ const newTaskPriorityMenuTexts = {
   priority2: 'Priority 2',
   priority3: 'Priority 3',
   priority4: 'Priority 4',
-};
+}
 
-export default newTaskPriorityMenuTexts;
+export default newTaskPriorityMenuTexts

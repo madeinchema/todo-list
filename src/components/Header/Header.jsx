@@ -1,21 +1,15 @@
-import React from 'react';
-import { Link as ReactLink } from 'react-router-dom';
-import { FaClipboardCheck } from 'react-icons/fa';
-import { GoMarkGithub } from 'react-icons/go';
-import {
-  IconButton,
-  Link,
-  Flex,
-  Heading,
-  useColorMode,
-} from '@chakra-ui/react';
-import { MoonIcon, SettingsIcon, SunIcon } from '@chakra-ui/icons';
+import React from 'react'
+import { Link as ReactLink } from 'react-router-dom'
+import { FaClipboardCheck } from 'react-icons/fa'
+import { GoMarkGithub } from 'react-icons/go'
+import { IconButton, Link, Flex, Heading, useColorMode } from '@chakra-ui/react'
+import { MoonIcon, SettingsIcon, SunIcon } from '@chakra-ui/icons'
 
 export default function Navbar() {
-  const { colorMode, toggleColorMode } = useColorMode();
-  const bgColor = { light: 'white', dark: 'gray.800' };
-  const color = { light: 'gray.900', dark: 'gray.100' };
-  const iconSize = '1.25rem';
+  const { colorMode, toggleColorMode } = useColorMode()
+  const bgColor = { light: 'white', dark: 'gray.800' }
+  const color = { light: 'gray.900', dark: 'gray.100' }
+  const iconSize = '1.25rem'
 
   return (
     <>
@@ -82,5 +76,5 @@ export default function Navbar() {
         </Flex>
       </Flex>
     </>
-  );
+  )
 }

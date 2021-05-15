@@ -1,12 +1,12 @@
-import React from 'react';
-import { Button, useColorMode, useDisclosure } from '@chakra-ui/react';
-import DeleteAllTasksModal from './components/DeleteAllTasksModal';
+import React from 'react'
+import { Button, useColorMode, useDisclosure } from '@chakra-ui/react'
+import DeleteAllTasksModal from './components/DeleteAllTasksModal'
 
-const deleteBtnColor = { light: 'red.600', dark: 'red.400' };
+const deleteBtnColor = { light: 'red.600', dark: 'red.400' }
 
 const DeleteAllTasksBtn = () => {
-  const { colorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode } = useColorMode()
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <>
@@ -22,7 +22,7 @@ const DeleteAllTasksBtn = () => {
 
       <DeleteAllTasksModal isOpen={isOpen} onClose={onClose} />
     </>
-  );
-};
+  )
+}
 
-export default DeleteAllTasksBtn;
+export default DeleteAllTasksBtn
