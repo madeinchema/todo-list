@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   useColorMode,
@@ -12,45 +12,47 @@ import {
 } from '@chakra-ui/react'
 import { Draggable } from 'react-beautiful-dnd'
 import { DragHandleIcon } from '@chakra-ui/icons'
+import { useDispatch } from 'react-redux'
 import useHover from '../../utils/hooks/useHover'
 import TaskItemMenu from './TaskItemMenu/TaskItemMenu'
-import { TasksContext } from '../../contexts/TasksContext'
+import { cancelEditTitleTask } from '../../redux/tasksData/tasksDataSlice'
 
 const TaskItem = props => {
   const { task, index, droppableSnapshot, columnId } = props
-  const { dispatch } = useContext(TasksContext)
   const [prevTitle, setPrevTitle] = useState('')
   const { colorMode } = useColorMode()
   const [hovering, attrs] = useHover()
   const bgColor = { light: 'gray.50', dark: 'gray.800' }
+  const dispatch = useDispatch()
 
   // Handles tasks' editing and onCancel
   const editTaskTitle = event => {
     const { value } = event.target
-    dispatch({ type: 'EDIT_TASK', task, value, columnId })
+    console.log('editTaskTitle')
+    // dispatch({ type: 'EDIT_TASK', task, value, columnId })
   }
 
   // Retrieves the initial title and sets it back
-  const cancelEditTitleTask = () =>
-    dispatch({ type: 'CANCEL_TASK', task, prevTitle, columnId })
+  const handleCancelEditTitleTask = () =>
+    dispatch(
+      cancelEditTitleTask({ type: 'CANCEL_TASK', task, prevTitle, columnId })
+    )
 
   // Updates the state of a task's checkbox
   const handleTaskCheck = () => {
-    dispatch({ type: 'HANDLE_CHECK', task, columnId })
-    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
+    console.log('handleTaskCheck')
+    /* dispatch({ type: 'HANDLE_CHECK', task, columnId })
+    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' }) */
   }
 
   // Styles
   const styles = {
-    priorities: `${
-      task.priority === 1
-        ? 'red.600'
-        : task.priority === 2
-        ? 'yellow.500'
-        : task.priority === 3
-        ? 'blue.400'
-        : task.priority === 4 && 'gray.500'
-    }`,
+    priorities: {
+      1: 'red.600',
+      2: 'yellow.500',
+      3: 'blue.400',
+      4: 'gray.500',
+    },
   }
 
   // Check if the device has touch capabilities
@@ -78,7 +80,7 @@ const TaskItem = props => {
               shadow="md"
               borderRadius="3px"
               borderLeft="3px solid"
-              borderColor={styles.priorities}
+              borderColor={styles.priorities[task.priority]}
             >
               <Box {...provided.dragHandleProps}>
                 <Icon as={DragHandleIcon} mr=".5rem" opacity={0.5} />
@@ -102,7 +104,7 @@ const TaskItem = props => {
                 lineHeight="1.5rem"
                 value={task.title}
                 onFocus={() => setPrevTitle(task.title)}
-                onCancel={cancelEditTitleTask}
+                onCancel={handleCancelEditTitleTask}
               >
                 <EditablePreview
                   d="block"
