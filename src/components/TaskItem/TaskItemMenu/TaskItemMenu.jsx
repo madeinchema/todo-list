@@ -16,21 +16,25 @@ import {
 import PropTypes from 'prop-types'
 import { MdMoreVert, MdFlag, BiDuplicate } from 'react-icons/all'
 import { DeleteIcon } from '@chakra-ui/icons'
+import { useDispatch } from 'react-redux'
 import { TasksContext } from '../../../contexts/TasksContext'
+import { removeTask } from '../../../redux/tasksData/tasksDataSlice'
 
 export default function TaskItemMenu({ task, index, columnId }) {
-  const { dispatch } = useContext(TasksContext)
+  // const { dispatch } = useContext(TasksContext)
   const toast = useToast()
   const toastRef = useRef()
+  const dispatch = useDispatch()
 
   // Removes the task
   const deleteTask = () => {
-    dispatch({
-      type: 'REMOVE_TASK',
-      task,
-      index,
-      columnId,
-    })
+    // dispatch({
+    //   type: 'REMOVE_TASK',
+    //   task,
+    //   index,
+    //   columnId,
+    // })
+
     toast({
       position: 'bottom-left',
       title: 'Task deleted',
@@ -63,40 +67,43 @@ export default function TaskItemMenu({ task, index, columnId }) {
         </Flex>
       ),
     })
-    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
+    // dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
   }
 
   // Adds back the deleted task
   const undoDeleteTask = callback => {
-    dispatch({
-      type: 'UNDO_DELETE_TASK',
-      task,
-      index,
-      columnId,
-    })
-    callback()
-    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
+    console.log('undoDeleteTask')
+    // dispatch({
+    //   type: 'UNDO_DELETE_TASK',
+    //   task,
+    //   index,
+    //   columnId,
+    // })
+    // callback()
+    // dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
   }
 
   // Duplicates the task
   const duplicateTask = () => {
-    dispatch({
-      type: 'DUPLICATE_TASK',
-      task,
-      index,
-      columnId,
-    })
-    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
+    console.log('duplicateTask')
+    // dispatch({
+    //   type: 'DUPLICATE_TASK',
+    //   task,
+    //   index,
+    //   columnId,
+    // })
+    // dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
   }
 
   const changePriority = priority => {
-    dispatch({
-      type: 'CHANGE_PRIORITY',
-      task,
-      index,
-      priority,
-      columnId,
-    })
+    console.log('changePriority')
+    // dispatch({
+    //   type: 'CHANGE_PRIORITY',
+    //   task,
+    //   index,
+    //   priority,
+    //   columnId,
+    // })
   }
 
   return (
