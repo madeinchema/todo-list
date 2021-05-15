@@ -176,7 +176,7 @@ export const tasksDataSlice = createSlice({
         },
       }
     },
-    editTask: (state, { payload }) => ({
+    editTaskTitle: (state, { payload }) => ({
       ...state,
       tasks: {
         ...state.tasks,
@@ -196,7 +196,7 @@ export const tasksDataSlice = createSlice({
         },
       },
     }),
-    cancelTask: (state, { payload }) => ({
+    cancelEditTitleTask: (state, { payload }) => ({
       ...state,
       tasks: {
         ...state.tasks,
@@ -206,7 +206,7 @@ export const tasksDataSlice = createSlice({
         },
       },
     }),
-    handleCheck: (state, { payload }) => ({
+    toggleCheckTask: (state, { payload }) => ({
       ...state,
       tasks: {
         ...state.tasks,
@@ -232,10 +232,10 @@ export const {
   removeTask,
   undoDeleteTask,
   duplicateTask,
-  editTask,
+  editTaskTitle,
   changeTaskPriority,
-  cancelTask,
-  handleCheck,
+  cancelEditTitleTask,
+  toggleCheckTask,
   deleteAll,
 } = tasksDataSlice.actions
 
