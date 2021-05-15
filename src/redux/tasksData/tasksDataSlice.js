@@ -155,6 +155,27 @@ export const tasksDataSlice = createSlice({
         },
       }
     },
+    duplicateTask(state, { payload: { task, index, columnId } }) {
+      const prevTask = { ...task }
+      prevTask.id = nanoid(5)
+
+      const updatedTaskIds = [...state.columns[columnId].taskIds]
+      updatedTaskIds.splice(index, 0, prevTask.id)
+
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          [prevTask.id]: prevTask,
+        },
+        columns: {
+          [columnId]: {
+            ...state.columns[columnId],
+            taskIds: updatedTaskIds,
+          },
+        },
+      }
+    },
     moveCompletedToBottom() {},
   },
 })
@@ -164,6 +185,7 @@ export const {
   moveCompletedToBottom,
   removeTask,
   undoDeleteTask,
+  duplicateTask,
   addTask,
 } = tasksDataSlice.actions
 

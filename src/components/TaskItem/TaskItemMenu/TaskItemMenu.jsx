@@ -17,7 +17,10 @@ import PropTypes from 'prop-types'
 import { MdMoreVert, MdFlag, BiDuplicate } from 'react-icons/all'
 import { DeleteIcon } from '@chakra-ui/icons'
 import { useDispatch } from 'react-redux'
-import { removeTask } from '../../../redux/tasksData/tasksDataSlice'
+import {
+  removeTask,
+  duplicateTask,
+} from '../../../redux/tasksData/tasksDataSlice'
 
 export default function TaskItemMenu({ task, index, columnId }) {
   // const { dispatch } = useContext(TasksContext)
@@ -84,16 +87,14 @@ export default function TaskItemMenu({ task, index, columnId }) {
   }
 
   // Duplicates the task
-  const duplicateTask = () => {
-    console.log('duplicateTask')
-    // dispatch({
-    //   type: 'DUPLICATE_TASK',
-    //   task,
-    //   index,
-    //   columnId,
-    // })
-    // dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
-  }
+  const handleDuplicateTask = () =>
+    dispatch(
+      duplicateTask({
+        task,
+        index,
+        columnId,
+      })
+    )
 
   const changePriority = priority => {
     console.log('changePriority')
@@ -136,7 +137,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
             />
             Delete
           </MenuItem>
-          <MenuItem onClick={duplicateTask}>
+          <MenuItem onClick={handleDuplicateTask}>
             <Icon
               aria-label="Duplicate Task"
               as={BiDuplicate}
