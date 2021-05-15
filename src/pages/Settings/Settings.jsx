@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Link as ReactLink } from 'react-router-dom';
+import React, { useContext } from 'react'
+import { Link as ReactLink } from 'react-router-dom'
 import {
   Box,
   Flex,
@@ -10,26 +10,26 @@ import {
   Heading,
   Divider,
   useColorMode,
-} from '@chakra-ui/react';
-import { MdArrowBack } from 'react-icons/all';
-import { TasksContext } from '../../contexts/TasksContext';
-import DeleteAllTasksBtn from './components/DeleteAllTasksBtn/DeleteAllTasksBtn';
+} from '@chakra-ui/react'
+import { MdArrowBack } from 'react-icons/all'
+import { TasksContext } from '../../contexts/TasksContext'
+import DeleteAllTasksBtn from './components/DeleteAllTasksBtn/DeleteAllTasksBtn'
 
 const Settings = () => {
-  const { tasksData, dispatch } = useContext(TasksContext);
-  const { colorMode } = useColorMode();
-  const dividerColor = { light: 'gray.400', dark: 'gray.600' };
+  const { tasksData, dispatch } = useContext(TasksContext)
+  const { colorMode } = useColorMode()
+  const dividerColor = { light: 'gray.400', dark: 'gray.600' }
   const goBackBtnColor = {
     light: ['gray.200', 'gray.300'],
     dark: ['gray.800', 'gray.700'],
-  };
+  }
 
-  const handleSwitch = (setting) => {
+  const handleSwitch = setting => {
     dispatch({
       type: 'HANDLE_SETTINGS',
       setting,
-    });
-  };
+    })
+  }
 
   return (
     <Box mx="auto" mb="5rem" p="0 1rem 2rem" maxW="512px" w="100%">
@@ -76,7 +76,7 @@ const Settings = () => {
         </Flex>
       </Flex>
     </Box>
-  );
-};
+  )
+}
 
-export default Settings;
+export default Settings

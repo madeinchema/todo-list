@@ -1,6 +1,6 @@
-import React from 'react';
-import { Flex, Heading, Icon } from '@chakra-ui/react';
-import { MdCheck } from 'react-icons/md';
+import React from 'react'
+import { Flex, Heading, Icon } from '@chakra-ui/react'
+import { MdCheck } from 'react-icons/md'
 
 const EmptyTasksList = () => {
   return (
@@ -8,7 +8,7 @@ const EmptyTasksList = () => {
       <Icon as={MdCheck} boxSize="4rem" />
       <Heading size="lg">There are no tasks</Heading>
     </Flex>
-  );
-};
+  )
+}
 
-export default EmptyTasksList;
+export default EmptyTasksList

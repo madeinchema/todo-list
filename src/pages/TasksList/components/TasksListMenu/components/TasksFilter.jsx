@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 import {
   Button,
   Heading,
@@ -7,11 +7,11 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-} from '@chakra-ui/react';
+} from '@chakra-ui/react'
 
-const TasksFilter = (props) => {
-  const { tasksListFilter, setTasksListFilter } = props;
-  const setTasksFilter = (newFilter) => setTasksListFilter(newFilter);
+const TasksFilter = props => {
+  const { tasksListFilter, setTasksListFilter } = props
+  const setTasksFilter = newFilter => setTasksListFilter(newFilter)
 
   return (
     <Menu>
@@ -33,17 +33,17 @@ const TasksFilter = (props) => {
         </MenuItem>
       </MenuList>
     </Menu>
-  );
-};
+  )
+}
 
 TasksFilter.propTypes = {
   tasksListFilter: PropTypes.string,
   setTasksListFilter: PropTypes.func,
-};
+}
 
 TasksFilter.defaultProps = {
   tasksListFilter: undefined,
   setTasksListFilter: undefined,
-};
+}
 
-export default TasksFilter;
+export default TasksFilter
