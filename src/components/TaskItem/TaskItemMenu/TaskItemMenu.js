@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef } from 'react'
 import {
   Flex,
   Text,
@@ -12,16 +12,16 @@ import {
   MenuGroup,
   MenuDivider,
   useToast,
-} from '@chakra-ui/react';
-import PropTypes from 'prop-types';
-import { TasksContext } from '../../../contexts/TasksContext';
-import { MdMoreVert, MdFlag, BiDuplicate } from 'react-icons/all';
-import { DeleteIcon } from '@chakra-ui/icons';
+} from '@chakra-ui/react'
+import PropTypes from 'prop-types'
+import { MdMoreVert, MdFlag, BiDuplicate } from 'react-icons/all'
+import { DeleteIcon } from '@chakra-ui/icons'
+import { TasksContext } from '../../../contexts/TasksContext'
 
 export default function TaskItemMenu({ task, index, columnId }) {
-  const { dispatch } = useContext(TasksContext);
-  const toast = useToast();
-  const toastRef = useRef();
+  const { dispatch } = useContext(TasksContext)
+  const toast = useToast()
+  const toastRef = useRef()
 
   // Removes the task
   const deleteTask = () => {
@@ -30,7 +30,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
       task,
       index,
       columnId,
-    });
+    })
     toast({
       position: 'bottom-left',
       title: 'Task deleted',
@@ -51,7 +51,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
           </Text>
           <Button
             onClick={() => undoDeleteTask(onClose)}
-            backgroundColor={'rgba(255, 255, 255, .15)'}
+            backgroundColor="rgba(255, 255, 255, .15)"
             color="white"
             variant="ghost"
             size="sm"
@@ -62,42 +62,42 @@ export default function TaskItemMenu({ task, index, columnId }) {
           </Button>
         </Flex>
       ),
-    });
-    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' });
-  };
+    })
+    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
+  }
 
   // Adds back the deleted task
-  const undoDeleteTask = (callback) => {
+  const undoDeleteTask = callback => {
     dispatch({
       type: 'UNDO_DELETE_TASK',
       task,
       index,
       columnId,
-    });
-    callback();
-    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' });
-  };
+    })
+    callback()
+    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
+  }
 
   // Duplicates the task
   const duplicateTask = () => {
     dispatch({
       type: 'DUPLICATE_TASK',
-      task: task,
+      task,
       index,
       columnId,
-    });
-    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' });
-  };
+    })
+    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
+  }
 
-  const changePriority = (priority) => {
+  const changePriority = priority => {
     dispatch({
       type: 'CHANGE_PRIORITY',
-      task: task,
+      task,
       index,
       priority,
       columnId,
-    });
-  };
+    })
+  }
 
   return (
     <Flex>
@@ -108,7 +108,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
           opacity="0.5"
           _hover={{ opacity: '1' }}
         >
-          <MenuButton aria-label={'Open task menu'}>
+          <MenuButton aria-label="Open task menu">
             <Icon
               aria-label="Search database"
               as={MdMoreVert}
@@ -186,7 +186,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
         </MenuList>
       </Menu>
     </Flex>
-  );
+  )
 }
 
 TaskItemMenu.propTypes = {
@@ -197,4 +197,4 @@ TaskItemMenu.propTypes = {
     indent: PropTypes.number,
     priority: PropTypes.number,
   }),
-};
+}

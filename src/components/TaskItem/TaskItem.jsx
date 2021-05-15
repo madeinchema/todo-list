@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext, useState } from 'react'
+import PropTypes from 'prop-types'
 import {
   useColorMode,
   Flex,
@@ -9,36 +9,36 @@ import {
   Editable,
   EditableInput,
   EditablePreview,
-} from '@chakra-ui/react';
-import { Draggable } from 'react-beautiful-dnd';
-import useHover from '../../utils/hooks/useHover';
-import TaskItemMenu from './TaskItemMenu/TaskItemMenu';
-import { TasksContext } from '../../contexts/TasksContext';
-import { DragHandleIcon } from '@chakra-ui/icons';
+} from '@chakra-ui/react'
+import { Draggable } from 'react-beautiful-dnd'
+import { DragHandleIcon } from '@chakra-ui/icons'
+import useHover from '../../utils/hooks/useHover'
+import TaskItemMenu from './TaskItemMenu/TaskItemMenu'
+import { TasksContext } from '../../contexts/TasksContext'
 
-const TaskItem = (props) => {
-  const { task, index, droppableSnapshot, columnId } = props;
-  const { dispatch } = useContext(TasksContext);
-  const [prevTitle, setPrevTitle] = useState('');
-  const { colorMode } = useColorMode();
-  const [hovering, attrs] = useHover();
-  const bgColor = { light: 'gray.50', dark: 'gray.800' };
+const TaskItem = props => {
+  const { task, index, droppableSnapshot, columnId } = props
+  const { dispatch } = useContext(TasksContext)
+  const [prevTitle, setPrevTitle] = useState('')
+  const { colorMode } = useColorMode()
+  const [hovering, attrs] = useHover()
+  const bgColor = { light: 'gray.50', dark: 'gray.800' }
 
   // Handles tasks' editing and onCancel
-  const editTaskTitle = (event) => {
-    const { value } = event.target;
-    dispatch({ type: 'EDIT_TASK', task, value, columnId });
-  };
+  const editTaskTitle = event => {
+    const { value } = event.target
+    dispatch({ type: 'EDIT_TASK', task, value, columnId })
+  }
 
   // Retrieves the initial title and sets it back
   const cancelEditTitleTask = () =>
-    dispatch({ type: 'CANCEL_TASK', task, prevTitle, columnId });
+    dispatch({ type: 'CANCEL_TASK', task, prevTitle, columnId })
 
   // Updates the state of a task's checkbox
   const handleTaskCheck = () => {
-    dispatch({ type: 'HANDLE_CHECK', task, columnId });
-    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' });
-  };
+    dispatch({ type: 'HANDLE_CHECK', task, columnId })
+    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
+  }
 
   // Styles
   const styles = {
@@ -51,10 +51,10 @@ const TaskItem = (props) => {
         ? 'blue.400'
         : task.priority === 4 && 'gray.500'
     }`,
-  };
+  }
 
   // Check if the device has touch capabilities
-  const touch = 'ontouchstart' in document.documentElement;
+  const touch = 'ontouchstart' in document.documentElement
 
   return (
     <li {...attrs}>
@@ -123,8 +123,8 @@ const TaskItem = (props) => {
         )}
       </Draggable>
     </li>
-  );
-};
+  )
+}
 
 TaskItem.propTypes = {
   task: PropTypes.exact({
@@ -142,13 +142,13 @@ TaskItem.propTypes = {
     isUsingPlaceholder: PropTypes.bool,
   }),
   columnId: PropTypes.string,
-};
+}
 
 TaskItem.defaultProps = {
   task: undefined,
   index: undefined,
   droppableSnapshot: undefined,
   columnId: undefined,
-};
+}
 
-export default TaskItem;
+export default TaskItem
