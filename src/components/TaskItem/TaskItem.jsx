@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   useColorMode,
@@ -12,55 +12,68 @@ import {
 } from '@chakra-ui/react'
 import { Draggable } from 'react-beautiful-dnd'
 import { DragHandleIcon } from '@chakra-ui/icons'
-import useHover from '../../utils/hooks/useHover'
+import { useDispatch } from 'react-redux'
+import useHover from '../../hooks/useHover'
 import TaskItemMenu from './TaskItemMenu/TaskItemMenu'
-import { TasksContext } from '../../contexts/TasksContext'
+import {
+  cancelEditTitleTask,
+  toggleCheckTask,
+  editTaskTitle,
+} from '../../redux/tasksData/tasksDataSlice'
 
 const TaskItem = props => {
   const { task, index, droppableSnapshot, columnId } = props
-  const { dispatch } = useContext(TasksContext)
-  const [prevTitle, setPrevTitle] = useState('')
+  const [taskTitle, setTaskTitle] = useState('')
   const { colorMode } = useColorMode()
   const [hovering, attrs] = useHover()
   const bgColor = { light: 'gray.50', dark: 'gray.800' }
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    setTaskTitle(task.title)
+  }, [task.title])
 
   // Handles tasks' editing and onCancel
-  const editTaskTitle = event => {
-    const { value } = event.target
-    dispatch({ type: 'EDIT_TASK', task, value, columnId })
-  }
+  const handleEditTaskTitle = value =>
+    dispatch(editTaskTitle({ task, value, columnId }))
 
-  // Retrieves the initial title and sets it back
-  const cancelEditTitleTask = () =>
-    dispatch({ type: 'CANCEL_TASK', task, prevTitle, columnId })
+  const handleCancelEditTitleTask = () =>
+    dispatch(
+      cancelEditTitleTask({
+        type: 'CANCEL_TASK',
+        task,
+        prevTitle: taskTitle,
+        columnId,
+      })
+    )
 
-  // Updates the state of a task's checkbox
-  const handleTaskCheck = () => {
-    dispatch({ type: 'HANDLE_CHECK', task, columnId })
-    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
+  const handleToggleCheckTask = () => {
+    dispatch(toggleCheckTask({ task, columnId }))
   }
 
   // Styles
   const styles = {
-    priorities: `${
-      task.priority === 1
-        ? 'red.600'
-        : task.priority === 2
-        ? 'yellow.500'
-        : task.priority === 3
-        ? 'blue.400'
-        : task.priority === 4 && 'gray.500'
-    }`,
+    priorities: {
+      1: 'red.600',
+      2: 'yellow.500',
+      3: 'blue.400',
+      4: 'gray.500',
+    },
   }
 
   // Check if the device has touch capabilities
   const touch = 'ontouchstart' in document.documentElement
 
   return (
-    <li {...attrs}>
+    <li
+      onMouseLeave={() => attrs.onMouseLeave()}
+      onMouseOver={() => attrs.onMouseOver()}
+      onFocus={() => attrs.onMouseOver()}
+    >
       <Draggable draggableId={task.id} index={index}>
         {(provided, snapshot) => (
           <Box
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...provided.draggableProps}
             ref={provided.innerRef}
             mb=".5rem"
@@ -78,8 +91,9 @@ const TaskItem = props => {
               shadow="md"
               borderRadius="3px"
               borderLeft="3px solid"
-              borderColor={styles.priorities}
+              borderColor={styles.priorities[task.priority]}
             >
+              {/* eslint-disable-next-line react/jsx-props-no-spreading */}
               <Box {...provided.dragHandleProps}>
                 <Icon as={DragHandleIcon} mr=".5rem" opacity={0.5} />
               </Box>
@@ -88,7 +102,7 @@ const TaskItem = props => {
                 my=".25rem"
                 size="lg"
                 isChecked={task.checked}
-                onChange={handleTaskCheck}
+                onChange={handleToggleCheckTask}
                 d="flex"
               />
 
@@ -100,9 +114,11 @@ const TaskItem = props => {
                 fontSize="1.2em"
                 fontWeight="600"
                 lineHeight="1.5rem"
-                value={task.title}
-                onFocus={() => setPrevTitle(task.title)}
-                onCancel={cancelEditTitleTask}
+                value={taskTitle}
+                onFocus={() => setTaskTitle(task.title)}
+                onCancel={handleCancelEditTitleTask}
+                onChange={setTaskTitle}
+                onSubmit={handleEditTaskTitle}
               >
                 <EditablePreview
                   d="block"
@@ -110,13 +126,16 @@ const TaskItem = props => {
                   wordWrap="break-word"
                   overflowWrap="break-word"
                 />
-                <EditableInput onChange={editTaskTitle} />
+                <EditableInput />
               </Editable>
 
-              <Box ml="auto" my="auto" maxW="3rem">
-                {(hovering || touch) && (
-                  <TaskItemMenu task={task} index={index} columnId={columnId} />
-                )}
+              <Box
+                ml="auto"
+                my="auto"
+                maxW="3rem"
+                opacity={hovering || touch ? 1 : 0}
+              >
+                <TaskItemMenu task={task} index={index} columnId={columnId} />
               </Box>
             </Flex>
           </Box>

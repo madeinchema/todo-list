@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react'
+import React, { useRef } from 'react'
 import {
   Flex,
   Text,
@@ -16,21 +16,27 @@ import {
 import PropTypes from 'prop-types'
 import { MdMoreVert, MdFlag, BiDuplicate } from 'react-icons/all'
 import { DeleteIcon } from '@chakra-ui/icons'
-import { TasksContext } from '../../../contexts/TasksContext'
+import { useDispatch } from 'react-redux'
+import {
+  removeTask,
+  duplicateTask,
+  undoDeleteTask,
+  changeTaskPriority,
+} from '../../../redux/tasksData/tasksDataSlice'
 
 export default function TaskItemMenu({ task, index, columnId }) {
-  const { dispatch } = useContext(TasksContext)
   const toast = useToast()
   const toastRef = useRef()
+  const dispatch = useDispatch()
 
-  // Removes the task
-  const deleteTask = () => {
-    dispatch({
-      type: 'REMOVE_TASK',
-      task,
-      index,
-      columnId,
-    })
+  const handleRemoveTask = () => {
+    dispatch(
+      removeTask({
+        task,
+        index,
+        columnId,
+      })
+    )
     toast({
       position: 'bottom-left',
       title: 'Task deleted',
@@ -50,7 +56,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
             Task removed
           </Text>
           <Button
-            onClick={() => undoDeleteTask(onClose)}
+            onClick={() => handleUndoDeleteTask(onClose)}
             backgroundColor="rgba(255, 255, 255, .15)"
             color="white"
             variant="ghost"
@@ -63,41 +69,39 @@ export default function TaskItemMenu({ task, index, columnId }) {
         </Flex>
       ),
     })
-    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
   }
 
   // Adds back the deleted task
-  const undoDeleteTask = callback => {
-    dispatch({
-      type: 'UNDO_DELETE_TASK',
-      task,
-      index,
-      columnId,
-    })
+  const handleUndoDeleteTask = callback => {
+    dispatch(
+      undoDeleteTask({
+        task,
+        index,
+        columnId,
+      })
+    )
     callback()
-    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
   }
 
   // Duplicates the task
-  const duplicateTask = () => {
-    dispatch({
-      type: 'DUPLICATE_TASK',
-      task,
-      index,
-      columnId,
-    })
-    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
-  }
+  const handleDuplicateTask = () =>
+    dispatch(
+      duplicateTask({
+        task,
+        index,
+        columnId,
+      })
+    )
 
-  const changePriority = priority => {
-    dispatch({
-      type: 'CHANGE_PRIORITY',
-      task,
-      index,
-      priority,
-      columnId,
-    })
-  }
+  const handleChangeTaskPriority = priority =>
+    dispatch(
+      changeTaskPriority({
+        task,
+        index,
+        priority,
+        columnId,
+      })
+    )
 
   return (
     <Flex>
@@ -118,7 +122,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
         </Box>
 
         <MenuList zIndex={2}>
-          <MenuItem onClick={deleteTask}>
+          <MenuItem onClick={handleRemoveTask}>
             <Icon
               aria-label="Remove Task"
               as={DeleteIcon}
@@ -129,7 +133,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
             />
             Delete
           </MenuItem>
-          <MenuItem onClick={duplicateTask}>
+          <MenuItem onClick={handleDuplicateTask}>
             <Icon
               aria-label="Duplicate Task"
               as={BiDuplicate}
@@ -142,7 +146,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
           </MenuItem>
           <MenuDivider />
           <MenuGroup title="Priority">
-            <MenuItem onClick={() => changePriority(1)}>
+            <MenuItem onClick={() => handleChangeTaskPriority(1)}>
               <Icon
                 aria-label="Priority 1"
                 as={MdFlag}
@@ -152,7 +156,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
               />
               Priority 1
             </MenuItem>
-            <MenuItem onClick={() => changePriority(2)}>
+            <MenuItem onClick={() => handleChangeTaskPriority(2)}>
               <Icon
                 aria-label="Priority 2"
                 as={MdFlag}
@@ -162,7 +166,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
               />
               Priority 2
             </MenuItem>
-            <MenuItem onClick={() => changePriority(3)}>
+            <MenuItem onClick={() => handleChangeTaskPriority(3)}>
               <Icon
                 aria-label="Priority 3"
                 as={MdFlag}
@@ -172,7 +176,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
               />
               Priority 3
             </MenuItem>
-            <MenuItem onClick={() => changePriority(4)}>
+            <MenuItem onClick={() => handleChangeTaskPriority(4)}>
               <Icon
                 aria-label="Priority 4"
                 as={MdFlag}
