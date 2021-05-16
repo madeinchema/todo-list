@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex, List } from '@chakra-ui/react'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
@@ -7,35 +7,35 @@ import TaskItem from '../../components/TaskItem/TaskItem'
 import NewTask from './components/NewTask/NewTask'
 import EmptyTasksList from './components/EmptyTasksList'
 import TasksListMenu from './components/TasksListMenu/TasksListMenu'
-import getFilteredTasks from './utils/functions/getFilteredTasks'
-import getSortedTasks from './utils/functions/getSortedTasks'
-import {
-  handleDragEnd,
-  moveCompletedToBottom,
-} from '../../redux/tasksData/tasksDataSlice'
+import { handleDragEnd } from '../../redux/tasksData/tasksDataSlice'
 
 const TasksList = props => {
   const { columnId } = props
   const tasksData = useSelector(state => state.tasksData)
   const [tasksListFilter, setTasksListFilter] = useState('All')
-  const [tasksToShow, setTasksToShow] = useState(undefined)
-  const [loading, setLoading] = useState(undefined)
   const dispatch = useDispatch()
 
   const column = tasksData.columns[columnId]
+  const tasksQty = Object.keys(tasksData.tasks).length
 
-  useEffect(() => {
-    const tasks = column.taskIds.map(taskId => tasksData.tasks[taskId])
-    // todo: redo this implementation
-    const handleTasksToShow = async () => {
-      setLoading(true)
-      const filteredTasks = await getFilteredTasks([...tasks], tasksListFilter)
-      const sortedTasks = await getSortedTasks(filteredTasks)
-      setTasksToShow(sortedTasks)
-      setLoading(false)
+  const sortedTasksIds = [...tasksData.columns[columnId].taskIds].sort(
+    (firstTaskId, secondTaskId) => {
+      const sortAttribute = tasksData.settings.sort
+      if (sortAttribute === 'ASC_PRIORITY') {
+        return (
+          tasksData.tasks[secondTaskId].priority -
+          tasksData.tasks[firstTaskId].priority
+        )
+      }
+      if (sortAttribute === 'DESC_PRIORITY') {
+        return (
+          tasksData.tasks[firstTaskId].priority -
+          tasksData.tasks[secondTaskId].priority
+        )
+      }
+      return 0
     }
-    handleTasksToShow()
-  }, [column.taskIds, tasksListFilter, tasksData])
+  )
 
   const onDragEnd = result => {
     dispatch(
@@ -44,7 +44,6 @@ const TasksList = props => {
         columnId,
       })
     )
-    // dispatch(moveCompletedToBottom())
   }
 
   return (
@@ -55,12 +54,12 @@ const TasksList = props => {
 
         {tasksData.columns[columnId].taskIds.length >= 1 && (
           <Box h="calc(100vh - 4.5rem)">
-            {/* <TasksListMenu
-              quantity={tasksToShow && tasksToShow.length}
+            <TasksListMenu
+              quantity={tasksQty}
               columnId={columnId}
               tasksListFilter={tasksListFilter}
               setTasksListFilter={setTasksListFilter}
-            /> */}
+            />
             <Flex
               flexDir="column"
               className="custom-scroll"
@@ -70,11 +69,11 @@ const TasksList = props => {
               h="calc(100vh - 13.25rem)"
             >
               <List mb="2rem">
-                {!loading && tasksToShow && (
+                {tasksData && (
                   <Droppable
-                    droppableId={column.id}
+                    droppableId="to-do"
                     key={column.id}
-                    tasks={tasksToShow}
+                    tasks={tasksData.tasks}
                   >
                     {(provided, snapshot) => (
                       <Box
@@ -82,15 +81,19 @@ const TasksList = props => {
                         {...provided.droppableProps}
                         isDraggingOver={snapshot.isDraggingOver}
                       >
-                        {tasksToShow.map((task, index) => (
-                          <TaskItem
-                            key={task.id}
-                            task={task}
-                            index={index}
-                            droppableSnapshot={snapshot}
-                            columnId={column.id}
-                          />
-                        ))}
+                        {sortedTasksIds.map((taskId, index) => {
+                          const { tasks } = tasksData
+                          const task = tasks[taskId]
+                          return (
+                            <TaskItem
+                              key={taskId}
+                              task={task}
+                              index={index}
+                              droppableSnapshot={snapshot}
+                              columnId={column.id}
+                            />
+                          )
+                        })}
                         {provided.placeholder}
                       </Box>
                     )}
