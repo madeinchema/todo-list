@@ -65,10 +65,11 @@ const TaskItem = props => {
   const touch = 'ontouchstart' in document.documentElement
 
   return (
-    <li {...attrs}>
+    <li onMouseLeave={attrs.onMouseLeave} onMouseHover={attrs.onMouseHover}>
       <Draggable draggableId={task.id} index={index}>
         {(provided, snapshot) => (
           <Box
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...provided.draggableProps}
             ref={provided.innerRef}
             mb=".5rem"
@@ -88,6 +89,7 @@ const TaskItem = props => {
               borderLeft="3px solid"
               borderColor={styles.priorities[task.priority]}
             >
+              {/* eslint-disable-next-line react/jsx-props-no-spreading */}
               <Box {...provided.dragHandleProps}>
                 <Icon as={DragHandleIcon} mr=".5rem" opacity={0.5} />
               </Box>
