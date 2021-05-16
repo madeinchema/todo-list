@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Link as ReactLink } from 'react-router-dom'
 import {
   Box,
@@ -12,23 +12,18 @@ import {
   useColorMode,
 } from '@chakra-ui/react'
 import { MdArrowBack } from 'react-icons/all'
-import { TasksContext } from '../../contexts/TasksContext'
+import { useDispatch, useSelector } from 'react-redux'
 import DeleteAllTasksBtn from './components/DeleteAllTasksBtn/DeleteAllTasksBtn'
+import { toggleSettingMoveCompleteToBottom } from '../../redux/settings/settingsSlice'
 
 const Settings = () => {
-  const { tasksData, dispatch } = useContext(TasksContext)
+  const settings = useSelector(state => state.settings)
+  const dispatch = useDispatch()
   const { colorMode } = useColorMode()
   const dividerColor = { light: 'gray.400', dark: 'gray.600' }
   const goBackBtnColor = {
     light: ['gray.200', 'gray.300'],
     dark: ['gray.800', 'gray.700'],
-  }
-
-  const handleSwitch = setting => {
-    dispatch({
-      type: 'HANDLE_SETTINGS',
-      setting,
-    })
   }
 
   return (
@@ -66,8 +61,8 @@ const Settings = () => {
           <Text>Move completed tasks to the bottom</Text>
           <Switch
             size="sm"
-            isChecked={tasksData.settings.moveCompletedToBottom}
-            onChange={() => handleSwitch('moveCompletedToBottom')}
+            isChecked={settings.moveCompletedToBottom}
+            onChange={() => dispatch(toggleSettingMoveCompleteToBottom())}
           />
         </Flex>
         <Divider borderColor={dividerColor[colorMode]} />
