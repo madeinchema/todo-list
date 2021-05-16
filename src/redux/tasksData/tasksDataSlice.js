@@ -38,136 +38,39 @@ export const tasksDataSlice = createSlice({
         checked: false,
         priority: payload.priority,
       }
-      return {
-        ...state,
-        tasks: {
-          ...state.tasks,
-          [newTask.id]: newTask,
-        },
-        columns: {
-          [payload.columnId]: {
-            ...state.columns[payload.columnId],
-            taskIds: [...state.columns[payload.columnId].taskIds, newTask.id],
-          },
-        },
-      }
+      state.tasks[newTask.id] = newTask
+      state.columns[payload.columnId].taskIds.push(newTask.id)
+      return state
     },
     removeTask(state, { payload }) {
-      const column = state.columns[payload.columnId]
-      const newTaskIds = Array.from(column.taskIds)
-
-      // Remove current task from the taskIds
-      newTaskIds.splice(payload.index, 1)
-
-      // Create object where the selected task is removed
-      let newTasks = {}
-      Object.entries(state.tasks).forEach(entry => {
-        const [key, value] = entry
-        if (key !== payload.task.id) {
-          newTasks = { ...newTasks, [key]: value }
-        }
-      })
-
-      // Update state without the selected taskId and task.
-      return {
-        ...state,
-        columns: {
-          [payload.columnId]: {
-            ...state.columns[payload.columnId],
-            taskIds: newTaskIds,
-          },
-        },
-        tasks: newTasks,
-      }
+      state.columns[payload.columnId].taskIds.splice(payload.index, 1)
     },
     undoDeleteTask(state, { payload }) {
-      const prevTask = { ...payload.task }
-
-      const updatedTaskIds = [...state.columns[payload.columnId].taskIds]
-      updatedTaskIds.splice(payload.index, 0, prevTask.id)
-
-      return {
-        ...state,
-        tasks: {
-          ...state.tasks,
-          [prevTask.id]: prevTask,
-        },
-        columns: {
-          [payload.columnId]: {
-            ...state.columns[payload.columnId],
-            taskIds: updatedTaskIds,
-          },
-        },
-      }
+      state.columns[payload.columnId].taskIds.splice(
+        payload.index,
+        0,
+        payload.task.id
+      )
     },
     duplicateTask(state, { payload: { task, index, columnId } }) {
-      const prevTask = { ...task }
-      prevTask.id = nanoid(5)
-
-      const updatedTaskIds = [...state.columns[columnId].taskIds]
-      updatedTaskIds.splice(index, 0, prevTask.id)
-
-      return {
-        ...state,
-        tasks: {
-          ...state.tasks,
-          [prevTask.id]: prevTask,
-        },
-        columns: {
-          [columnId]: {
-            ...state.columns[columnId],
-            taskIds: updatedTaskIds,
-          },
-        },
-      }
+      const newTask = { ...task, id: nanoid(5) }
+      state.tasks[newTask.id] = newTask
+      state.columns[columnId].taskIds.splice(index, 0, newTask.id)
     },
-    editTaskTitle: (state, { payload }) => ({
-      ...state,
-      tasks: {
-        ...state.tasks,
-        [payload.task.id]: {
-          ...state.tasks[payload.task.id],
-          title: payload.value,
-        },
-      },
-    }),
-    changeTaskPriority: (state, { payload }) => ({
-      ...state,
-      tasks: {
-        ...state.tasks,
-        [payload.task.id]: {
-          ...state.tasks[payload.task.id],
-          priority: payload.priority,
-        },
-      },
-    }),
-    cancelEditTitleTask: (state, { payload }) => ({
-      ...state,
-      tasks: {
-        ...state.tasks,
-        [payload.task.id]: {
-          ...state.tasks[payload.task.id],
-          title: payload.prevTitle,
-        },
-      },
-    }),
-    toggleCheckTask: (state, { payload }) => ({
-      ...state,
-      tasks: {
-        ...state.tasks,
-        [payload.task.id]: {
-          ...state.tasks[payload.task.id],
-          checked: !state.tasks[payload.task.id].checked,
-        },
-      },
-    }),
-    deleteAllTasks: state => ({
-      ...state,
-      columns: {
-        ...initialTasksData[INITIAL_DATA_MODE].columns,
-      },
-      tasks: {},
-    }),
+    editTaskTitle(state, { payload }) {
+      state.tasks[payload.task.id].title = payload.value
+    },
+    changeTaskPriority(state, { payload }) {
+      state.tasks[payload.task.id].priority = payload.priority
+    },
+    cancelEditTitleTask(state, { payload }) {
+      state.tasks[payload.task.id].title = payload.prevTitle
+    },
+    toggleCheckTask(state, { payload }) {
+      state.tasks[payload.task.id].checked =
+        !state.tasks[payload.task.id].checked
+    },
+    deleteAllTasks: () => initialTasksData[INITIAL_DATA_MODE],
   },
 })
 
