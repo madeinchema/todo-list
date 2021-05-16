@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const defaultData = {
-  moveCompletedToBottom: false,
+  moveCompletedTasksToBottom: false,
   sort: 'MANUAL',
 }
 
@@ -17,13 +17,13 @@ export const settingsSlice = createSlice({
     setTasksSort: (state, { payload: { order } }) => {
       state.sort = order
     },
-    toggleSettingMoveCompleteToBottom(state) {
-      state.moveCompletedToBottom = !state.moveCompletedToBottom
+    toggleMoveCompletedTasksToBottom(state) {
+      state.moveCompletedTasksToBottom = !state.moveCompletedTasksToBottom
     },
   },
 })
 
-export const { setTasksSort, toggleSettingMoveCompleteToBottom } =
+export const { setTasksSort, toggleMoveCompletedTasksToBottom } =
   settingsSlice.actions
 
 export default settingsSlice.reducer

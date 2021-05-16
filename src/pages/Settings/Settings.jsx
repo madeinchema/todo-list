@@ -14,7 +14,7 @@ import {
 import { MdArrowBack } from 'react-icons/all'
 import { useDispatch, useSelector } from 'react-redux'
 import DeleteAllTasksBtn from './components/DeleteAllTasksBtn/DeleteAllTasksBtn'
-import { toggleSettingMoveCompleteToBottom } from '../../redux/settings/settingsSlice'
+import { toggleMoveCompletedTasksToBottom } from '../../redux/settings/settingsSlice'
 
 const Settings = () => {
   const settings = useSelector(state => state.settings)
@@ -62,7 +62,7 @@ const Settings = () => {
           <Switch
             size="sm"
             isChecked={settings.moveCompletedToBottom}
-            onChange={() => dispatch(toggleSettingMoveCompleteToBottom())}
+            onChange={() => dispatch(toggleMoveCompletedTasksToBottom())}
           />
         </Flex>
         <Divider borderColor={dividerColor[colorMode]} />
