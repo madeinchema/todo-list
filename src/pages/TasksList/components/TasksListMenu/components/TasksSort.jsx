@@ -43,6 +43,7 @@ const TasksSort = props => {
       <MenuList zIndex={2}>
         {Object.keys(sortAttributes).map(sortAttribute => (
           <MenuItem
+            key={sortAttribute}
             onClick={() => handleSetTasksSort(sortAttribute)}
             fontWeight={sort === sortAttribute ? '700' : null}
           >
