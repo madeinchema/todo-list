@@ -55,7 +55,7 @@ export const tasksDataSlice = createSlice({
       const { destination, source, draggableId } = payload.result
 
       // Don't change if sort setting is active
-      if (state.settings.sort) return state
+      if (payload.settings.sort) return state
 
       // Don't change if there is no destination
       if (!destination) return state
