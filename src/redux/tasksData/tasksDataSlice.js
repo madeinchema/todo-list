@@ -18,14 +18,10 @@ const defaultData = {
   },
   // Facilitate reordering of the columns
   columnOrder: ['to-do'],
-  settings: {
-    moveCompletedToBottom: false,
-    sort: false,
-  },
 }
 
 const persistedState = localStorage.getItem('tasks-v1')
-  ? JSON.parse(localStorage.getItem('tasks-v1'))
+  ? { ...JSON.parse(localStorage.getItem('tasks-v1')), settings: undefined }
   : defaultData
 
 // export const saveState = (state) => {
@@ -220,16 +216,13 @@ export const tasksDataSlice = createSlice({
         },
       },
     }),
-    deleteAll: state => ({
+    deleteAllTasks: state => ({
       ...state,
       columns: {
         ...defaultData.columns,
       },
       tasks: {},
     }),
-    setTasksSort: (state, { payload: { order } }) => {
-      state.settings.sort = order
-    },
   },
 })
 
@@ -243,8 +236,7 @@ export const {
   changeTaskPriority,
   cancelEditTitleTask,
   toggleCheckTask,
-  deleteAll,
-  setTasksSort,
+  deleteAllTasks,
 } = tasksDataSlice.actions
 
 export default tasksDataSlice.reducer

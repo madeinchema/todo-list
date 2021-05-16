@@ -10,7 +10,8 @@ import TasksListMenu from './components/TasksListMenu/TasksListMenu'
 import { handleDragEnd } from '../../redux/tasksData/tasksDataSlice'
 
 const TasksList = ({ columnId }) => {
-  const { tasks, columns, settings } = useSelector(state => state.tasksData)
+  const { tasks, columns } = useSelector(state => state.tasksData)
+  const settings = useSelector(state => state.settings)
   const [tasksListFilter, setTasksListFilter] = useState('All')
   const dispatch = useDispatch()
 
