@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   Button,
@@ -11,10 +11,12 @@ import {
   ModalCloseButton,
   useToast,
 } from '@chakra-ui/react'
-import { TasksContext } from '../../../../../contexts/TasksContext'
+import { useDispatch } from 'react-redux'
+import { deleteAllTasks } from '../../../../../redux/tasksData/tasksDataSlice'
 
 const DeleteAllTasksModal = ({ isOpen, onClose }) => {
-  const { dispatch } = useContext(TasksContext)
+  const dispatch = useDispatch()
+
   const toast = useToast()
 
   const showDeleteAllTasksNotification = () =>
@@ -26,10 +28,8 @@ const DeleteAllTasksModal = ({ isOpen, onClose }) => {
       status: 'success',
     })
 
-  const deleteAllTasks = () => {
-    dispatch({
-      type: 'DELETE_ALL',
-    })
+  const handleDeleteAllTasks = () => {
+    dispatch(deleteAllTasks())
     showDeleteAllTasksNotification()
     onClose()
   }
@@ -48,7 +48,7 @@ const DeleteAllTasksModal = ({ isOpen, onClose }) => {
           <Button colorScheme="blue" mr={3} onClick={onClose}>
             No
           </Button>
-          <Button colorScheme="red" onClick={deleteAllTasks}>
+          <Button colorScheme="red" onClick={handleDeleteAllTasks}>
             Yes, delete all the tasks
           </Button>
         </ModalFooter>
