@@ -2,9 +2,11 @@ import { createSlice, nanoid } from '@reduxjs/toolkit'
 
 import initialTasksData from '../../utils/constants/initialTasksData'
 
+const INITIAL_DATA_MODE = 'empty'
+
 const persistedState = localStorage.getItem('tasks-v1')
   ? { ...JSON.parse(localStorage.getItem('tasks-v1')), settings: undefined }
-  : initialTasksData.empty
+  : initialTasksData[INITIAL_DATA_MODE]
 
 export const tasksDataSlice = createSlice({
   name: 'tasksData',
@@ -162,7 +164,7 @@ export const tasksDataSlice = createSlice({
     deleteAllTasks: state => ({
       ...state,
       columns: {
-        ...defaultData.columns,
+        ...initialTasksData[INITIAL_DATA_MODE].columns,
       },
       tasks: {},
     }),
