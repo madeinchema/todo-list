@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex, List } from '@chakra-ui/react'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
@@ -10,6 +10,7 @@ import TaskItem from '../../components/TaskItem/TaskItem'
 import NewTask from './components/NewTask/NewTask'
 import EmptyTasksList from './components/EmptyTasksList'
 import TasksListMenu from './components/TasksListMenu/TasksListMenu'
+import useLocalStorage from '../../hooks/useLocalStorage'
 
 const TasksList = ({ columnId }) => {
   const tasksData = useSelector(state => state.tasksData)
@@ -17,11 +18,21 @@ const TasksList = ({ columnId }) => {
   const settings = useSelector(state => state.settings)
   const [tasksListFilter, setTasksListFilter] = useState('All')
   const dispatch = useDispatch()
+  const [, setLocalStorage] = useLocalStorage('tasks-v1')
 
   const column = columns[columnId]
   const tasksQty = Object.keys(tasks).length
 
   const sortedTasksIds = getSortedTasksIds([...column.taskIds], tasks, settings)
+
+  const localStorageState = useMemo(
+    () => ({ ...tasksData, settings }),
+    [settings, tasksData]
+  )
+
+  useEffect(() => {
+    setLocalStorage(localStorageState)
+  }, [localStorageState, setLocalStorage])
 
   const onDragEnd = result =>
     dispatch(
