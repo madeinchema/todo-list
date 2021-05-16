@@ -50,41 +50,23 @@ export const tasksDataSlice = createSlice({
   initialState: persistedState,
   reducers: {
     handleDragEnd(state, { payload }) {
-      const column = state.columns[payload.columnId]
-      const newTaskIds = Array.from(column.taskIds)
       const { destination, source, draggableId } = payload.result
-
-      // Don't change if sort setting is active
-      if (payload.settings.sort) return state
-
-      // Don't change if there is no destination
-      if (!destination) return state
-
-      // Check to see if the location of the draggable changed
-      if (
+      const isManualSort = payload.settings.sort === 'MANUAL'
+      const destinationExists = !!destination
+      const isSameDestination =
         destination.droppableId === source.droppableId &&
         destination.index === source.index
+
+      if (!isManualSort || !destinationExists || isSameDestination) return state
+
+      // Reorder the taskIds, remove & add item from old to new index
+      state.columns[source.droppableId].taskIds.splice(source.index, 1)
+      state.columns[source.droppableId].taskIds.splice(
+        destination.index,
+        0,
+        draggableId
       )
-        return state
-
-      /**
-       * Reorder the taskIds, moving the target from old to new index in the array.
-       */
-      const columnSource = state.columns[source.droppableId] // Get the column source
-      newTaskIds.splice(source.index, 1) // Remove the item from the array
-      newTaskIds.splice(destination.index, 0, draggableId) // Insert it in the destination
-
-      // Create our new, updated column
-      const newColumn = { ...columnSource, taskIds: newTaskIds }
-
-      // Update the state with the next updated column
-      return {
-        ...state,
-        columns: {
-          ...state.columns,
-          [newColumn.id]: newColumn,
-        },
-      }
+      return state
     },
     addTask(state, { payload }) {
       const newTask = {
