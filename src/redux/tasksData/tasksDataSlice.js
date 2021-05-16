@@ -20,6 +20,7 @@ const defaultData = {
   columnOrder: ['to-do'],
   settings: {
     moveCompletedToBottom: false,
+    sort: false,
   },
 }
 
@@ -57,7 +58,10 @@ export const tasksDataSlice = createSlice({
       const newTaskIds = Array.from(column.taskIds)
       const { destination, source, draggableId } = payload.result
 
-      // Check if there is no destination
+      // Don't change if sort setting is active
+      if (state.settings.sort) return state
+
+      // Don't change if there is no destination
       if (!destination) return state
 
       // Check to see if the location of the draggable changed
@@ -223,6 +227,9 @@ export const tasksDataSlice = createSlice({
       },
       tasks: {},
     }),
+    setTasksSort: (state, { payload: { order } }) => {
+      state.settings.sort = order
+    },
   },
 })
 
@@ -237,6 +244,7 @@ export const {
   cancelEditTitleTask,
   toggleCheckTask,
   deleteAll,
+  setTasksSort,
 } = tasksDataSlice.actions
 
 export default tasksDataSlice.reducer
