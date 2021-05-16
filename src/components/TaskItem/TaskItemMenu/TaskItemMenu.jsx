@@ -32,7 +32,6 @@ export default function TaskItemMenu({ task, index, columnId }) {
   const handleRemoveTask = () => {
     dispatch(
       removeTask({
-        type: 'REMOVE_TASK',
         task,
         index,
         columnId,
