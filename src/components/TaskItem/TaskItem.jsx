@@ -13,7 +13,7 @@ import {
 import { Draggable } from 'react-beautiful-dnd'
 import { DragHandleIcon } from '@chakra-ui/icons'
 import { useDispatch } from 'react-redux'
-import useHover from '../../utils/hooks/useHover'
+import useHover from '../../hooks/useHover'
 import TaskItemMenu from './TaskItemMenu/TaskItemMenu'
 import {
   cancelEditTitleTask,
