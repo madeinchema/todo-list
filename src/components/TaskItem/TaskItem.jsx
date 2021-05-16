@@ -65,7 +65,11 @@ const TaskItem = props => {
   const touch = 'ontouchstart' in document.documentElement
 
   return (
-    <li onMouseLeave={attrs.onMouseLeave} onMouseHover={attrs.onMouseHover}>
+    <li
+      onMouseLeave={() => attrs.onMouseLeave()}
+      onMouseOver={() => attrs.onMouseOver()}
+      onFocus={() => attrs.onMouseOver()}
+    >
       <Draggable draggableId={task.id} index={index}>
         {(provided, snapshot) => (
           <Box
@@ -125,10 +129,13 @@ const TaskItem = props => {
                 <EditableInput />
               </Editable>
 
-              <Box ml="auto" my="auto" maxW="3rem">
-                {(hovering || touch) && (
-                  <TaskItemMenu task={task} index={index} columnId={columnId} />
-                )}
+              <Box
+                ml="auto"
+                my="auto"
+                maxW="3rem"
+                opacity={hovering || touch ? 1 : 0}
+              >
+                <TaskItemMenu task={task} index={index} columnId={columnId} />
               </Box>
             </Flex>
           </Box>
