@@ -10,12 +10,19 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { MdSort } from 'react-icons/all'
-import { useDispatch } from 'react-redux'
-import { setTasksSort } from '../../../../../redux/tasksData/tasksDataSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { setTasksSort } from '../../../../../redux/settings/settingsSlice'
 
 const TasksSort = props => {
   const { columnId } = props
   const dispatch = useDispatch()
+  const sort = useSelector(state => state.settings.sort)
+
+  const sortAttributes = {
+    MANUAL: 'Manual',
+    DESC_PRIORITY: 'Highest priority first',
+    ASC_PRIORITY: 'Lowest priority first',
+  }
 
   const handleSetTasksSort = order =>
     dispatch(
@@ -34,13 +41,14 @@ const TasksSort = props => {
         </Text>
       </MenuButton>
       <MenuList zIndex={2}>
-        <MenuItem onClick={() => handleSetTasksSort(false)}>Manual</MenuItem>
-        <MenuItem onClick={() => handleSetTasksSort('DESC_PRIORITY')}>
-          Highest priority first
-        </MenuItem>
-        <MenuItem onClick={() => handleSetTasksSort('ASC_PRIORITY')}>
-          Lowest priority first
-        </MenuItem>
+        {Object.keys(sortAttributes).map(sortAttribute => (
+          <MenuItem
+            onClick={() => handleSetTasksSort(sortAttribute)}
+            fontWeight={sort === sortAttribute ? '700' : null}
+          >
+            {sortAttributes[sortAttribute]}
+          </MenuItem>
+        ))}
       </MenuList>
     </Menu>
   )
