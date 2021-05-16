@@ -21,22 +21,7 @@ const TasksList = ({ columnId }) => {
   const column = columns[columnId]
   const tasksQty = Object.keys(tasks).length
 
-  // const sortedTasksIds = [...column.taskIds].sort(
-  //   (firstTaskId, secondTaskId) => {
-  //     const sortAttribute = settings.sort
-  //     if (sortAttribute === 'ASC_PRIORITY')
-  //       return tasks[secondTaskId].priority - tasks[firstTaskId].priority
-  //     if (sortAttribute === 'DESC_PRIORITY')
-  //       return tasks[firstTaskId].priority - tasks[secondTaskId].priority
-  //     return 0
-  //   }
-  // )
-
-  const sortedTasksIds = getSortedTasksIds(
-    [...column.taskIds],
-    tasks,
-    settings.sort
-  )
+  const sortedTasksIds = getSortedTasksIds([...column.taskIds], tasks, settings)
 
   const onDragEnd = result =>
     dispatch(
