@@ -11,9 +11,9 @@ const moveCompletedTasksToBottom = (tasks, tasksIds) =>
 
 const getSortedTasksIds = (tasksIds, tasks, settings) => {
   const sortedTasks = tasksIds.sort((firstTaskId, secondTaskId) => {
-    if (settings.sortAttribute === 'ASC_PRIORITY')
+    if (settings.sort === 'ASC_PRIORITY')
       return tasks[secondTaskId].priority - tasks[firstTaskId].priority
-    if (settings.sortAttribute === 'DESC_PRIORITY')
+    if (settings.sort === 'DESC_PRIORITY')
       return tasks[firstTaskId].priority - tasks[secondTaskId].priority
     return 0
   })
