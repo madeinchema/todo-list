@@ -1,56 +1,56 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex, List } from '@chakra-ui/react'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
+import { useDispatch, useSelector } from 'react-redux'
+import { handleDragEnd } from '../../redux/tasksData/tasksDataSlice'
+import { getSortedTasksIds } from './utils/functions/getSortedTasks'
+
 import TaskItem from '../../components/TaskItem/TaskItem'
-import { TasksContext } from '../../contexts/TasksContext'
 import NewTask from './components/NewTask/NewTask'
 import EmptyTasksList from './components/EmptyTasksList'
 import TasksListMenu from './components/TasksListMenu/TasksListMenu'
-import getFilteredTasks from './utils/functions/getFilteredTasks'
-import getSortedTasks from './utils/functions/getSortedTasks'
+import useLocalStorage from '../../hooks/useLocalStorage'
 
-const TasksList = props => {
-  const { columnId } = props
-  const { tasksData, dispatch } = useContext(TasksContext)
+const TasksList = ({ columnId }) => {
+  const tasksData = useSelector(state => state.tasksData)
+  const { tasks, columns } = tasksData
+  const settings = useSelector(state => state.settings)
   const [tasksListFilter, setTasksListFilter] = useState('All')
-  const [tasksToShow, setTasksToShow] = useState(undefined)
-  const [loading, setLoading] = useState(undefined)
+  const dispatch = useDispatch()
+  const [, setLocalStorage] = useLocalStorage('tasks-v1')
 
-  const column = tasksData.columns[columnId]
+  const column = columns[columnId]
+  const tasksQty = Object.keys(tasks).length
+
+  const sortedTasksIds = getSortedTasksIds([...column.taskIds], tasks, settings)
+
+  const localStorageState = useMemo(
+    () => ({ ...tasksData, settings }),
+    [settings, tasksData]
+  )
 
   useEffect(() => {
-    const tasks = column.taskIds.map(taskId => tasksData.tasks[taskId])
-    // todo: redo this implementation
-    const handleTasksToShow = async () => {
-      setLoading(true)
-      const filteredTasks = await getFilteredTasks([...tasks], tasksListFilter)
-      const sortedTasks = await getSortedTasks(filteredTasks)
-      setTasksToShow(sortedTasks)
-      setLoading(false)
-    }
-    handleTasksToShow()
-  }, [column.taskIds, tasksListFilter, tasksData])
+    setLocalStorage(localStorageState)
+  }, [localStorageState, setLocalStorage])
 
-  const onDragEnd = result => {
-    dispatch({
-      type: 'HANDLE_DRAG_END',
-      result,
-      columnId,
-    })
-    dispatch({ type: 'MOVE_COMPLETED_TO_BOTTOM' })
-  }
+  const onDragEnd = result =>
+    dispatch(
+      handleDragEnd({
+        result,
+        columnId,
+        settings,
+      })
+    )
 
   return (
     <Flex direction="column" maxW="680px" mx="auto">
       <NewTask />
       <DragDropContext onDragEnd={onDragEnd}>
-        {tasksData.columns[columnId].taskIds.length === 0 && <EmptyTasksList />}
-
-        {tasksData.columns[columnId].taskIds.length >= 1 && (
+        {columns[columnId].taskIds.length >= 1 ? (
           <Box h="calc(100vh - 4.5rem)">
             <TasksListMenu
-              quantity={tasksToShow && tasksToShow.length}
+              quantity={tasksQty}
               columnId={columnId}
               tasksListFilter={tasksListFilter}
               setTasksListFilter={setTasksListFilter}
@@ -64,35 +64,39 @@ const TasksList = props => {
               h="calc(100vh - 13.25rem)"
             >
               <List mb="2rem">
-                {!loading && tasksToShow && (
-                  <Droppable
-                    droppableId={column.id}
-                    key={column.id}
-                    tasks={tasksToShow}
-                  >
-                    {(provided, snapshot) => (
-                      <Box
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        isDraggingOver={snapshot.isDraggingOver}
-                      >
-                        {tasksToShow.map((task, index) => (
+                <Droppable droppableId="to-do" key={column.id} tasks={tasks}>
+                  {({ innerRef, droppableProps, placeholder }, snapshot) => (
+                    <Box
+                      ref={innerRef}
+                      data-rbd-droppable-context-id={
+                        droppableProps['data-rbd-droppable-context-id']
+                      }
+                      data-rbd-droppable-id={
+                        droppableProps['data-rbd-droppable-id']
+                      }
+                      isDraggingOver={snapshot.isDraggingOver}
+                    >
+                      {sortedTasksIds.map((taskId, index) => {
+                        const task = tasks[taskId]
+                        return (
                           <TaskItem
-                            key={task.id}
+                            key={taskId}
                             task={task}
                             index={index}
                             droppableSnapshot={snapshot}
                             columnId={column.id}
                           />
-                        ))}
-                        {provided.placeholder}
-                      </Box>
-                    )}
-                  </Droppable>
-                )}
+                        )
+                      })}
+                      {placeholder}
+                    </Box>
+                  )}
+                </Droppable>
               </List>
             </Flex>
           </Box>
+        ) : (
+          <EmptyTasksList />
         )}
       </DragDropContext>
     </Flex>

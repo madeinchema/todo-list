@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import {
   Button,
   Input,
@@ -6,28 +6,16 @@ import {
   InputGroup,
   Flex,
 } from '@chakra-ui/react'
-import { TasksContext } from '../../../../contexts/TasksContext'
+import { useDispatch } from 'react-redux'
 import NewTaskPriorityMenu from './components/NewTaskPriorityMenu'
+import { addTask } from '../../../../redux/tasksData/tasksDataSlice'
 
 export default function NewTask() {
-  const { dispatch } = useContext(TasksContext)
   const [inputTitle, setInputTitle] = useState('')
   const [newTaskPriority, setNewTaskPriority] = useState(4)
   const inputTitleRef = useRef()
   const inputBtnRef = useRef()
-
-  useEffect(() => {
-    const handleInputFocus = () => {
-      setTimeout(() => {
-        if (inputTitle) {
-          inputBtnRef.current.focus()
-        } else {
-          inputTitleRef.current.focus()
-        }
-      }, 1)
-    }
-    handleInputFocus()
-  }, [newTaskPriority])
+  const dispatch = useDispatch()
 
   const updateNewTaskTitle = event => {
     setInputTitle(event.target.value)
@@ -35,19 +23,22 @@ export default function NewTask() {
 
   const submitNewTask = event => {
     event.preventDefault()
-    const title = inputTitle.trim().toString() // Remove whitespace from both ends & make sure it's a string
-    dispatch({
-      type: 'ADD_TASK',
-      title,
-      priority: newTaskPriority,
-      columnId: 'to-do',
-    })
+    const title = inputTitle.trim().toString()
+
+    dispatch(
+      addTask({
+        title,
+        priority: newTaskPriority,
+        columnId: 'to-do',
+      })
+    )
     setInputTitle('')
     inputTitleRef.current.focus()
   }
 
   const updateNewTaskPriority = priority => {
     setNewTaskPriority(priority)
+    inputBtnRef.current.focus()
   }
 
   return (
