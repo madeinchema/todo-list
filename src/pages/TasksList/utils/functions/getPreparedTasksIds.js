@@ -1,8 +1,3 @@
-const getSortedTasks = tasksToSort => {
-  const sortedTasks = tasksToSort.sort((a, b) => a.checked > b)
-  return sortedTasks
-}
-
 const moveCompletedTasksToBottom = (tasks, tasksIds) =>
   tasksIds.sort(
     (firstTaskId, secondTaskId) =>
@@ -24,6 +19,18 @@ const getSortedTasksIds = (tasksIds, tasks, settings) => {
   return sortedTasks
 }
 
-export { getSortedTasksIds }
+const getFilteredTasksIds = (tasksIds, tasks, settings) =>
+  tasksIds.filter(taskId => {
+    if (settings.filter === 'TO_DO') return tasks[taskId].checked === false
+    if (settings.filter === 'CHECKED') return tasks[taskId].checked === true
+    return taskId
+  })
 
-export default getSortedTasks
+const getPreparedTasksIds = (tasksIds, tasks, settings) => {
+  const sortedTasksIds = getSortedTasksIds(tasksIds, tasks, settings)
+  const filteredTasksIds = getFilteredTasksIds(sortedTasksIds, tasks, settings)
+  return filteredTasksIds
+}
+
+export { getSortedTasksIds, getPreparedTasksIds }
+export default getPreparedTasksIds

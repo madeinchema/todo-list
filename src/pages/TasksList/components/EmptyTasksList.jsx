@@ -1,5 +1,5 @@
-import React from 'react'
-import { Flex, Heading, Icon } from '@chakra-ui/react'
+import Icon from '@chakra-ui/icon'
+import { Flex, Heading } from '@chakra-ui/layout'
 import { MdCheck } from 'react-icons/md'
 
 const EmptyTasksList = () => {

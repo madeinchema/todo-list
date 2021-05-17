@@ -1,14 +1,12 @@
 import React, { useState, useRef } from 'react'
-import {
-  Button,
-  Input,
-  InputRightElement,
-  InputGroup,
-  Flex,
-} from '@chakra-ui/react'
 import { useDispatch } from 'react-redux'
-import NewTaskPriorityMenu from './components/NewTaskPriorityMenu'
+import { Flex } from '@chakra-ui/layout'
+import { Input, InputGroup, InputRightElement } from '@chakra-ui/input'
+import { Button } from '@chakra-ui/button'
+import { useColorMode } from '@chakra-ui/color-mode'
 import { addTask } from '../../../../redux/tasksData/tasksDataSlice'
+
+import NewTaskPriorityMenu from './components/NewTaskPriorityMenu'
 
 export default function NewTask() {
   const [inputTitle, setInputTitle] = useState('')
@@ -16,6 +14,7 @@ export default function NewTask() {
   const inputTitleRef = useRef()
   const inputBtnRef = useRef()
   const dispatch = useDispatch()
+  const { colorMode } = useColorMode()
 
   const updateNewTaskTitle = event => {
     setInputTitle(event.target.value)
@@ -50,7 +49,7 @@ export default function NewTask() {
       w="100%"
       as="form"
     >
-      <InputGroup size="md" shadow="md" borderRadius="5px">
+      <InputGroup size="md" shadow="sm" borderRadius="5px">
         <Input
           h="3rem"
           pr="8rem"
@@ -58,6 +57,7 @@ export default function NewTask() {
           fontWeight="500"
           type="text"
           placeholder="Task title"
+          bgColor={colorMode === 'light' ? 'white' : 'gray.800'}
           value={inputTitle}
           onChange={updateNewTaskTitle}
           ref={inputTitleRef}

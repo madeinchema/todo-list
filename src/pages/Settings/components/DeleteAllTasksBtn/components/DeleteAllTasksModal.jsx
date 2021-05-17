@@ -1,16 +1,15 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import { useToast } from '@chakra-ui/toast'
 import {
-  Button,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useToast,
-} from '@chakra-ui/react'
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+} from '@chakra-ui/modal'
+import { Button } from '@chakra-ui/button'
 import { useDispatch } from 'react-redux'
 import { deleteAllTasks } from '../../../../../redux/tasksData/tasksDataSlice'
 
@@ -58,7 +57,7 @@ const DeleteAllTasksModal = ({ isOpen, onClose }) => {
 }
 
 DeleteAllTasksModal.propTypes = {
-  isOpen: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 }
 

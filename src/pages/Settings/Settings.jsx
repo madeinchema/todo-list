@@ -1,29 +1,25 @@
-import React from 'react'
 import { Link as ReactLink } from 'react-router-dom'
-import {
-  Box,
-  Flex,
-  Text,
-  Button,
-  Switch,
-  Icon,
-  Heading,
-  Divider,
-  useColorMode,
-} from '@chakra-ui/react'
 import { MdArrowBack } from 'react-icons/all'
+import { useColorMode } from '@chakra-ui/color-mode'
+import { Box, Divider, Flex, Heading, Text } from '@chakra-ui/layout'
+import { Button } from '@chakra-ui/button'
+import Icon from '@chakra-ui/icon'
+import { Switch } from '@chakra-ui/switch'
 import { useDispatch, useSelector } from 'react-redux'
-import DeleteAllTasksBtn from './components/DeleteAllTasksBtn/DeleteAllTasksBtn'
 import { toggleMoveCompletedTasksToBottom } from '../../redux/settings/settingsSlice'
+
+import DeleteAllTasksBtn from './components/DeleteAllTasksBtn/DeleteAllTasksBtn'
 
 const Settings = () => {
   const settings = useSelector(state => state.settings)
   const dispatch = useDispatch()
   const { colorMode } = useColorMode()
-  const dividerColor = { light: 'gray.400', dark: 'gray.600' }
-  const goBackBtnColor = {
-    light: ['gray.200', 'gray.300'],
-    dark: ['gray.800', 'gray.700'],
+  const styles = {
+    dividerColor: { light: 'gray.400', dark: 'gray.600' },
+    goBackBtnColor: {
+      light: ['gray.100', 'gray.200'],
+      dark: ['gray.800', 'gray.700'],
+    },
   }
 
   return (
@@ -34,9 +30,9 @@ const Settings = () => {
             size="sm"
             as={ReactLink}
             to="/"
-            bg={goBackBtnColor[colorMode][0]}
+            bg={styles.goBackBtnColor[colorMode][0]}
             _hover={{
-              bg: goBackBtnColor[colorMode][1],
+              bg: styles.goBackBtnColor[colorMode][1],
             }}
           >
             <Icon as={MdArrowBack} mr=".25rem" />
@@ -61,11 +57,11 @@ const Settings = () => {
           <Text>Move completed tasks to the bottom</Text>
           <Switch
             size="sm"
-            isChecked={settings.moveCompletedToBottom}
+            isChecked={settings.moveCompletedTasksToBottom}
             onChange={() => dispatch(toggleMoveCompletedTasksToBottom())}
           />
         </Flex>
-        <Divider borderColor={dividerColor[colorMode]} />
+        <Divider borderColor={styles.dividerColor[colorMode]} />
         <Flex align="center" my=".75rem">
           <DeleteAllTasksBtn />
         </Flex>

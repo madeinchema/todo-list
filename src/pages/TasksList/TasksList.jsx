@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex, List } from '@chakra-ui/react'
+import { Box, Flex, List } from '@chakra-ui/layout'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import { useDispatch, useSelector } from 'react-redux'
 import { handleDragEnd } from '../../redux/tasksData/tasksDataSlice'
-import { getSortedTasksIds } from './utils/functions/getSortedTasks'
+import { getPreparedTasksIds } from './utils/functions/getPreparedTasksIds'
 
 import TaskItem from '../../components/TaskItem/TaskItem'
 import NewTask from './components/NewTask/NewTask'
@@ -16,14 +16,17 @@ const TasksList = ({ columnId }) => {
   const tasksData = useSelector(state => state.tasksData)
   const { tasks, columns } = tasksData
   const settings = useSelector(state => state.settings)
-  const [tasksListFilter, setTasksListFilter] = useState('All')
   const dispatch = useDispatch()
   const [, setLocalStorage] = useLocalStorage('tasks-v1')
 
   const column = columns[columnId]
   const tasksQty = Object.keys(tasks).length
 
-  const sortedTasksIds = getSortedTasksIds([...column.taskIds], tasks, settings)
+  const preparedTasksIds = getPreparedTasksIds(
+    [...column.taskIds],
+    tasks,
+    settings
+  )
 
   const localStorageState = useMemo(
     () => ({ ...tasksData, settings }),
@@ -49,12 +52,7 @@ const TasksList = ({ columnId }) => {
       <DragDropContext onDragEnd={onDragEnd}>
         {columns[columnId].taskIds.length >= 1 ? (
           <Box h="calc(100vh - 4.5rem)">
-            <TasksListMenu
-              quantity={tasksQty}
-              columnId={columnId}
-              tasksListFilter={tasksListFilter}
-              setTasksListFilter={setTasksListFilter}
-            />
+            <TasksListMenu quantity={tasksQty} columnId={columnId} />
             <Flex
               flexDir="column"
               className="custom-scroll"
@@ -74,9 +72,9 @@ const TasksList = ({ columnId }) => {
                       data-rbd-droppable-id={
                         droppableProps['data-rbd-droppable-id']
                       }
-                      isDraggingOver={snapshot.isDraggingOver}
+                      isdraggingover={snapshot.isDraggingOver.toString()}
                     >
-                      {sortedTasksIds.map((taskId, index) => {
+                      {preparedTasksIds.map((taskId, index) => {
                         const task = tasks[taskId]
                         return (
                           <TaskItem

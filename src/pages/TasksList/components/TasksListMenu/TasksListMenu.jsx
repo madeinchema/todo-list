@@ -1,8 +1,9 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Tag } from '@chakra-ui/react'
-import TasksFilter from './components/TasksFilter'
+import { Flex } from '@chakra-ui/layout'
+import { Tag } from '@chakra-ui/tag'
+
 import TasksSort from './components/TasksSort'
+import TasksFilter from './components/TasksFilter'
 
 const TasksListMenu = props => {
   const { quantity, columnId, tasksListFilter, setTasksListFilter } = props
@@ -19,7 +20,9 @@ const TasksListMenu = props => {
           tasksListFilter={tasksListFilter}
           setTasksListFilter={setTasksListFilter}
         />
-        <Tag variant="subtle">{quantity}</Tag>
+        <Tag variant="subtle" size="lg" fontWeight="700">
+          {quantity}
+        </Tag>
       </Flex>
 
       <TasksSort columnId={columnId} />

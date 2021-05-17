@@ -1,32 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import {
-  useColorMode,
-  Flex,
-  Box,
-  Icon,
-  Checkbox,
-  Editable,
-  EditableInput,
-  EditablePreview,
-} from '@chakra-ui/react'
 import { Draggable } from 'react-beautiful-dnd'
-import { DragHandleIcon } from '@chakra-ui/icons'
+import { DragHandleIcon, Icon } from '@chakra-ui/icons'
+import { useColorMode } from '@chakra-ui/color-mode'
+import { Box, Flex } from '@chakra-ui/layout'
+import { Checkbox } from '@chakra-ui/checkbox'
+import { Editable, EditableInput, EditablePreview } from '@chakra-ui/editable'
 import { useDispatch } from 'react-redux'
-import useHover from '../../hooks/useHover'
-import TaskItemMenu from './TaskItemMenu/TaskItemMenu'
 import {
   cancelEditTitleTask,
   toggleCheckTask,
   editTaskTitle,
 } from '../../redux/tasksData/tasksDataSlice'
+import useHover from '../../hooks/useHover'
+
+import TaskItemMenu from './components/TaskItemMenu'
 
 const TaskItem = props => {
-  const { task, index, droppableSnapshot, columnId } = props
+  const { task, index, droppableSnapshot } = props
   const [taskTitle, setTaskTitle] = useState('')
   const { colorMode } = useColorMode()
   const [hovering, attrs] = useHover()
-  const bgColor = { light: 'gray.50', dark: 'gray.800' }
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -35,20 +29,18 @@ const TaskItem = props => {
 
   // Handles tasks' editing and onCancel
   const handleEditTaskTitle = value =>
-    dispatch(editTaskTitle({ task, value, columnId }))
+    dispatch(editTaskTitle({ taskId: task.id, value }))
 
   const handleCancelEditTitleTask = () =>
     dispatch(
       cancelEditTitleTask({
-        type: 'CANCEL_TASK',
-        task,
+        taskId: task.id,
         prevTitle: taskTitle,
-        columnId,
       })
     )
 
   const handleToggleCheckTask = () => {
-    dispatch(toggleCheckTask({ task, columnId }))
+    dispatch(toggleCheckTask({ taskId: task.id }))
   }
 
   // Styles
@@ -87,11 +79,15 @@ const TaskItem = props => {
               h="auto"
               p=".5rem"
               align="flex-start"
-              bg={bgColor[colorMode]}
-              shadow="md"
-              borderRadius="3px"
-              borderLeft="3px solid"
-              borderColor={styles.priorities[task.priority]}
+              bg={colorMode === 'light' ? 'white' : 'gray.800'}
+              transition="all .25s ease-out"
+              shadow={
+                snapshot.isDragging ? '0 .33rem 1rem 0 rgba(0, 0, 0, .1)' : 'sm'
+              }
+              borderWidth="1px"
+              borderRadius="4px"
+              borderLeft="4px solid"
+              borderLeftColor={styles.priorities[task.priority]}
             >
               {/* eslint-disable-next-line react/jsx-props-no-spreading */}
               <Box {...provided.dragHandleProps}>
@@ -99,7 +95,8 @@ const TaskItem = props => {
               </Box>
 
               <Checkbox
-                my=".25rem"
+                mt=".3rem"
+                mb=".25rem"
                 size="lg"
                 isChecked={task.checked}
                 onChange={handleToggleCheckTask}
@@ -107,7 +104,6 @@ const TaskItem = props => {
               />
 
               <Editable
-                mt=".05rem"
                 pl=".75rem"
                 w="calc(100% - 4.5rem)"
                 opacity={task.checked ? '0.5' : '1'}
@@ -123,7 +119,7 @@ const TaskItem = props => {
                 <EditablePreview
                   d="block"
                   whiteSpace="pre-wrap"
-                  wordWrap="break-word"
+                  wordwrap="break-word"
                   overflowWrap="break-word"
                 />
                 <EditableInput />
@@ -135,7 +131,7 @@ const TaskItem = props => {
                 maxW="3rem"
                 opacity={hovering || touch ? 1 : 0}
               >
-                <TaskItemMenu task={task} index={index} columnId={columnId} />
+                <TaskItemMenu task={task} index={index} />
               </Box>
             </Flex>
           </Box>
@@ -146,12 +142,13 @@ const TaskItem = props => {
 }
 
 TaskItem.propTypes = {
-  task: PropTypes.exact({
+  task: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
     indent: PropTypes.number,
     priority: PropTypes.number,
+    columnId: PropTypes.string.isRequired,
   }),
   index: PropTypes.number,
   droppableSnapshot: PropTypes.shape({
@@ -160,14 +157,12 @@ TaskItem.propTypes = {
     isDraggingOver: PropTypes.bool,
     isUsingPlaceholder: PropTypes.bool,
   }),
-  columnId: PropTypes.string,
 }
 
 TaskItem.defaultProps = {
   task: undefined,
   index: undefined,
   droppableSnapshot: undefined,
-  columnId: undefined,
 }
 
 export default TaskItem

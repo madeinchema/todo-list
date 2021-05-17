@@ -1,15 +1,18 @@
-import React from 'react'
 import { Link as ReactLink } from 'react-router-dom'
-import { FaClipboardCheck } from 'react-icons/fa'
 import { GoMarkGithub } from 'react-icons/go'
-import { IconButton, Link, Flex, Heading, useColorMode } from '@chakra-ui/react'
 import { MoonIcon, SettingsIcon, SunIcon } from '@chakra-ui/icons'
+import { useColorMode } from '@chakra-ui/color-mode'
+import { Flex, Heading, Link, Box } from '@chakra-ui/layout'
+import { IconButton } from '@chakra-ui/button'
+import Logo from '../Logo'
 
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode()
-  const bgColor = { light: 'white', dark: 'gray.800' }
-  const color = { light: 'gray.900', dark: 'gray.100' }
-  const iconSize = '1.25rem'
+  const styles = {
+    iconSize: '1.25rem',
+    bgColor: { light: 'white', dark: 'gray.800' },
+    color: { light: 'gray.900', dark: 'gray.100' },
+  }
 
   return (
     <>
@@ -19,15 +22,18 @@ export default function Navbar() {
         justify="space-between"
         wrap="wrap"
         p="1rem 1.5rem"
-        bg={bgColor[colorMode]}
-        color={color[colorMode]}
-        shadow="md"
+        borderBottomWidth="1px"
+        bg={styles.bgColor[colorMode]}
+        color={styles.color[colorMode]}
+        shadow="sm"
       >
         {/* Logo */}
         <Flex align="center" mr={5}>
           <Heading as="h1" size="lg" fontWeight="700">
             <Link as={ReactLink} to="/" display="flex" alignItems="center">
-              <FaClipboardCheck mr="12px" />
+              <Box boxSize={8}>
+                <Logo colorMode={colorMode} />
+              </Box>
               Todolist
             </Link>
           </Heading>
@@ -42,7 +48,7 @@ export default function Navbar() {
               p={2}
               isExternal
             >
-              <GoMarkGithub size={iconSize} />
+              <GoMarkGithub size={styles.iconSize} />
             </Link>
           </Flex>
 
@@ -51,14 +57,14 @@ export default function Navbar() {
               <IconButton
                 onClick={() => toggleColorMode()}
                 icon={<MoonIcon />}
-                fontSize={iconSize}
+                fontSize={styles.iconSize}
                 aria-label="Switch to dark mode"
               />
             ) : (
               <IconButton
                 onClick={() => toggleColorMode()}
                 icon={<SunIcon />}
-                fontSize={iconSize}
+                fontSize={styles.iconSize}
                 aria-label="Switch to light mode"
               />
             )}
@@ -67,7 +73,7 @@ export default function Navbar() {
           <Flex ml={2}>
             <IconButton
               icon={<SettingsIcon />}
-              fontSize={iconSize}
+              fontSize={styles.iconSize}
               aria-label="Switch to light mode"
               as={ReactLink}
               to="/settings"

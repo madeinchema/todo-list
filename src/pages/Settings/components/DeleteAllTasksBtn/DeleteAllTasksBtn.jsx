@@ -1,5 +1,7 @@
-import React from 'react'
-import { Button, useColorMode, useDisclosure } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/button'
+import { useColorMode } from '@chakra-ui/color-mode'
+import { useDisclosure } from '@chakra-ui/hooks'
+
 import DeleteAllTasksModal from './components/DeleteAllTasksModal'
 
 const deleteBtnColor = { light: 'red.600', dark: 'red.400' }
