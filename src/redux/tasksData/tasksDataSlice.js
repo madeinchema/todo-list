@@ -46,7 +46,7 @@ export const tasksDataSlice = createSlice({
     },
     removeTask(state, { payload }) {
       state.columns[payload.columnId].taskIds.splice(payload.index, 1)
-      delete state.tasks[payload.task.id]
+      delete state.tasks[payload.taskId]
     },
     undoDeleteTask(state, { payload }) {
       state.columns[payload.columnId].taskIds.splice(
@@ -55,10 +55,17 @@ export const tasksDataSlice = createSlice({
         payload.task.id
       )
     },
-    duplicateTask(state, { payload: { task, index, columnId } }) {
-      const newTask = { ...task, id: nanoid(5) }
-      state.tasks[newTask.id] = newTask
-      state.columns[columnId].taskIds.splice(index, 0, newTask.id)
+    duplicateTask: {
+      reducer(state, { payload: { taskId, index, columnId, newTaskId } }) {
+        state.tasks[newTaskId] = { ...state.tasks[taskId], id: newTaskId }
+        state.columns[columnId].taskIds.splice(index, 0, newTaskId)
+      },
+      prepare: payload => ({
+        payload: {
+          ...payload,
+          newTaskId: nanoid(5),
+        },
+      }),
     },
     editTaskTitle(state, { payload }) {
       state.tasks[payload.task.id].title = payload.value
