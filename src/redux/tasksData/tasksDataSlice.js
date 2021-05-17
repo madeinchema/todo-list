@@ -40,6 +40,7 @@ export const tasksDataSlice = createSlice({
         payload: {
           ...payload,
           id: nanoid(5),
+          checked: false,
         },
       }),
     },
