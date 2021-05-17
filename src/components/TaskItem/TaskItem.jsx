@@ -119,7 +119,7 @@ const TaskItem = props => {
                 <EditablePreview
                   d="block"
                   whiteSpace="pre-wrap"
-                  wordWrap="break-word"
+                  wordwrap="break-word"
                   overflowWrap="break-word"
                 />
                 <EditableInput />
