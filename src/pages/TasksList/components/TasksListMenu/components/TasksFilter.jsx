@@ -1,13 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  Button,
-  Heading,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-} from '@chakra-ui/react'
+import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu'
+import { Button } from '@chakra-ui/button'
+import { Heading } from '@chakra-ui/layout'
 
 const TasksFilter = props => {
   const { tasksListFilter, setTasksListFilter } = props

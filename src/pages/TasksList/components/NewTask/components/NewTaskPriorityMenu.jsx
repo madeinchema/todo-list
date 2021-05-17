@@ -1,14 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { MdFlag } from 'react-icons/all'
-import {
-  Icon,
-  Link,
-  MenuItem,
-  MenuButton,
-  Menu,
-  MenuList,
-} from '@chakra-ui/react'
+import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu'
+import Icon from '@chakra-ui/icon'
+import { Link } from '@chakra-ui/layout'
 import newTaskPriorityMenuTexts from '../utils/constants/newTaskTexts'
 
 const NewTaskPriorityMenu = props => {

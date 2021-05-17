@@ -1,21 +1,18 @@
 import React, { useRef } from 'react'
-import {
-  Flex,
-  Text,
-  Button,
-  Box,
-  Icon,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuGroup,
-  MenuDivider,
-  useToast,
-} from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { MdMoreVert, MdFlag, BiDuplicate } from 'react-icons/all'
-import { DeleteIcon } from '@chakra-ui/icons'
+import { DeleteIcon, Icon } from '@chakra-ui/icons'
+import { useToast } from '@chakra-ui/toast'
+import { Box, Flex, Text } from '@chakra-ui/layout'
+import { Button } from '@chakra-ui/button'
+import {
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuGroup,
+  MenuItem,
+  MenuList,
+} from '@chakra-ui/menu'
 import { useDispatch } from 'react-redux'
 import {
   removeTask,

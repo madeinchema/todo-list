@@ -1,14 +1,11 @@
 import React, { useState, useRef } from 'react'
-import {
-  Button,
-  Input,
-  InputRightElement,
-  InputGroup,
-  Flex,
-} from '@chakra-ui/react'
 import { useDispatch } from 'react-redux'
-import NewTaskPriorityMenu from './components/NewTaskPriorityMenu'
+import { Flex } from '@chakra-ui/layout'
+import { Input, InputGroup, InputRightElement } from '@chakra-ui/input'
+import { Button } from '@chakra-ui/button'
 import { addTask } from '../../../../redux/tasksData/tasksDataSlice'
+
+import NewTaskPriorityMenu from './components/NewTaskPriorityMenu'
 
 export default function NewTask() {
   const [inputTitle, setInputTitle] = useState('')

@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useToast } from '@chakra-ui/toast'
 import {
-  Button,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useToast,
-} from '@chakra-ui/react'
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+} from '@chakra-ui/modal'
+import { Button } from '@chakra-ui/button'
 import { useDispatch } from 'react-redux'
 import { deleteAllTasks } from '../../../../../redux/tasksData/tasksDataSlice'
 

@@ -1,20 +1,15 @@
 import React from 'react'
 import { Link as ReactLink } from 'react-router-dom'
-import {
-  Box,
-  Flex,
-  Text,
-  Button,
-  Switch,
-  Icon,
-  Heading,
-  Divider,
-  useColorMode,
-} from '@chakra-ui/react'
 import { MdArrowBack } from 'react-icons/all'
+import { useColorMode } from '@chakra-ui/color-mode'
+import { Box, Divider, Flex, Heading, Text } from '@chakra-ui/layout'
+import { Button } from '@chakra-ui/button'
+import Icon from '@chakra-ui/icon'
+import { Switch } from '@chakra-ui/switch'
 import { useDispatch, useSelector } from 'react-redux'
-import DeleteAllTasksBtn from './components/DeleteAllTasksBtn/DeleteAllTasksBtn'
 import { toggleMoveCompletedTasksToBottom } from '../../redux/settings/settingsSlice'
+
+import DeleteAllTasksBtn from './components/DeleteAllTasksBtn/DeleteAllTasksBtn'
 
 const Settings = () => {
   const settings = useSelector(state => state.settings)

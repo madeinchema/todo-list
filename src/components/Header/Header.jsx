@@ -2,8 +2,10 @@ import React from 'react'
 import { Link as ReactLink } from 'react-router-dom'
 import { FaClipboardCheck } from 'react-icons/fa'
 import { GoMarkGithub } from 'react-icons/go'
-import { IconButton, Link, Flex, Heading, useColorMode } from '@chakra-ui/react'
 import { MoonIcon, SettingsIcon, SunIcon } from '@chakra-ui/icons'
+import { useColorMode } from '@chakra-ui/color-mode'
+import { Flex, Heading, Link } from '@chakra-ui/layout'
+import { IconButton } from '@chakra-ui/button'
 
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode()

@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import {
-  useColorMode,
-  Flex,
-  Box,
-  Icon,
-  Checkbox,
-  Editable,
-  EditableInput,
-  EditablePreview,
-} from '@chakra-ui/react'
 import { Draggable } from 'react-beautiful-dnd'
-import { DragHandleIcon } from '@chakra-ui/icons'
+import { DragHandleIcon, Icon } from '@chakra-ui/icons'
+import { useColorMode } from '@chakra-ui/color-mode'
+import { Box, Flex } from '@chakra-ui/layout'
+import { Checkbox } from '@chakra-ui/checkbox'
+import { Editable, EditableInput, EditablePreview } from '@chakra-ui/editable'
 import { useDispatch } from 'react-redux'
-import useHover from '../../hooks/useHover'
-import TaskItemMenu from './TaskItemMenu/TaskItemMenu'
 import {
   cancelEditTitleTask,
   toggleCheckTask,
   editTaskTitle,
 } from '../../redux/tasksData/tasksDataSlice'
+import useHover from '../../hooks/useHover'
+
+import TaskItemMenu from './TaskItemMenu/TaskItemMenu'
 
 const TaskItem = props => {
   const { task, index, droppableSnapshot, columnId } = props
