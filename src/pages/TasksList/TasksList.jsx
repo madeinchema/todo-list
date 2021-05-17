@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex, List } from '@chakra-ui/layout'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import { useDispatch, useSelector } from 'react-redux'
 import { handleDragEnd } from '../../redux/tasksData/tasksDataSlice'
-import { getPreparedTasksIds } from './utils/functions/getSortedTasks'
+import { getPreparedTasksIds } from './utils/functions/getPreparedTasksIds'
 
 import TaskItem from '../../components/TaskItem/TaskItem'
 import NewTask from './components/NewTask/NewTask'

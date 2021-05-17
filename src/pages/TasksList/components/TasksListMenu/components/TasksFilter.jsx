@@ -4,7 +4,7 @@ import { Heading } from '@chakra-ui/layout'
 import { useDispatch, useSelector } from 'react-redux'
 import { setTasksFilter } from '../../../../../redux/settings/settingsSlice'
 
-const TasksFilter = props => {
+const TasksFilter = () => {
   const tasksListFilter = useSelector(state => state.settings.filter)
   const dispatch = useDispatch()
 
