@@ -22,6 +22,7 @@ export default function Navbar() {
         justify="space-between"
         wrap="wrap"
         p="1rem 1.5rem"
+        borderBottomWidth="1px"
         bg={styles.bgColor[colorMode]}
         color={styles.color[colorMode]}
         shadow="sm"
