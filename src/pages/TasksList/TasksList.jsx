@@ -72,7 +72,7 @@ const TasksList = ({ columnId }) => {
                       data-rbd-droppable-id={
                         droppableProps['data-rbd-droppable-id']
                       }
-                      isDraggingOver={snapshot.isDraggingOver}
+                      isdraggingover={snapshot.isDraggingOver.toString()}
                     >
                       {preparedTasksIds.map((taskId, index) => {
                         const task = tasks[taskId]
