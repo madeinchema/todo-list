@@ -49,7 +49,7 @@ export default function NewTask() {
       w="100%"
       as="form"
     >
-      <InputGroup size="md" shadow="md" borderRadius="5px">
+      <InputGroup size="md" shadow="sm" borderRadius="5px">
         <Input
           h="3rem"
           pr="8rem"

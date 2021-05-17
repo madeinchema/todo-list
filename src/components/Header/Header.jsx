@@ -24,7 +24,7 @@ export default function Navbar() {
         p="1rem 1.5rem"
         bg={styles.bgColor[colorMode]}
         color={styles.color[colorMode]}
-        shadow="md"
+        shadow="sm"
       >
         {/* Logo */}
         <Flex align="center" mr={5}>

@@ -82,10 +82,11 @@ const TaskItem = props => {
               p=".5rem"
               align="flex-start"
               bg={colorMode === 'light' ? 'white' : 'gray.800'}
-              shadow="md"
-              borderRadius="3px"
-              borderLeft="3px solid"
-              borderColor={styles.priorities[task.priority]}
+              shadow="sm"
+              borderWidth="1px"
+              borderRadius="4px"
+              borderLeft="4px solid"
+              borderLeftColor={styles.priorities[task.priority]}
             >
               {/* eslint-disable-next-line react/jsx-props-no-spreading */}
               <Box {...provided.dragHandleProps}>
