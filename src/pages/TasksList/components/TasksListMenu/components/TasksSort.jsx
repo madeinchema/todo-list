@@ -1,15 +1,9 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  Button,
-  Icon,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Text,
-} from '@chakra-ui/react'
 import { MdSort } from 'react-icons/all'
+import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu'
+import { Button } from '@chakra-ui/button'
+import Icon from '@chakra-ui/icon'
+import { Text } from '@chakra-ui/layout'
 import { useDispatch, useSelector } from 'react-redux'
 import { setTasksSort } from '../../../../../redux/settings/settingsSlice'
 
@@ -45,7 +39,7 @@ const TasksSort = props => {
           <MenuItem
             key={sortAttribute}
             onClick={() => handleSetTasksSort(sortAttribute)}
-            fontWeight={sort === sortAttribute ? '700' : null}
+            fontWeight={sort === sortAttribute ? 700 : 500}
           >
             {sortAttributes[sortAttribute]}
           </MenuItem>

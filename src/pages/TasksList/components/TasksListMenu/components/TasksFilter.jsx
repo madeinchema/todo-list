@@ -1,17 +1,21 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {
-  Button,
-  Heading,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-} from '@chakra-ui/react'
+import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu'
+import { Button } from '@chakra-ui/button'
+import { Heading } from '@chakra-ui/layout'
+import { useDispatch, useSelector } from 'react-redux'
+import { setTasksFilter } from '../../../../../redux/settings/settingsSlice'
 
-const TasksFilter = props => {
-  const { tasksListFilter, setTasksListFilter } = props
-  const setTasksFilter = newFilter => setTasksListFilter(newFilter)
+const TasksFilter = () => {
+  const tasksListFilter = useSelector(state => state.settings.filter)
+  const dispatch = useDispatch()
+
+  const handleSetTasksFilter = filterAttribute =>
+    dispatch(setTasksFilter({ filter: filterAttribute }))
+
+  const filterAttributes = {
+    ALL: 'All',
+    TO_DO: 'To do',
+    CHECKED: 'Checked',
+  }
 
   return (
     <Menu>
@@ -23,27 +27,21 @@ const TasksFilter = props => {
         size="sm"
         alignContent="center"
       >
-        <Heading size="md">{tasksListFilter}</Heading>
+        <Heading size="md">{filterAttributes[tasksListFilter]}</Heading>
       </MenuButton>
       <MenuList>
-        <MenuItem onClick={() => setTasksFilter('All')}>All</MenuItem>
-        <MenuItem onClick={() => setTasksFilter('To do')}>To do</MenuItem>
-        <MenuItem onClick={() => setTasksFilter('Completed')}>
-          Completed
-        </MenuItem>
+        {Object.keys(filterAttributes).map(filterAttribute => (
+          <MenuItem
+            key={filterAttribute}
+            onClick={() => handleSetTasksFilter(filterAttribute)}
+            fontWeight={tasksListFilter === filterAttribute ? 700 : 500}
+          >
+            {filterAttributes[filterAttribute]}
+          </MenuItem>
+        ))}
       </MenuList>
     </Menu>
   )
-}
-
-TasksFilter.propTypes = {
-  tasksListFilter: PropTypes.string,
-  setTasksListFilter: PropTypes.func,
-}
-
-TasksFilter.defaultProps = {
-  tasksListFilter: undefined,
-  setTasksListFilter: undefined,
 }
 
 export default TasksFilter

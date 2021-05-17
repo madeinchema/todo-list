@@ -1,21 +1,18 @@
 import React, { useRef } from 'react'
-import {
-  Flex,
-  Text,
-  Button,
-  Box,
-  Icon,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuGroup,
-  MenuDivider,
-  useToast,
-} from '@chakra-ui/react'
 import PropTypes from 'prop-types'
 import { MdMoreVert, MdFlag, BiDuplicate } from 'react-icons/all'
-import { DeleteIcon } from '@chakra-ui/icons'
+import { DeleteIcon, Icon } from '@chakra-ui/icons'
+import { useToast } from '@chakra-ui/toast'
+import { Box, Flex, Text } from '@chakra-ui/layout'
+import { Button } from '@chakra-ui/button'
+import {
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuGroup,
+  MenuItem,
+  MenuList,
+} from '@chakra-ui/menu'
 import { useDispatch } from 'react-redux'
 import {
   removeTask,
@@ -24,7 +21,7 @@ import {
   changeTaskPriority,
 } from '../../../redux/tasksData/tasksDataSlice'
 
-export default function TaskItemMenu({ task, index, columnId }) {
+export default function TaskItemMenu({ task, index }) {
   const toast = useToast()
   const toastRef = useRef()
   const dispatch = useDispatch()
@@ -32,9 +29,9 @@ export default function TaskItemMenu({ task, index, columnId }) {
   const handleRemoveTask = () => {
     dispatch(
       removeTask({
-        task,
+        taskId: task.id,
         index,
-        columnId,
+        columnId: task.columnId,
       })
     )
     toast({
@@ -77,7 +74,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
       undoDeleteTask({
         task,
         index,
-        columnId,
+        columnId: task.columnId,
       })
     )
     callback()
@@ -87,19 +84,19 @@ export default function TaskItemMenu({ task, index, columnId }) {
   const handleDuplicateTask = () =>
     dispatch(
       duplicateTask({
-        task,
+        taskId: task.id,
         index,
-        columnId,
+        columnId: task.columnId,
       })
     )
 
   const handleChangeTaskPriority = priority =>
     dispatch(
       changeTaskPriority({
-        task,
+        taskId: task.id,
         index,
         priority,
-        columnId,
+        columnId: task.columnId,
       })
     )
 
@@ -200,5 +197,6 @@ TaskItemMenu.propTypes = {
     checked: PropTypes.bool.isRequired,
     indent: PropTypes.number,
     priority: PropTypes.number,
+    columnId: PropTypes.string.isRequired,
   }),
 }
