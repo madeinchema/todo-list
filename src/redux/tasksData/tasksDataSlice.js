@@ -31,16 +31,17 @@ export const tasksDataSlice = createSlice({
       )
       return state
     },
-    addTask(state, { payload }) {
-      const newTask = {
-        id: nanoid(5),
-        title: payload.title,
-        checked: false,
-        priority: payload.priority,
-      }
-      state.tasks[newTask.id] = newTask
-      state.columns[payload.columnId].taskIds.push(newTask.id)
-      return state
+    addTask: {
+      reducer(state, { payload }) {
+        state.tasks[payload.id] = payload
+        state.columns[payload.columnId].taskIds.push(payload.id)
+      },
+      prepare: payload => ({
+        payload: {
+          ...payload,
+          id: nanoid(5),
+        },
+      }),
     },
     removeTask(state, { payload }) {
       state.columns[payload.columnId].taskIds.splice(payload.index, 1)
