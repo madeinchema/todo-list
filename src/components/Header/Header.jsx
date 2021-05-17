@@ -1,10 +1,10 @@
 import { Link as ReactLink } from 'react-router-dom'
-import { FaClipboardCheck } from 'react-icons/fa'
 import { GoMarkGithub } from 'react-icons/go'
 import { MoonIcon, SettingsIcon, SunIcon } from '@chakra-ui/icons'
 import { useColorMode } from '@chakra-ui/color-mode'
-import { Flex, Heading, Link } from '@chakra-ui/layout'
+import { Flex, Heading, Link, Box } from '@chakra-ui/layout'
 import { IconButton } from '@chakra-ui/button'
+import Logo from '../Logo'
 
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode()
@@ -31,7 +31,9 @@ export default function Navbar() {
         <Flex align="center" mr={5}>
           <Heading as="h1" size="lg" fontWeight="700">
             <Link as={ReactLink} to="/" display="flex" alignItems="center">
-              <FaClipboardCheck mr="12px" />
+              <Box boxSize={8}>
+                <Logo colorMode={colorMode} />
+              </Box>
               Todolist
             </Link>
           </Heading>
