@@ -8,9 +8,11 @@ import { IconButton } from '@chakra-ui/button'
 
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode()
-  const bgColor = { light: 'white', dark: 'gray.800' }
-  const color = { light: 'gray.900', dark: 'gray.100' }
-  const iconSize = '1.25rem'
+  const styles = {
+    iconSize: '1.25rem',
+    bgColor: { light: 'white', dark: 'gray.800' },
+    color: { light: 'gray.900', dark: 'gray.100' },
+  }
 
   return (
     <>
@@ -20,8 +22,8 @@ export default function Navbar() {
         justify="space-between"
         wrap="wrap"
         p="1rem 1.5rem"
-        bg={bgColor[colorMode]}
-        color={color[colorMode]}
+        bg={styles.bgColor[colorMode]}
+        color={styles.color[colorMode]}
         shadow="md"
       >
         {/* Logo */}
@@ -43,7 +45,7 @@ export default function Navbar() {
               p={2}
               isExternal
             >
-              <GoMarkGithub size={iconSize} />
+              <GoMarkGithub size={styles.iconSize} />
             </Link>
           </Flex>
 
@@ -52,14 +54,14 @@ export default function Navbar() {
               <IconButton
                 onClick={() => toggleColorMode()}
                 icon={<MoonIcon />}
-                fontSize={iconSize}
+                fontSize={styles.iconSize}
                 aria-label="Switch to dark mode"
               />
             ) : (
               <IconButton
                 onClick={() => toggleColorMode()}
                 icon={<SunIcon />}
-                fontSize={iconSize}
+                fontSize={styles.iconSize}
                 aria-label="Switch to light mode"
               />
             )}
@@ -68,7 +70,7 @@ export default function Navbar() {
           <Flex ml={2}>
             <IconButton
               icon={<SettingsIcon />}
-              fontSize={iconSize}
+              fontSize={styles.iconSize}
               aria-label="Switch to light mode"
               as={ReactLink}
               to="/settings"
