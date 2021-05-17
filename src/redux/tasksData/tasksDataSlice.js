@@ -52,7 +52,7 @@ export const tasksDataSlice = createSlice({
       state.columns[payload.columnId].taskIds.splice(
         payload.index,
         0,
-        payload.task.id
+        payload.taskId
       )
     },
     duplicateTask: {
@@ -68,17 +68,16 @@ export const tasksDataSlice = createSlice({
       }),
     },
     editTaskTitle(state, { payload }) {
-      state.tasks[payload.task.id].title = payload.value
+      state.tasks[payload.taskId].title = payload.value
     },
     changeTaskPriority(state, { payload }) {
-      state.tasks[payload.task.id].priority = payload.priority
+      state.tasks[payload.taskId].priority = payload.priority
     },
     cancelEditTitleTask(state, { payload }) {
-      state.tasks[payload.task.id].title = payload.prevTitle
+      state.tasks[payload.taskId].title = payload.prevTitle
     },
     toggleCheckTask(state, { payload }) {
-      state.tasks[payload.task.id].checked =
-        !state.tasks[payload.task.id].checked
+      state.tasks[payload.taskId].checked = !state.tasks[payload.taskId].checked
     },
     deleteAllTasks: () => initialTasksData[INITIAL_DATA_MODE],
   },
