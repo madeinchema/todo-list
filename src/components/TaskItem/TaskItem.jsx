@@ -21,7 +21,6 @@ const TaskItem = props => {
   const [taskTitle, setTaskTitle] = useState('')
   const { colorMode } = useColorMode()
   const [hovering, attrs] = useHover()
-  const bgColor = { light: 'gray.50', dark: 'gray.800' }
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -82,7 +81,7 @@ const TaskItem = props => {
               h="auto"
               p=".5rem"
               align="flex-start"
-              bg={bgColor[colorMode]}
+              bg={colorMode === 'light' ? 'white' : 'gray.800'}
               shadow="md"
               borderRadius="3px"
               borderLeft="3px solid"
