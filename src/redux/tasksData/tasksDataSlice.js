@@ -15,12 +15,27 @@ export const tasksDataSlice = createSlice({
     handleDragEnd(state, { payload }) {
       const { destination, source, draggableId } = payload.result
       const isManualSort = payload.settings.sort === 'MANUAL'
+      const isMoveCompletedTasksToBottom =
+        payload.settings.moveCompletedTasksToBottom
       const destinationExists = !!destination
       const isSameDestination =
         destination.droppableId === source.droppableId &&
         destination.index === source.index
+      const tasksQty = Object.keys(state.tasks).length
+      const checkedTasksQty = state.columns[payload.columnId].taskIds.filter(
+        taskId => state.tasks[taskId].checked
+      ).length
+      const isConflictWithMoveToBottomSetting =
+        isMoveCompletedTasksToBottom &&
+        tasksQty - checkedTasksQty >= destination.index
 
-      if (!isManualSort || !destinationExists || isSameDestination) return state
+      if (
+        !isManualSort ||
+        !destinationExists ||
+        isSameDestination ||
+        isConflictWithMoveToBottomSetting
+      )
+        return state
 
       // Reorder; remove & add item from old to new index
       state.columns[source.droppableId].taskIds.splice(source.index, 1)
