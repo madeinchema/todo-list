@@ -81,7 +81,10 @@ const TaskItem = props => {
               p=".5rem"
               align="flex-start"
               bg={colorMode === 'light' ? 'white' : 'gray.800'}
-              shadow="sm"
+              transition="all .25s ease-out"
+              shadow={
+                snapshot.isDragging ? '0 .33rem 1rem 0 rgba(0, 0, 0, .1)' : 'sm'
+              }
               borderWidth="1px"
               borderRadius="4px"
               borderLeft="4px solid"
