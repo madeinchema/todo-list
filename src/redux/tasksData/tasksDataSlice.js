@@ -45,6 +45,7 @@ export const tasksDataSlice = createSlice({
     },
     removeTask(state, { payload }) {
       state.columns[payload.columnId].taskIds.splice(payload.index, 1)
+      delete state.tasks[payload.task.id]
     },
     undoDeleteTask(state, { payload }) {
       state.columns[payload.columnId].taskIds.splice(
