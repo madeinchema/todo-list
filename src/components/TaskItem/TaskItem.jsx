@@ -17,7 +17,7 @@ import useHover from '../../hooks/useHover'
 import TaskItemMenu from './components/TaskItemMenu'
 
 const TaskItem = props => {
-  const { task, index, droppableSnapshot, columnId } = props
+  const { task, index, droppableSnapshot } = props
   const [taskTitle, setTaskTitle] = useState('')
   const { colorMode } = useColorMode()
   const [hovering, attrs] = useHover()
@@ -29,19 +29,18 @@ const TaskItem = props => {
 
   // Handles tasks' editing and onCancel
   const handleEditTaskTitle = value =>
-    dispatch(editTaskTitle({ task, value, columnId }))
+    dispatch(editTaskTitle({ taskId: task.id, value }))
 
   const handleCancelEditTitleTask = () =>
     dispatch(
       cancelEditTitleTask({
-        task,
+        taskId: task.id,
         prevTitle: taskTitle,
-        columnId,
       })
     )
 
   const handleToggleCheckTask = () => {
-    dispatch(toggleCheckTask({ task, columnId }))
+    dispatch(toggleCheckTask({ taskId: task.id }))
   }
 
   // Styles
@@ -132,7 +131,7 @@ const TaskItem = props => {
                 maxW="3rem"
                 opacity={hovering || touch ? 1 : 0}
               >
-                <TaskItemMenu task={task} index={index} columnId={columnId} />
+                <TaskItemMenu task={task} index={index} />
               </Box>
             </Flex>
           </Box>
@@ -143,12 +142,13 @@ const TaskItem = props => {
 }
 
 TaskItem.propTypes = {
-  task: PropTypes.exact({
+  task: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
     indent: PropTypes.number,
     priority: PropTypes.number,
+    columnId: PropTypes.string.isRequired,
   }),
   index: PropTypes.number,
   droppableSnapshot: PropTypes.shape({
@@ -157,14 +157,12 @@ TaskItem.propTypes = {
     isDraggingOver: PropTypes.bool,
     isUsingPlaceholder: PropTypes.bool,
   }),
-  columnId: PropTypes.string,
 }
 
 TaskItem.defaultProps = {
   task: undefined,
   index: undefined,
   droppableSnapshot: undefined,
-  columnId: undefined,
 }
 
 export default TaskItem

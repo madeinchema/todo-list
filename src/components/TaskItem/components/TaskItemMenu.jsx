@@ -21,7 +21,7 @@ import {
   changeTaskPriority,
 } from '../../../redux/tasksData/tasksDataSlice'
 
-export default function TaskItemMenu({ task, index, columnId }) {
+export default function TaskItemMenu({ task, index }) {
   const toast = useToast()
   const toastRef = useRef()
   const dispatch = useDispatch()
@@ -31,7 +31,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
       removeTask({
         taskId: task.id,
         index,
-        columnId,
+        columnId: task.columnId,
       })
     )
     toast({
@@ -74,7 +74,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
       undoDeleteTask({
         task,
         index,
-        columnId,
+        columnId: task.columnId,
       })
     )
     callback()
@@ -86,7 +86,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
       duplicateTask({
         taskId: task.id,
         index,
-        columnId,
+        columnId: task.columnId,
       })
     )
 
@@ -96,7 +96,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
         taskId: task.id,
         index,
         priority,
-        columnId,
+        columnId: task.columnId,
       })
     )
 
@@ -197,5 +197,6 @@ TaskItemMenu.propTypes = {
     checked: PropTypes.bool.isRequired,
     indent: PropTypes.number,
     priority: PropTypes.number,
+    columnId: PropTypes.string.isRequired,
   }),
 }
