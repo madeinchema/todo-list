@@ -99,7 +99,8 @@ const TaskItem = props => {
               </Box>
 
               <Checkbox
-                my=".25rem"
+                mt=".3rem"
+                mb=".25rem"
                 size="lg"
                 isChecked={task.checked}
                 onChange={handleToggleCheckTask}
@@ -107,7 +108,6 @@ const TaskItem = props => {
               />
 
               <Editable
-                mt=".05rem"
                 pl=".75rem"
                 w="calc(100% - 4.5rem)"
                 opacity={task.checked ? '0.5' : '1'}
