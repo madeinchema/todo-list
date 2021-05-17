@@ -14,7 +14,7 @@ import {
 } from '../../redux/tasksData/tasksDataSlice'
 import useHover from '../../hooks/useHover'
 
-import TaskItemMenu from './TaskItemMenu/TaskItemMenu'
+import TaskItemMenu from './components/TaskItemMenu'
 
 const TaskItem = props => {
   const { task, index, droppableSnapshot, columnId } = props
