@@ -34,7 +34,6 @@ const TaskItem = props => {
   const handleCancelEditTitleTask = () =>
     dispatch(
       cancelEditTitleTask({
-        type: 'CANCEL_TASK',
         task,
         prevTitle: taskTitle,
         columnId,
