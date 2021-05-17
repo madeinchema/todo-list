@@ -29,7 +29,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
   const handleRemoveTask = () => {
     dispatch(
       removeTask({
-        task,
+        taskId: task.id,
         index,
         columnId,
       })
@@ -84,7 +84,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
   const handleDuplicateTask = () =>
     dispatch(
       duplicateTask({
-        task,
+        taskId: task.id,
         index,
         columnId,
       })
@@ -93,7 +93,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
   const handleChangeTaskPriority = priority =>
     dispatch(
       changeTaskPriority({
-        task,
+        taskId: task.id,
         index,
         priority,
         columnId,
