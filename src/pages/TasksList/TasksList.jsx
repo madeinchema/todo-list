@@ -16,7 +16,7 @@ const TasksList = ({ columnId }) => {
   const tasksData = useSelector(state => state.tasksData)
   const { tasks, columns } = tasksData
   const settings = useSelector(state => state.settings)
-  const [tasksListFilter, setTasksListFilter] = useState('All')
+  const [tasksListFilter, setTasksListFilter] = useState('ALL')
   const dispatch = useDispatch()
   const [, setLocalStorage] = useLocalStorage('tasks-v1')
 

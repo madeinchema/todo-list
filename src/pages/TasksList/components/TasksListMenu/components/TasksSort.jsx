@@ -39,7 +39,7 @@ const TasksSort = props => {
           <MenuItem
             key={sortAttribute}
             onClick={() => handleSetTasksSort(sortAttribute)}
-            fontWeight={sort === sortAttribute ? '700' : null}
+            fontWeight={sort === sortAttribute ? 700 : 500}
           >
             {sortAttributes[sortAttribute]}
           </MenuItem>

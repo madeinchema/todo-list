@@ -20,7 +20,9 @@ const TasksListMenu = props => {
           tasksListFilter={tasksListFilter}
           setTasksListFilter={setTasksListFilter}
         />
-        <Tag variant="subtle">{quantity}</Tag>
+        <Tag variant="subtle" size="lg" fontWeight="700">
+          {quantity}
+        </Tag>
       </Flex>
 
       <TasksSort columnId={columnId} />

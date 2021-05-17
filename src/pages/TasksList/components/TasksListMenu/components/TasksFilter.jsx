@@ -7,6 +7,12 @@ const TasksFilter = props => {
   const { tasksListFilter, setTasksListFilter } = props
   const setTasksFilter = newFilter => setTasksListFilter(newFilter)
 
+  const filterAttributes = {
+    ALL: 'All',
+    TO_DO: 'To do',
+    COMPLETED: 'Completed',
+  }
+
   return (
     <Menu>
       <MenuButton
@@ -17,14 +23,18 @@ const TasksFilter = props => {
         size="sm"
         alignContent="center"
       >
-        <Heading size="md">{tasksListFilter}</Heading>
+        <Heading size="md">{filterAttributes[tasksListFilter]}</Heading>
       </MenuButton>
       <MenuList>
-        <MenuItem onClick={() => setTasksFilter('All')}>All</MenuItem>
-        <MenuItem onClick={() => setTasksFilter('To do')}>To do</MenuItem>
-        <MenuItem onClick={() => setTasksFilter('Completed')}>
-          Completed
-        </MenuItem>
+        {Object.keys(filterAttributes).map(filterAttribute => (
+          <MenuItem
+            key={filterAttribute}
+            onClick={() => setTasksFilter(filterAttribute)}
+            fontWeight={tasksListFilter === filterAttribute ? 700 : 500}
+          >
+            {filterAttributes[filterAttribute]}
+          </MenuItem>
+        ))}
       </MenuList>
     </Menu>
   )
