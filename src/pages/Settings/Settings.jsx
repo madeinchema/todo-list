@@ -57,7 +57,7 @@ const Settings = () => {
           <Text>Move completed tasks to the bottom</Text>
           <Switch
             size="sm"
-            isChecked={settings.moveCompletedToBottom}
+            isChecked={settings.moveCompletedTasksToBottom}
             onChange={() => dispatch(toggleMoveCompletedTasksToBottom())}
           />
         </Flex>
