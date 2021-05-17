@@ -22,7 +22,7 @@ const TasksList = ({ columnId }) => {
   const column = columns[columnId]
   const tasksQty = Object.keys(tasks).length
 
-  const sortedTasksIds = getPreparedTasksIds(
+  const preparedTasksIds = getPreparedTasksIds(
     [...column.taskIds],
     tasks,
     settings
@@ -74,7 +74,7 @@ const TasksList = ({ columnId }) => {
                       }
                       isDraggingOver={snapshot.isDraggingOver}
                     >
-                      {sortedTasksIds.map((taskId, index) => {
+                      {preparedTasksIds.map((taskId, index) => {
                         const task = tasks[taskId]
                         return (
                           <TaskItem
