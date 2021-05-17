@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link as ReactLink } from 'react-router-dom'
 import { MdArrowBack } from 'react-icons/all'
 import { useColorMode } from '@chakra-ui/color-mode'

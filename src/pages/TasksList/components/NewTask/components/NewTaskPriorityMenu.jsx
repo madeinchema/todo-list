@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { MdFlag } from 'react-icons/all'
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu'

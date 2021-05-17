@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link as ReactLink } from 'react-router-dom'
 import { FaClipboardCheck } from 'react-icons/fa'
 import { GoMarkGithub } from 'react-icons/go'
