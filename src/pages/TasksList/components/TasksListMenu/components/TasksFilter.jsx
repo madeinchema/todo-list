@@ -1,16 +1,20 @@
-import PropTypes from 'prop-types'
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu'
 import { Button } from '@chakra-ui/button'
 import { Heading } from '@chakra-ui/layout'
+import { useDispatch, useSelector } from 'react-redux'
+import { setTasksFilter } from '../../../../../redux/settings/settingsSlice'
 
 const TasksFilter = props => {
-  const { tasksListFilter, setTasksListFilter } = props
-  const setTasksFilter = newFilter => setTasksListFilter(newFilter)
+  const tasksListFilter = useSelector(state => state.settings.filter)
+  const dispatch = useDispatch()
+
+  const handleSetTasksFilter = filterAttribute =>
+    dispatch(setTasksFilter({ filter: filterAttribute }))
 
   const filterAttributes = {
     ALL: 'All',
     TO_DO: 'To do',
-    COMPLETED: 'Completed',
+    CHECKED: 'Checked',
   }
 
   return (
@@ -29,7 +33,7 @@ const TasksFilter = props => {
         {Object.keys(filterAttributes).map(filterAttribute => (
           <MenuItem
             key={filterAttribute}
-            onClick={() => setTasksFilter(filterAttribute)}
+            onClick={() => handleSetTasksFilter(filterAttribute)}
             fontWeight={tasksListFilter === filterAttribute ? 700 : 500}
           >
             {filterAttributes[filterAttribute]}
@@ -38,16 +42,6 @@ const TasksFilter = props => {
       </MenuList>
     </Menu>
   )
-}
-
-TasksFilter.propTypes = {
-  tasksListFilter: PropTypes.string,
-  setTasksListFilter: PropTypes.func,
-}
-
-TasksFilter.defaultProps = {
-  tasksListFilter: undefined,
-  setTasksListFilter: undefined,
 }
 
 export default TasksFilter
