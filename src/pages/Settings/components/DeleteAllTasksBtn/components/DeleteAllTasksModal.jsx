@@ -57,7 +57,7 @@ const DeleteAllTasksModal = ({ isOpen, onClose }) => {
 }
 
 DeleteAllTasksModal.propTypes = {
-  isOpen: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 }
 
