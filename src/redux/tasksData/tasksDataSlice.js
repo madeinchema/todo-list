@@ -49,10 +49,11 @@ export const tasksDataSlice = createSlice({
       delete state.tasks[payload.taskId]
     },
     undoDeleteTask(state, { payload }) {
+      state.tasks[payload.task.id] = payload.task
       state.columns[payload.columnId].taskIds.splice(
         payload.index,
         0,
-        payload.taskId
+        payload.task.id
       )
     },
     duplicateTask: {
