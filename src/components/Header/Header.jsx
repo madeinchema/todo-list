@@ -21,7 +21,8 @@ export default function Header() {
         align="center"
         justify="space-between"
         wrap="wrap"
-        p="1rem 1.5rem"
+        py={[2, 4]}
+        px={[2, 4]}
         borderBottomWidth="1px"
         bg={styles.bgColor[colorMode]}
         color={styles.color[colorMode]}
