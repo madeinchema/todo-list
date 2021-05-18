@@ -48,6 +48,7 @@ export default function TaskItemMenu({ task, index, columnId }) {
           px={5}
           justifyContent="space-between"
           alignContent="center"
+          borderRadius={7}
         >
           <Text mr="1em" pt=".2rem" color="white">
             Task removed
