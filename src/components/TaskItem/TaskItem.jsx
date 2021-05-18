@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Draggable } from 'react-beautiful-dnd'
 import { DragHandleIcon, Icon } from '@chakra-ui/icons'
 import { useColorMode } from '@chakra-ui/color-mode'
-import { Box, Flex } from '@chakra-ui/layout'
+import { Box, Flex, ListItem } from '@chakra-ui/layout'
 import { Checkbox } from '@chakra-ui/checkbox'
 import { Editable, EditableInput, EditablePreview } from '@chakra-ui/editable'
 import { useDispatch } from 'react-redux'
@@ -17,7 +17,7 @@ import useHover from '../../hooks/useHover'
 import TaskItemMenu from './components/TaskItemMenu'
 
 const TaskItem = props => {
-  const { task, index, droppableSnapshot } = props
+  const { task, index, droppableSnapshot, columnId } = props
   const [taskTitle, setTaskTitle] = useState('')
   const { colorMode } = useColorMode()
   const [hovering, attrs] = useHover()
@@ -57,7 +57,7 @@ const TaskItem = props => {
   const touch = 'ontouchstart' in document.documentElement
 
   return (
-    <li
+    <ListItem
       onMouseLeave={() => attrs.onMouseLeave()}
       onMouseOver={() => attrs.onMouseOver()}
       onFocus={() => attrs.onMouseOver()}
@@ -131,13 +131,13 @@ const TaskItem = props => {
                 maxW="3rem"
                 opacity={hovering || touch ? 1 : 0}
               >
-                <TaskItemMenu task={task} index={index} />
+                <TaskItemMenu task={task} index={index} columnId={columnId} />
               </Box>
             </Flex>
           </Box>
         )}
       </Draggable>
-    </li>
+    </ListItem>
   )
 }
 
@@ -146,9 +146,7 @@ TaskItem.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
-    indent: PropTypes.number,
     priority: PropTypes.number,
-    columnId: PropTypes.string.isRequired,
   }),
   index: PropTypes.number,
   droppableSnapshot: PropTypes.shape({
@@ -157,6 +155,7 @@ TaskItem.propTypes = {
     isDraggingOver: PropTypes.bool,
     isUsingPlaceholder: PropTypes.bool,
   }),
+  columnId: PropTypes.string.isRequired,
 }
 
 TaskItem.defaultProps = {

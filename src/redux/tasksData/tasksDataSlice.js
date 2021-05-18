@@ -17,8 +17,9 @@ export const tasksDataSlice = createSlice({
       const isManualSort = payload.settings.sort === 'MANUAL'
       const isMoveCompletedTasksToBottom =
         payload.settings.moveCompletedTasksToBottom
-      const destinationExists = !!destination
+      const hasDestination = destination
       const isSameDestination =
+        hasDestination &&
         destination.droppableId === source.droppableId &&
         destination.index === source.index
       const tasksQty = Object.keys(state.tasks).length
@@ -26,12 +27,13 @@ export const tasksDataSlice = createSlice({
         taskId => state.tasks[taskId].checked
       ).length
       const isConflictWithMoveToBottomSetting =
+        hasDestination &&
         isMoveCompletedTasksToBottom &&
         tasksQty - checkedTasksQty >= destination.index
 
       if (
         !isManualSort ||
-        !destinationExists ||
+        !hasDestination ||
         isSameDestination ||
         isConflictWithMoveToBottomSetting
       )
@@ -48,7 +50,7 @@ export const tasksDataSlice = createSlice({
     },
     addTask: {
       reducer(state, { payload }) {
-        state.tasks[payload.id] = payload
+        state.tasks[payload.id] = { ...payload, columnId: undefined }
         state.columns[payload.columnId].taskIds.push(payload.id)
       },
       prepare: payload => ({
@@ -59,13 +61,15 @@ export const tasksDataSlice = createSlice({
         },
       }),
     },
-    removeTask(state, { payload: { taskId, index, columnId } }) {
-      state.columns[columnId].taskIds.splice(index, 1)
+    removeTask(state, { payload: { taskId, columnId } }) {
+      state.columns[columnId].taskIds = state.columns[columnId].taskIds.filter(
+        id => taskId !== id
+      )
       delete state.tasks[taskId]
     },
-    undoDeleteTask(state, { payload: { task, index } }) {
+    undoDeleteTask(state, { payload: { task, index, columnId } }) {
       state.tasks[task.id] = task
-      state.columns[task.columnId].taskIds.splice(index, 0, task.id)
+      state.columns[columnId].taskIds.splice(index, 0, task.id)
     },
     duplicateTask: {
       reducer(state, { payload: { taskId, index, columnId, newTaskId } }) {

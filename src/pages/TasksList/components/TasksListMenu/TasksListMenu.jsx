@@ -8,13 +8,7 @@ import TasksFilter from './components/TasksFilter'
 const TasksListMenu = props => {
   const { quantity, columnId, tasksListFilter, setTasksListFilter } = props
   return (
-    <Flex
-      mb=".5rem"
-      px=".5rem"
-      w="100%"
-      justify="space-between"
-      align="flex-end"
-    >
+    <Flex mb=".5rem" w="100%" justify="space-between" align="flex-end">
       <Flex align="center">
         <TasksFilter
           tasksListFilter={tasksListFilter}

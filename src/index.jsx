@@ -2,12 +2,14 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { Flex } from '@chakra-ui/layout'
 import { ChakraProvider } from '@chakra-ui/react'
 import customTheme from './theme'
 
-import Header from './components/Header/Header'
-import TasksList from './pages/TasksList/TasksList'
+import NewTask from './pages/TasksList/components/NewTask/NewTask'
 import Settings from './pages/Settings/Settings'
+import TasksList from './pages/TasksList/TasksList'
+import Layout from './components/Layout'
 import store from './redux/store'
 import './index.scss'
 
@@ -16,17 +18,20 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <ChakraProvider theme={customTheme}>
-          <Header />
+          <Layout>
+            <Switch>
+              <Route exact path="/">
+                <Flex direction="column" height="100%">
+                  <NewTask />
+                  <TasksList columnId="to-do" />
+                </Flex>
+              </Route>
 
-          <Switch>
-            <Route exact path="/">
-              <TasksList columnId="to-do" />
-            </Route>
-
-            <Route path="/settings">
-              <Settings />
-            </Route>
-          </Switch>
+              <Route path="/settings">
+                <Settings />
+              </Route>
+            </Switch>
+          </Layout>
         </ChakraProvider>
       </Router>
     </Provider>

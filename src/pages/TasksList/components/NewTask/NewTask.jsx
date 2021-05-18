@@ -43,8 +43,8 @@ export default function NewTask() {
   return (
     <Flex
       flexDir="column"
-      minH="100px"
-      p="1rem"
+      minH={[20, 24]}
+      p={[0, 2, 4]}
       justify="center"
       w="100%"
       as="form"

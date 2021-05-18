@@ -1,11 +1,14 @@
-const moveCompletedTasksToBottom = (tasks, tasksIds) =>
-  tasksIds.sort(
-    (firstTaskId, secondTaskId) =>
-      tasks[firstTaskId].checked - tasks[secondTaskId].checked
-  )
+const moveCompletedTasksToBottom = (tasks, tasksIds) => {
+  const sortedTasksIds = tasksIds.sort((firstTaskId, secondTaskId) => {
+    if (!tasks[firstTaskId].checked && tasks[secondTaskId].checked) return -1
+    if (tasks[firstTaskId].checked && tasks[secondTaskId].checked) return 0
+    return 1
+  })
+  return sortedTasksIds
+}
 
 const getSortedTasksIds = (tasksIds, tasks, settings) => {
-  const sortedTasks = tasksIds.sort((firstTaskId, secondTaskId) => {
+  const sortedTasksIds = tasksIds.sort((firstTaskId, secondTaskId) => {
     if (settings.sort === 'ASC_PRIORITY')
       return tasks[secondTaskId].priority - tasks[firstTaskId].priority
     if (settings.sort === 'DESC_PRIORITY')
@@ -14,9 +17,9 @@ const getSortedTasksIds = (tasksIds, tasks, settings) => {
   })
 
   if (settings.moveCompletedTasksToBottom)
-    return moveCompletedTasksToBottom(tasks, sortedTasks)
+    return moveCompletedTasksToBottom(tasks, sortedTasksIds)
 
-  return sortedTasks
+  return sortedTasksIds
 }
 
 const getFilteredTasksIds = (tasksIds, tasks, settings) =>

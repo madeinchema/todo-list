@@ -2,7 +2,7 @@ const Logo = ({ colorMode }) => {
   const styles = {
     path1: {
       light: '#0C1E3E',
-      dark: '#fff',
+      dark: '#EDF2F7',
     },
     path3: {
       light: '#fff',
