@@ -6,7 +6,7 @@ import { Flex, Heading, Link, Box } from '@chakra-ui/layout'
 import { IconButton } from '@chakra-ui/button'
 import Logo from '../Logo'
 
-export default function Navbar() {
+export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode()
   const styles = {
     iconSize: '1.25rem',
