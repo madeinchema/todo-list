@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Draggable } from 'react-beautiful-dnd'
 import { DragHandleIcon, Icon } from '@chakra-ui/icons'
 import { useColorMode } from '@chakra-ui/color-mode'
-import { Box, Flex } from '@chakra-ui/layout'
+import { Box, Flex, ListItem } from '@chakra-ui/layout'
 import { Checkbox } from '@chakra-ui/checkbox'
 import { Editable, EditableInput, EditablePreview } from '@chakra-ui/editable'
 import { useDispatch } from 'react-redux'
@@ -57,7 +57,7 @@ const TaskItem = props => {
   const touch = 'ontouchstart' in document.documentElement
 
   return (
-    <li
+    <ListItem
       onMouseLeave={() => attrs.onMouseLeave()}
       onMouseOver={() => attrs.onMouseOver()}
       onFocus={() => attrs.onMouseOver()}
@@ -137,7 +137,7 @@ const TaskItem = props => {
           </Box>
         )}
       </Draggable>
-    </li>
+    </ListItem>
   )
 }
 
