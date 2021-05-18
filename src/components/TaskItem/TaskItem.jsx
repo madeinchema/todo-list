@@ -17,7 +17,7 @@ import useHover from '../../hooks/useHover'
 import TaskItemMenu from './components/TaskItemMenu'
 
 const TaskItem = props => {
-  const { task, index, droppableSnapshot } = props
+  const { task, index, droppableSnapshot, columnId } = props
   const [taskTitle, setTaskTitle] = useState('')
   const { colorMode } = useColorMode()
   const [hovering, attrs] = useHover()
@@ -131,7 +131,7 @@ const TaskItem = props => {
                 maxW="3rem"
                 opacity={hovering || touch ? 1 : 0}
               >
-                <TaskItemMenu task={task} index={index} />
+                <TaskItemMenu task={task} index={index} columnId={columnId} />
               </Box>
             </Flex>
           </Box>
@@ -146,9 +146,7 @@ TaskItem.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
-    indent: PropTypes.number,
     priority: PropTypes.number,
-    columnId: PropTypes.string.isRequired,
   }),
   index: PropTypes.number,
   droppableSnapshot: PropTypes.shape({
@@ -157,6 +155,7 @@ TaskItem.propTypes = {
     isDraggingOver: PropTypes.bool,
     isUsingPlaceholder: PropTypes.bool,
   }),
+  columnId: PropTypes.string.isRequired,
 }
 
 TaskItem.defaultProps = {

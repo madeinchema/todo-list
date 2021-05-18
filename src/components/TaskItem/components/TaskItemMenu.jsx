@@ -21,7 +21,7 @@ import {
   changeTaskPriority,
 } from '../../../redux/tasksData/tasksDataSlice'
 
-export default function TaskItemMenu({ task, index }) {
+export default function TaskItemMenu({ task, index, columnId }) {
   const toast = useToast()
   const toastRef = useRef()
   const dispatch = useDispatch()
@@ -31,7 +31,7 @@ export default function TaskItemMenu({ task, index }) {
       removeTask({
         taskId: task.id,
         index,
-        columnId: task.columnId,
+        columnId,
       })
     )
     toast({
@@ -74,7 +74,7 @@ export default function TaskItemMenu({ task, index }) {
       undoDeleteTask({
         task,
         index,
-        columnId: task.columnId,
+        columnId,
       })
     )
     callback()
@@ -86,7 +86,7 @@ export default function TaskItemMenu({ task, index }) {
       duplicateTask({
         taskId: task.id,
         index,
-        columnId: task.columnId,
+        columnId,
       })
     )
 
@@ -96,7 +96,7 @@ export default function TaskItemMenu({ task, index }) {
         taskId: task.id,
         index,
         priority,
-        columnId: task.columnId,
+        columnId,
       })
     )
 
@@ -191,12 +191,12 @@ export default function TaskItemMenu({ task, index }) {
 }
 
 TaskItemMenu.propTypes = {
-  task: PropTypes.exact({
+  task: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
-    indent: PropTypes.number,
     priority: PropTypes.number,
-    columnId: PropTypes.string.isRequired,
   }),
+  columnId: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
 }
