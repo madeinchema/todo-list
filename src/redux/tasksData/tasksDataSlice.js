@@ -48,7 +48,7 @@ export const tasksDataSlice = createSlice({
     },
     addTask: {
       reducer(state, { payload }) {
-        state.tasks[payload.id] = payload
+        state.tasks[payload.id] = { ...payload, columnId: undefined }
         state.columns[payload.columnId].taskIds.push(payload.id)
       },
       prepare: payload => ({
