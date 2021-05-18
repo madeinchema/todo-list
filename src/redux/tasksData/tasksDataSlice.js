@@ -65,9 +65,9 @@ export const tasksDataSlice = createSlice({
       )
       delete state.tasks[taskId]
     },
-    undoDeleteTask(state, { payload: { task, index } }) {
+    undoDeleteTask(state, { payload: { task, index, columnId } }) {
       state.tasks[task.id] = task
-      state.columns[task.columnId].taskIds.splice(index, 0, task.id)
+      state.columns[columnId].taskIds.splice(index, 0, task.id)
     },
     duplicateTask: {
       reducer(state, { payload: { taskId, index, columnId, newTaskId } }) {
